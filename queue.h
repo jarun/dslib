@@ -1,5 +1,7 @@
 #include <dlist.h>
 
+#pragma once
+
 typedef struct {
 	dlist_p *head;
 } queue_t, *queue_p;

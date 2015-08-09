@@ -1,6 +1,6 @@
 #include "common.h"
 
-#ifndef _DLIST_H_
+#pragma once
 
 typedef struct dlist *dlist_p;
 
@@ -16,5 +16,3 @@ int delete_tail_dlist(dlist_p *head);
 int destroy_dlist(dlist_p *head);
 
 int count_nodes_dlist(dlist_p *head);
-
-#endif
