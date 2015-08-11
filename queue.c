@@ -44,6 +44,39 @@ int current_log_level = DEBUG;
 int main()
 {
 	int count = 5;
+	int arr[5] = {0, 1, 2, 3, 4};
+	int * val;
+
+	queue_p queue = get_queue();
+	while (count--) {
+		if (enqueue(queue, &arr[count]) == FALSE) {
+			printf("Error\n");
+			destroy_queue(queue);
+			return -1;
+		}
+
+		printf("Node added\n");
+	}
+
+	count = 5;
+
+	while (count--) {
+		if ((val = dequeue(queue)) != NULL) {
+			printf("arr[%d] = %d\n", count, (int)*val);
+		} else
+			printf("Received NULL\n");
+	}
+
+	destroy_queue(queue);
+
+	return 0;
+}
+#endif
+
+#if 0
+int main()
+{
+	int count = 5;
 
 	dlist_p *head_pp = calloc(1, sizeof(dlist_p *));
 	while (count--) {
