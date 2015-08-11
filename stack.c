@@ -1,8 +1,5 @@
 #include "stack.h"
 
-stack_p get_stack();
-bool push(stack_p stack, void *val);
-void * pop(stack_p stack);
 bool destroy_stack(stack_p stack);
 
 stack_p get_stack()
@@ -12,33 +9,33 @@ stack_p get_stack()
 	return stack;
 }
 
-bool enqueue(queue_p queue, void *val)
+bool push(stack_p stack, void *val)
 {
 	dlist_p nodeptr = calloc(1, sizeof(dlist_t));
 	nodeptr->data = val;
-	if (add_head_dlist(queue->head, nodeptr))
+	if (add_head_dlist(stack->head, nodeptr))
 		return TRUE;
 	else
 		return FALSE;
 }
 
-void * dequeue(queue_p queue)
+void * pop(stack_p stack)
 {
-	void *data = get_tail_dlist(queue->head);
+	void *data = get_head_dlist(stack->head);
 
-	if (delete_tail_dlist(queue->head) == -1)
+	if (delete_head_dlist(stack->head) == -1)
 		printf("head or first node is NULL!\n");
 
 	return data;
 }
 
-bool destroy_queue(queue_p queue)
+bool destroy_stack(stack_p stack)
 {
-	if (destroy_dlist(queue->head) == -1)
+	if (destroy_dlist(stack->head) == -1)
 		return FALSE;
 
-	free(queue->head);
-	free(queue);
+	free(stack->head);
+	free(stack);
 
 	return TRUE;
 }
@@ -52,11 +49,11 @@ int main()
 	int arr[5] = {0, 1, 2, 3, 4};
 	int * val;
 
-	queue_p queue = get_queue();
+	stack_p stack = get_stack();
 	while (count--) {
-		if (enqueue(queue, &arr[count]) == FALSE) {
+		if (push(stack, &arr[count]) == FALSE) {
 			printf("Error\n");
-			destroy_queue(queue);
+			destroy_stack(stack);
 			return -1;
 		}
 
@@ -66,13 +63,13 @@ int main()
 	count = 5;
 
 	while (count--) {
-		if ((val = dequeue(queue)) != NULL) {
+		if ((val = pop(stack)) != NULL) {
 			printf("arr[%d] = %d\n", count, (int)*val);
 		} else
 			printf("Received NULL\n");
 	}
 
-	destroy_queue(queue);
+	destroy_stack(stack);
 
 	return 0;
 }

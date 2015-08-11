@@ -38,9 +38,7 @@ bool destroy_queue(queue_p queue)
 	return TRUE;
 }
 
-int current_log_level = DEBUG;
-
-#if 1
+#if 0
 int main()
 {
 	int count = 5;

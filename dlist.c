@@ -61,6 +61,7 @@ int delete_head_dlist(dlist_p *head)
 	if (*head == (*head)->next) {
 		free(*head);
 		*head = NULL;
+		return 1;
 	}
 
 	tmp = *head;
