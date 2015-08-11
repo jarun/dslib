@@ -3,25 +3,19 @@
 
 int main()
 {
+	int count = 0;
 	tree_pp head = NULL;
-	int arr[ARR_LEN] = {1, 2, 3, 4, 5};
+	int arr[ARR_LEN] = {10, 20, 30, 40, 50};
 
 	printf("Calling generate_tree()\n");
-	head = (tree_pp)malloc(sizeof(tree_t));
-	if(!head){
-		printf("Error: could not allocate space.\n");
-		return -1;
-	}
-	printf("head: %p\n", head);
-	int count = generate_tree(head, arr, ARR_LEN);
-	printf("the number of nodes created: %d\n", count);
+	head = generate_tree(arr, ARR_LEN);
 
-	printf("head: %p\n", head);
-	count = delete_tree(head);
+	count = print_tree(*head);
+	printf("the number of nodes printed: %d\n", count);
+
+	count = delete_tree(*head);
 	printf("the number of nodes deleted: %d\n", count);
 	
-	printf("head: %p\n", head);
-	print_tree(head);
 	return 0;
 }
 

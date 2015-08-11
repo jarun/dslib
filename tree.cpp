@@ -1,30 +1,28 @@
 #include "tree.h"
 
-int generate_tree(tree_t *head, int* arr, int len)
+tree_t* generate_tree(int* arr, int len)
 {
 	int i = 0;
-	if(!head){
-		printf("Error: Invalid head pointer.\n");
-		return -1;
-	}
-	tree_t root = *head;
+	tree_t *head;
 	if(!arr || !len){
 		printf("Error: Invalid array.\n");
-		return -1;
+		return NULL;
 	}
-
-	/*if(!root){
+	
+	tree_t root = NULL;
+	if(!root){
 		root = (tree_t)malloc(sizeof(tree));
 		if(!root){
 			printf("Error: Could not malloc().\n");
-			return -1;
+			return NULL;
 		}
 		root->data = arr[0];
 		root->left = root->right = NULL;
-	}*/
+		head = (tree_t*)malloc(sizeof(tree_t));
+		*head = root;
+	}
 
-	for(i = 0; i < len; ++i){
-		printf("i = %d\n", i);
+	for(i = 1; i < len; ++i){
 		if(!root){
 			root = (tree_t)malloc(sizeof(tree));
 			root->data = arr[i];
@@ -61,51 +59,43 @@ int generate_tree(tree_t *head, int* arr, int len)
 			}
 		}
 	}
-	return i;
+	return head;
 }
 
-int delete_tree(tree_t *head)
+int delete_tree(tree_t root)
 {
 	int count = 0;
-	printf("In delete_tree().\n");
-	if(!head){
-		printf("Error: Invalid head pointer.\n");
+	//printf("In delete_tree().\n");
+	if(!root){
+		printf("Error: Invalid root pointer.\n");
 		return -1;
 	}
-	if(!*head){
-		printf("Error: root node does not exist.\n");
-		return -1;
-	}
-	tree_t root = *head;
 	if(root->left)
-		count += delete_tree(&(root->left));
+		count += delete_tree(root->left);
 	if(root->right)
-		count += delete_tree(&(root->right));
-	printf("deleting a node.\n");
+		count += delete_tree(root->right);
+	//printf("deleting a node.\n");
 	free(root);
 	++count;
 	return count;
 }
 
-int print_tree(tree_t *head)
+int print_tree(tree_t root)
 {
-	printf("In print_tree().\n");
-	if(!head){
-		printf("Error: Invalid head pointer.\n");
-		return -1;
-	}
-	if(!*head){
-		printf("Error: root node does not exist.\n");
+	int count = 0;
+	//printf("In print_tree().\n");
+	if(!root){
+		printf("Error: Invalid root pointer.\n");
 		return -1;
 	}
 
-	tree_t root = *head;
-	printf("data: %d.\n", (root->data));
+	printf("data: %d.\n", root->data);
+	++count; 
 	
 	if(root->left)
-		print_tree(&(root->left));
+		count += print_tree(root->left);
 	if(root->right)
-		print_tree(&(root->right));
+		count += print_tree(root->right);
 
-	return 0;
+	return count;
 }
