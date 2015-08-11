@@ -3,12 +3,12 @@
 int add_head_dlist(dlist_p *head, dlist_p node)
 {
 	if (!node) {
-		printf("node is NULL!\n");
+		log(ERROR, "node is NULL!\n");
 		return -1;
 	}
 
 	if (!head) {
-		printf("head is NULL!\n");
+		log(ERROR, "head is NULL!\n");
 		return -1;
 	}
 
@@ -32,7 +32,7 @@ int add_head_dlist(dlist_p *head, dlist_p node)
 void * get_head_dlist(dlist_p *head)
 {
 	if (!head || !*head) {
-		printf("head or first node is NULL!\n");
+		log(ERROR, "head or first node is NULL!\n");
 		return NULL;
 	}
 
@@ -42,7 +42,7 @@ void * get_head_dlist(dlist_p *head)
 void * get_tail_dlist(dlist_p *head)
 {
 	if (!head || !*head) {
-		printf("head or first node is NULL!\n");
+		log(ERROR, "head or first node is NULL!\n");
 		return NULL;
 	}
 
@@ -54,7 +54,7 @@ int delete_head_dlist(dlist_p *head)
 	dlist_p tmp;
 
 	if (!head || !*head) {
-		printf("No nodes to delete!\n");
+		log(ERROR, "No nodes to delete!\n");
 		return -1;
 	}
 
@@ -79,20 +79,14 @@ int delete_tail_dlist(dlist_p *head)
 {
 	dlist_p tmp;
 
-	if (!head) {
-		printf("head NULL!\n");
-		return -1;
-	}
-
-	if (!*head) {
-		printf("*head NULL!\n");
+	if (!head || !*head) {
+		log(ERROR, "head or first node is NULL!\n");
 		return -1;
 	}
 
 	if (*head == (*head)->next) {
 		free(*head);
 		*head = NULL;
-
 		return 1;
 	}
 
@@ -111,7 +105,7 @@ int destroy_dlist(dlist_p *head) {
 	int deleted = 0;
 
 	if (!head || !*head) {
-		printf("No nodes to delete!\n");
+		log(INFO, "No nodes to delete!\n");
 		return -1;
 	}
 
@@ -135,22 +129,14 @@ int count_nodes_dlist(dlist_p *head)
 	dlist_p tmp = *head;
 	int count = 0;
 
-	printf("head %p\n", *head);
-
-	if (!head) {
-		printf("head NULL!\n");
-		return -1;
-	}
-
-	if (!*head) {
-		printf("*head NULL!\n");
+	if (!head || !*head) {
+		log(ERROR, "head or first node is NULL!\n");
 		return -1;
 	}
 
 	do {
 		count++;
 		tmp = tmp->next;
-		printf("tmp %p\n", tmp);
 	} while ( tmp != *head);
 
 	return count;

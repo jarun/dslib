@@ -22,7 +22,7 @@ void * dequeue(queue_p queue)
 	void *data = get_tail_dlist(queue->head);
 
 	if (delete_tail_dlist(queue->head) == -1)
-		printf("head or first node is NULL!\n");
+		log(DEBUG, "head or first node is NULL!\n");
 
 	return data;
 }

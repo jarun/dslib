@@ -24,7 +24,7 @@ void * pop(stack_p stack)
 	void *data = get_head_dlist(stack->head);
 
 	if (delete_head_dlist(stack->head) == -1)
-		printf("head or first node is NULL!\n");
+		log(DEBUG, "head or first node is NULL!\n");
 
 	return data;
 }
