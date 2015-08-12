@@ -3,7 +3,7 @@
 #pragma once
 
 typedef struct {
-	dlist_p *head;
+	dlist_pp head;
 } stack_t, *stack_p;
 
 stack_p get_stack();

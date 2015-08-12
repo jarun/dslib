@@ -8,15 +8,15 @@ typedef struct dlist {
 	void *data;
 	dlist_p next;
 	dlist_p prev;
-} dlist_t;
+} dlist_t, *dlist_p, **dlist_pp;
 
-int add_head_dlist(dlist_p *head, dlist_p node);
+int add_head_dlist(dlist_pp head, dlist_p node);
 
-void * get_head_dlist(dlist_p *head);
-void * get_tail_dlist(dlist_p *head);
+void * get_head_dlist(dlist_pp head);
+void * get_tail_dlist(dlist_pp head);
 
-int delete_head_dlist(dlist_p *head);
-int delete_tail_dlist(dlist_p *head);
-int destroy_dlist(dlist_p *head);
+int delete_head_dlist(dlist_pp head);
+int delete_tail_dlist(dlist_pp head);
+int destroy_dlist(dlist_pp head);
 
-int count_nodes_dlist(dlist_p *head);
+int count_nodes_dlist(dlist_pp head);

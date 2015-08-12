@@ -3,7 +3,7 @@
 #pragma once
 
 typedef struct {
-	dlist_p *head;
+	dlist_pp head;
 } queue_t, *queue_p;
 
 queue_p get_queue();

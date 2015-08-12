@@ -3,7 +3,7 @@
 queue_p get_queue()
 {
 	queue_p queue = calloc(1, sizeof(queue_t));
-	queue->head = calloc(1, sizeof(dlist_p *));
+	queue->head = calloc(1, sizeof(dlist_pp));
 	return queue;
 }
 

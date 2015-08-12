@@ -1,6 +1,6 @@
 #include "dlist.h"
 
-int add_head_dlist(dlist_p *head, dlist_p node)
+int add_head_dlist(dlist_pp head, dlist_p node)
 {
 	if (!node) {
 		log(ERROR, "node is NULL!\n");
@@ -29,7 +29,7 @@ int add_head_dlist(dlist_p *head, dlist_p node)
 	return 1;
 }
 
-void * get_head_dlist(dlist_p *head)
+void * get_head_dlist(dlist_pp head)
 {
 	if (!head || !*head) {
 		log(ERROR, "head or first node is NULL!\n");
@@ -39,7 +39,7 @@ void * get_head_dlist(dlist_p *head)
 	return (*head)->data;
 }
 
-void * get_tail_dlist(dlist_p *head)
+void * get_tail_dlist(dlist_pp head)
 {
 	if (!head || !*head) {
 		log(ERROR, "head or first node is NULL!\n");
@@ -49,7 +49,7 @@ void * get_tail_dlist(dlist_p *head)
 	return (*head)->prev->data;
 }
 
-int delete_head_dlist(dlist_p *head)
+int delete_head_dlist(dlist_pp head)
 {
 	dlist_p tmp;
 
@@ -75,7 +75,7 @@ int delete_head_dlist(dlist_p *head)
 	return 1;
 }
 
-int delete_tail_dlist(dlist_p *head)
+int delete_tail_dlist(dlist_pp head)
 {
 	dlist_p tmp;
 
@@ -100,7 +100,7 @@ int delete_tail_dlist(dlist_p *head)
 	return 1;
 }
 
-int destroy_dlist(dlist_p *head) {
+int destroy_dlist(dlist_pp head) {
 	dlist_p tmp;
 	int deleted = 0;
 
@@ -124,7 +124,7 @@ int destroy_dlist(dlist_p *head) {
 	return deleted;
 }
 
-int count_nodes_dlist(dlist_p *head)
+int count_nodes_dlist(dlist_pp head)
 {
 	dlist_p tmp;
 	int count = 0;
