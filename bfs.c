@@ -12,7 +12,7 @@ int search_BFS(tree_pp root, int val)
 		return FALSE;
 	}
 
-	queue = get_queue(queue);
+	queue = get_queue();
 	if (!enqueue(queue, *root)) {
 		log(ERROR, "enqueue failed!\n");
 		destroy_queue(queue);
