@@ -1,9 +1,33 @@
 #include "common.h"
 #include "queue.h"
 #include "stack.h"
+#include "tree.h"
+
+#define ARR_LEN	5
 
 int current_log_level = DEBUG;
 
+int main()
+{
+	int count = 0;
+	tree_pp root = NULL;
+	int arr[ARR_LEN] = {10, 20, 30, 40, 50};
+
+	printf("Calling generate_tree()\n");
+	root = generate_tree(arr, ARR_LEN);
+
+	search_BFS(root, 30);
+
+	count = print_tree(*root);
+	printf("the number of nodes printed: %d\n", count);
+
+	count = delete_tree(*root);
+	printf("the number of nodes deleted: %d\n", count);
+	
+	return 0;
+}
+
+#if 0
 int main()
 {
 	int count = 5;
@@ -35,7 +59,6 @@ int main()
 	return 0;
 }
 
-#if 0
 int main()
 {
 	int count = 5;

@@ -1,9 +1,10 @@
 #include "tree.h"
 #include "queue.h"
 
-int searh_BFS(tree_pp root, int val)
+int search_BFS(tree_pp root, int val)
 {
-	tree_p node;
+	tree_p node = NULL;
+	queue_p queue = NULL;
 	int ret = FALSE;
 
 	if (!root || !*root) {
@@ -11,38 +12,42 @@ int searh_BFS(tree_pp root, int val)
 		return FALSE;
 	}
 
-	queue_p queue = get_queue(queue);
+	queue = get_queue(queue);
 	if (!enqueue(queue, *root)) {
 		log(ERROR, "enqueue failed!\n");
-		destroy_queue();
+		destroy_queue(queue);
 		return FALSE;
 	}
 
 	while ((node = dequeue(queue)) != NULL) {
 		if (node->data == val) {
-			log(INFO, "value found\n");
+			log(INFO, "FOUND");
 			ret = TRUE;
 			break;
 		}
 
-		log("tracking...\n");
+		log(DEBUG, "tracking...\n");
 
 		if (node->left) {
 			if (!enqueue(queue, node->left)) {
-				destroy_queue();
-				return FALSE;
+				log(ERROR, "enqueue failed!\n");
+				ret = FALSE;
+				break;
 			}
 		}
 
 		if (node->right) {
 			if (!enqueue(queue, node->right)) {
-				destroy_queue();
-				return FALSE;
+				log(ERROR, "enqueue failed!\n");
+				ret = FALSE;
+				break;
 			}
 		}
 	}
 
-	log(INFO, "value not found\n");
+	if (!ret)
+		log(INFO, "NOT FOUND");
+
 	destroy_queue(queue);
 	return ret;
 }

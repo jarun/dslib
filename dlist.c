@@ -105,7 +105,7 @@ int destroy_dlist(dlist_pp head) {
 	int deleted = 0;
 
 	if (!head || !*head) {
-		log(INFO, "No nodes to delete!\n");
+		log(INFO, "No nodes to delete.\n");
 		return -1;
 	}
 
