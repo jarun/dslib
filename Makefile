@@ -1,7 +1,7 @@
 CC = gcc
 CPP = g++
-CFLAGS = -W -Wall -Werror -g
-CPPFLAGS = -W -Wall -Werror -g
+CFLAGS = -Wall -Werror -g
+CPPFLAGS = -Wall -Werror -g
 
 objects = log.o dlist.o tree.o queue.o stack.o
 

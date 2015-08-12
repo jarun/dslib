@@ -13,6 +13,7 @@ bool push(stack_p stack, void *val)
 {
 	dlist_p nodeptr = calloc(1, sizeof(dlist_t));
 	nodeptr->data = val;
+
 	if (add_head_dlist(stack->head, nodeptr))
 		return TRUE;
 	else

@@ -126,13 +126,15 @@ int destroy_dlist(dlist_p *head) {
 
 int count_nodes_dlist(dlist_p *head)
 {
-	dlist_p tmp = *head;
+	dlist_p tmp;
 	int count = 0;
 
 	if (!head || !*head) {
 		log(ERROR, "head or first node is NULL!\n");
 		return -1;
 	}
+
+	tmp = *head;
 
 	do {
 		count++;

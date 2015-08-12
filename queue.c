@@ -11,6 +11,7 @@ bool enqueue(queue_p queue, void *val)
 {
 	dlist_p nodeptr = calloc(1, sizeof(dlist_t));
 	nodeptr->data = val;
+
 	if (add_head_dlist(queue->head, nodeptr))
 		return TRUE;
 	else
