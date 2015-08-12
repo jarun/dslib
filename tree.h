@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef _TREE_H_
+#pragma once
 
 typedef struct tree tree;
 typedef struct tree *tree_t;
@@ -24,5 +24,3 @@ int print_tree(tree_t root);
 
 /* Traverse tree in BFS to find a given value */
 int search_BFS(tree_t root, int val);
-
-#endif
