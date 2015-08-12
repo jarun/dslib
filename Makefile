@@ -18,6 +18,6 @@ distclean: clean
 	rm -f *~
 
 # just for checkinstall
-install: stack
+install: ds
 	install -d ${DESTDIR}/usr/bin/
 	install -g staff -o root ${<} ${DESTDIR}/usr/bin/
