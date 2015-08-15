@@ -22,7 +22,7 @@ tree_p* generate_tree(int* arr, int len)
 		*head = root;
 	}
 
-	for	(i = 1; i < len; ++i) {
+	for (i = 1; i < len; ++i) {
 		if (!root) {
 			root = (tree_p)malloc(sizeof(tree));
 			root->data = arr[i];
@@ -66,9 +66,9 @@ int delete_tree(tree_p root)
 		printf("Error: Invalid root pointer.\n");
 		return -1;
 	}
-	ifc(root->left)
+	if (root->left)
 		count += delete_tree(root->left);
-	ifc(root->right)
+	if (root->right)
 		count += delete_tree(root->right);
 	//printf("deleting a node.\n");
 	free(root);
