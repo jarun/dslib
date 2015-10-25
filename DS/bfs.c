@@ -19,7 +19,7 @@ int search_BFS(tree_pp root, int val, bool stop)
 	int ret = FALSE;
 
 	if (!root || !*root) {
-		log(ERROR, "tree or root is NULL!\n");
+		log(ERROR, "tree or root node is NULL!\n");
 		return FALSE;
 	}
 

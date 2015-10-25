@@ -11,13 +11,13 @@ tree_p *generate_tree(int *arr, int len)
 	tree_p root = NULL;
 
 	if (!arr || !len) {
-		printf("Error: Invalid array.\n");
+		log(ERROR, "Invalid array.\n");
 		return NULL;
 	}
 
 	root = (tree_p) malloc(sizeof(tree_t));
 	if (!root) {
-		printf("Error: Could not malloc().\n");
+		log(ERROR, "malloc failed.\n");
 		return NULL;
 	}
 	root->data = arr[0];
@@ -66,7 +66,7 @@ int delete_tree(tree_p root)
 	int count = 0;
 
 	if (!root) {
-		printf("Error: Invalid root pointer.\n");
+		log(ERROR, "root invalid.\n");
 		return -1;
 	}
 
@@ -87,11 +87,11 @@ int print_tree(tree_p root)
 	int count = 0;
 
 	if (!root) {
-		printf("Error: Invalid root pointer.\n");
+		log(ERROR, "root invalid.\n");
 		return -1;
 	}
 
-	printf("data: %d.\n", root->data);
+	log(INFO, "data: %d.\n", root->data);
 	++count;
 
 	if (root->left)

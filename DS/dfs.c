@@ -19,7 +19,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 	stack_p stack = NULL;
 
 	if (!root || !*root) {
-		printf("root node is NULL.\n");
+		log(ERROR, "tree or root node is NULL.\n");
 		return FALSE;
 	}
 
@@ -33,7 +33,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 
 	stack = get_stack();
 	if (!push(stack, *root)) {
-		printf("push failed.\n");
+		log(ERROR, "push failed.\n");
 		destroy_stack(stack);
 		return FALSE;
 	}
@@ -53,7 +53,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 			}
 
 			if (!push(stack, node->left)) {
-				printf(" push()failed.\n");
+				log(ERROR, "push()failed.\n");
 				ret = FALSE;
 				break;
 			}
@@ -74,7 +74,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 				}
 
 				if (!push(stack, node->right)) {
-					printf(" push()failed.\n");
+					log(ERROR, "push()failed.\n");
 					ret = FALSE;
 
 					/* Break out of both the loops */
@@ -82,7 +82,8 @@ int search_DFS(tree_pp root, int val, bool stop)
 				} else
 					node = node->right;
 
-				/* Always break inner loop if there's a right node */
+				/* Always break inner loop
+				   if there's a right node */
 				break;
 			}
 		}
