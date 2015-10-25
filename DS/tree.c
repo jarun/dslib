@@ -8,13 +8,12 @@ tree_p *generate_tree(int *arr, int len)
 {
 	int i = 0;
 	tree_p *head = NULL;
+	tree_p root = NULL;
 
 	if (!arr || !len) {
 		printf("Error: Invalid array.\n");
 		return NULL;
 	}
-
-	tree_p root = NULL;
 
 	root = (tree_p) malloc(sizeof(tree_t));
 	if (!root) {
@@ -31,31 +30,30 @@ tree_p *generate_tree(int *arr, int len)
 			root = (tree_p) malloc(sizeof(tree_t));
 			root->data = arr[i];
 			root->left = root->right = NULL;
-		} else {
-			while (root) {
-				if (arr[i] < root->data) {
-					if (!root->left) {
-						root->left
-							= malloc(sizeof(tree_t));
-						root = root->left;
-						root->data = arr[i];
-						root->left = root->right = NULL;
-						break;
-					}
+			continue;
+		}
 
+		while (root) {
+			if (arr[i] < root->data) {
+				if (!root->left) {
+					root->left = malloc(sizeof(tree_t));
 					root = root->left;
-				} else if (arr[i] >= root->data) {
-					if (!root->right) {
-						root->right
-							= malloc(sizeof(tree_t));
-						root = root->right;
-						root->data = arr[i];
-						root->left = root->right = NULL;
-						break;
-					}
-
-					root = root->right;
+					root->data = arr[i];
+					root->left = root->right = NULL;
+					break;
 				}
+
+				root = root->left;
+			} else if (arr[i] >= root->data) {
+				if (!root->right) {
+					root->right = malloc(sizeof(tree_t));
+					root = root->right;
+					root->data = arr[i];
+					root->left = root->right = NULL;
+					break;
+				}
+
+				root = root->right;
 			}
 		}
 	}
