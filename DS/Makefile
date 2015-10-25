@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
-objects = log.o dlist.o tree.o queue.o stack.o bfs.o
+objects = log.o dlist.o tree.o queue.o stack.o bfs.o dfs.o
 
 all: ds
 
