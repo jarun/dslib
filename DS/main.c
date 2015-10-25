@@ -7,7 +7,7 @@
 
 int current_log_level = DEBUG;
 
-int main()
+int main(void)
 {
 	int count = 0;
 	tree_pp root = NULL;
@@ -23,18 +23,19 @@ int main()
 
 	count = delete_tree(*root);
 	printf("the number of nodes deleted: %d\n", count);
-	
+
 	return 0;
 }
 
 #if 0
-int main()
+int main(void)
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
-	int * val;
+	int *val;
 
 	stack_p stack = get_stack();
+
 	while (count--) {
 		if (push(stack, &arr[count]) == FALSE) {
 			printf("Error\n");
@@ -47,11 +48,14 @@ int main()
 
 	count = 5;
 
-	while (count--) {
-		if ((val = pop(stack)) != NULL) {
+	while (count) {
+		val = pop(stack);
+		if (val)
 			printf("arr[%d] = %d\n", count, (int)*val);
-		} else
+		else
 			printf("Received NULL\n");
+
+		count--;
 	}
 
 	destroy_stack(stack);
@@ -59,14 +63,15 @@ int main()
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
-	int * val;
+	int *val;
 
 	queue_p queue = get_queue();
-	while (count--) {
+
+	while (count) {
 		if (enqueue(queue, &arr[count]) == FALSE) {
 			printf("Error\n");
 			destroy_queue(queue);
@@ -74,15 +79,20 @@ int main()
 		}
 
 		printf("Node added\n");
+
+		count--;
 	}
 
 	count = 5;
 
-	while (count--) {
-		if ((val = dequeue(queue)) != NULL) {
+	while (count) {
+		val = dequeue(queue);
+		if (val)
 			printf("arr[%d] = %d\n", count, (int)*val);
-		} else
+		else
 			printf("Received NULL\n");
+
+		count--;
 	}
 
 	destroy_queue(queue);
@@ -90,13 +100,15 @@ int main()
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	int count = 5;
 
 	dlist_p *head_pp = calloc(1, sizeof(dlist_p *));
-	while (count--) {
+
+	while (count) {
 		dlist_p node_p = calloc(1, sizeof(dlist_t));
+
 		printf("node address %p\n", node_p);
 		if (add_head_dlist(head_pp, node_p) == -1) {
 			printf("Error\n");
@@ -104,12 +116,15 @@ int main()
 		}
 
 		printf("Node added\n");
+
+		count--;
 	}
 
 	printf("Total nodes1: %d\n", count_nodes_dlist(head_pp));
 
 	if (delete_head_dlist(head_pp)) {
-		printf("Total nodes after head delete: %d\n", count_nodes_dlist(head_pp));
+		printf("Total nodes after head delete: %d\n",
+				count_nodes_dlist(head_pp));
 	} else {
 		printf("Error: delete_head_dlist()\n");
 		return -1;
@@ -118,7 +133,8 @@ int main()
 	printf("Total nodes2: %d\n", count_nodes_dlist(head_pp));
 
 	if (delete_tail_dlist(head_pp)) {
-		printf("Total nodes after tail delete: %d\n", count_nodes_dlist(head_pp));
+		printf("Total nodes after tail delete: %d\n",
+				count_nodes_dlist(head_pp));
 	} else {
 		printf("Error: delete_tail_dlist()\n");
 		return -1;
