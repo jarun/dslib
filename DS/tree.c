@@ -1,3 +1,7 @@
+/*
+ * Implementation of a Binary Search Tree
+ */
+
 #include "tree.h"
 
 tree_p *generate_tree(int *arr, int len)
@@ -12,7 +16,7 @@ tree_p *generate_tree(int *arr, int len)
 
 	tree_p root = NULL;
 
-	root = (tree_p)malloc(sizeof(tree));
+	root = (tree_p) malloc(sizeof(tree_t));
 	if (!root) {
 		printf("Error: Could not malloc().\n");
 		return NULL;
@@ -24,7 +28,7 @@ tree_p *generate_tree(int *arr, int len)
 
 	for (i = 1; i < len; ++i) {
 		if (!root) {
-			root = (tree_p)malloc(sizeof(tree));
+			root = (tree_p) malloc(sizeof(tree_t));
 			root->data = arr[i];
 			root->left = root->right = NULL;
 		} else {
@@ -32,7 +36,7 @@ tree_p *generate_tree(int *arr, int len)
 				if (arr[i] < root->data) {
 					if (!root->left) {
 						root->left
-							= malloc(sizeof(tree));
+							= malloc(sizeof(tree_t));
 						root = root->left;
 						root->data = arr[i];
 						root->left = root->right = NULL;
@@ -43,7 +47,7 @@ tree_p *generate_tree(int *arr, int len)
 				} else if (arr[i] >= root->data) {
 					if (!root->right) {
 						root->right
-							= malloc(sizeof(tree));
+							= malloc(sizeof(tree_t));
 						root = root->right;
 						root->data = arr[i];
 						root->left = root->right = NULL;
@@ -55,6 +59,7 @@ tree_p *generate_tree(int *arr, int len)
 			}
 		}
 	}
+
 	return head;
 }
 

@@ -21,7 +21,7 @@ int search_BFS(tree_pp root, int val)
 
 	while ((node = dequeue(queue)) != NULL) {
 		if (node->data == val) {
-			log(INFO, "FOUND");
+			log(INFO, "FOUND %d\n", val);
 			ret = TRUE;
 			break;
 		}

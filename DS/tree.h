@@ -1,16 +1,18 @@
+/*
+ * Abstraction of a Binary Search Tree
+ */
+
 #include "common.h"
 
 #pragma once
 
-typedef struct tree tree;
-typedef struct tree *tree_p;
-typedef struct tree **tree_pp;
+struct tree;
 
-struct tree {
+typedef struct tree {
 	int data;
-	tree_p left;
-	tree_p right;
-};
+	struct tree *left;
+	struct tree *right;
+} tree_t, *tree_p, **tree_pp;
 
 /* Generate tree from an array of input values */
 tree_p *generate_tree(int *arr, int len);

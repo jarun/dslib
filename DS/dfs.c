@@ -21,8 +21,11 @@ int search_DFS(tree_pp root, int val)
 	}
 
 	while ((node = pop(stack)) != NULL) {
-		if (node->data == val)
+		if (node->data == val) {
+			log(INFO, "FOUND %d\n", val);
 			ret = TRUE;
+			break;
+		}
 
 		if (node->left) {
 			if (!push(stack, node->left)) {
