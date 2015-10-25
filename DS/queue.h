@@ -8,5 +8,5 @@ typedef struct {
 
 queue_p get_queue();
 bool enqueue(queue_p queue, void *val);
-void * dequeue(queue_p queue);
+void *dequeue(queue_p queue);
 bool destroy_queue(queue_p queue);

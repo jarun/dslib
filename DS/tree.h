@@ -13,7 +13,7 @@ struct tree {
 };
 
 /* Generate tree from an array of input values */
-tree_p* generate_tree(int *arr, int len);
+tree_p *generate_tree(int *arr, int len);
 
 /* Destroy the tree */
 int  delete_tree(tree_p root);

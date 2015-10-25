@@ -8,5 +8,5 @@ typedef struct {
 
 stack_p get_stack();
 bool push(stack_p stack, void *val);
-void * pop(stack_p stack);
+void *pop(stack_p stack);
 bool destroy_stack(stack_p stack);
