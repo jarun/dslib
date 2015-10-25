@@ -23,8 +23,13 @@ int search_DFS(tree_pp root, int val, bool stop)
 		return FALSE;
 	}
 
-	if (stop == TRUE)
-		printf("TRUE\n");
+	node = *root;
+	if (node->data == val) {
+		log(INFO, "FOUND %d\n", val);
+
+		if (stop)
+			return TRUE;
+	}
 
 	stack = get_stack();
 	if (!push(stack, *root)) {
@@ -34,31 +39,46 @@ int search_DFS(tree_pp root, int val, bool stop)
 	}
 
 	while ((node = pop(stack)) != NULL) {
-		if (node->data == val) {
-			log(INFO, "FOUND %d\n", val);
-			ret = TRUE;
-			break;
-		}
-
 		log(DEBUG, "tracking...\n");
 
-		if (node->left) {
+		while (node->left) {
+			if (node->left->data == val) {
+				log(INFO, "FOUND %d\n", val);
+				ret = TRUE;
+
+				if (stop)
+					break;
+			}
+
 			if (!push(stack, node->left)) {
 				printf(" push()failed.\n");
 				ret = FALSE;
 				break;
 			}
+
+			node = node->left;
 		}
 
-		if (node->right) {
-			if (!push(stack, node->right)) {
-				printf(" push()failed.\n");
-				ret = FALSE;
-				break;
+		while ((node = pop(stack)) != NULL) {
+			if (node->right) {
+				if (node->right->data == val) {
+					log(INFO, "FOUND %d\n", val);
+					ret = TRUE;
+
+					if (stop)
+						break;
+				}
+
+				if (!push(stack, node->right)) {
+					printf(" push()failed.\n");
+					ret = FALSE;
+					break;
+				}
 			}
 		}
 	}
 
 	destroy_stack(stack);
+
 	return ret;
 }
