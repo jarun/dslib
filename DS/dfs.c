@@ -33,13 +33,13 @@ int search_DFS(tree_pp root, int val, bool stop)
 
 	stack = get_stack();
 	if (!push(stack, *root)) {
-		log(ERROR, "push failed.\n");
+		log(ERROR, "push failed!\n");
 		destroy_stack(stack);
 		return FALSE;
 	}
 
 	while (node) {
-		log(DEBUG, "tracking...\n");
+		log(INFO, "tracking...\n");
 
 		while (node->left) {
 			if (node->left->data == val) {
@@ -53,7 +53,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 			}
 
 			if (!push(stack, node->left)) {
-				log(ERROR, "push()failed.\n");
+				log(ERROR, "push failed!\n");
 				ret = FALSE;
 				break;
 			}
@@ -74,7 +74,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 				}
 
 				if (!push(stack, node->right)) {
-					log(ERROR, "push()failed.\n");
+					log(ERROR, "push failed!\n");
 					ret = FALSE;
 
 					/* Break out of both the loops */
@@ -88,6 +88,9 @@ int search_DFS(tree_pp root, int val, bool stop)
 			}
 		}
 	}
+
+	if (!ret)
+		log(INFO, "NOT FOUND\n");
 
 	destroy_stack(stack);
 

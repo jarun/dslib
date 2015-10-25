@@ -5,7 +5,7 @@
 
 #define ARR_LEN	5
 
-int current_log_level = DEBUG;
+int current_log_level = INFO;
 
 int main()
 {
@@ -13,16 +13,16 @@ int main()
 	tree_pp root = NULL;
 	int arr[ARR_LEN] = {10, 20, 30, 40, 50};
 
-	printf("Calling generate_tree()\n");
+	log(DEBUG, "Calling generate_tree()\n");
 	root = generate_tree(arr, ARR_LEN);
 
-	search_DFS(root, 60, TRUE);
+	search_BFS(root, 60, TRUE);
 
 	count = print_tree(*root);
-	printf("the number of nodes printed: %d\n", count);
+	log(DEBUG, "nodes printed: %d\n", count);
 
 	count = delete_tree(*root);
-	printf("the number of nodes deleted: %d\n", count);
+	log(DEBUG, "nodes deleted: %d\n", count);
 
 	return 0;
 }
@@ -38,12 +38,12 @@ int main()
 
 	while (count--) {
 		if (push(stack, &arr[count]) == FALSE) {
-			printf("Error\n");
+			log(ERROR, "push failed!\n");
 			destroy_stack(stack);
 			return -1;
 		}
 
-		printf("Node added\n");
+		log(DEBUG, "Node added\n");
 	}
 
 	count = 5;
@@ -51,9 +51,9 @@ int main()
 	while (count) {
 		val = pop(stack);
 		if (val)
-			printf("arr[%d] = %d\n", count, (int)*val);
+			log(DEBUG, "arr[%d] = %d\n", count, (int)*val);
 		else
-			printf("Received NULL\n");
+			log(ERROR, "pop failed!\n");
 
 		count--;
 	}
@@ -73,12 +73,12 @@ int main()
 
 	while (count) {
 		if (enqueue(queue, &arr[count]) == FALSE) {
-			printf("Error\n");
+			log(ERROR, "enqueue failed!\n");
 			destroy_queue(queue);
 			return -1;
 		}
 
-		printf("Node added\n");
+		log(DEBUG, "Node added\n");
 
 		count--;
 	}
@@ -88,9 +88,9 @@ int main()
 	while (count) {
 		val = dequeue(queue);
 		if (val)
-			printf("arr[%d] = %d\n", count, (int)*val);
+			log(DEBUG, "arr[%d] = %d\n", count, (int)*val);
 		else
-			printf("Received NULL\n");
+			log(ERROR, "dequeue failed!\n");
 
 		count--;
 	}
@@ -109,39 +109,39 @@ int main()
 	while (count) {
 		dlist_p node_p = calloc(1, sizeof(dlist_t));
 
-		printf("node address %p\n", node_p);
+		log(DEBUG, "node address %p\n", node_p);
 		if (add_head_dlist(head_pp, node_p) == -1) {
-			printf("Error\n");
+			log(ERROR, "add_head_dlist failed!\n");
 			return -1;
 		}
 
-		printf("Node added\n");
+		log(DEBUG, "Node added\n");
 
 		count--;
 	}
 
-	printf("Total nodes1: %d\n", count_nodes_dlist(head_pp));
+	log(DEBUG, "Total nodes1: %d\n", count_nodes_dlist(head_pp));
 
 	if (delete_head_dlist(head_pp)) {
-		printf("Total nodes after head delete: %d\n",
+		log(DEBUG, "Total nodes after head delete: %d\n",
 				count_nodes_dlist(head_pp));
 	} else {
-		printf("Error: delete_head_dlist()\n");
+		log(ERROR, "delete_head_dlist failed!\n");
 		return -1;
 	}
 
-	printf("Total nodes2: %d\n", count_nodes_dlist(head_pp));
+	log(DEBUG, "Total nodes2: %d\n", count_nodes_dlist(head_pp));
 
 	if (delete_tail_dlist(head_pp)) {
-		printf("Total nodes after tail delete: %d\n",
+		log(DEBUG, "Total nodes after tail delete: %d\n",
 				count_nodes_dlist(head_pp));
 	} else {
-		printf("Error: delete_tail_dlist()\n");
+		log(ERROR, "delete_tail_dlist failed!\n");
 		return -1;
 	}
 
-	printf("Nodes destroyed: %d\n", destroy_dlist(head_pp));
-	printf("Total nodes: %d\n", count_nodes_dlist(head_pp));
+	log(DEBUG, "Nodes destroyed: %d\n", destroy_dlist(head_pp));
+	log(DEBUG, "Total nodes: %d\n", count_nodes_dlist(head_pp));
 
 	free(head_pp);
 

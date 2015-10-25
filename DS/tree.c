@@ -91,7 +91,7 @@ int print_tree(tree_p root)
 		return -1;
 	}
 
-	log(INFO, "data: %d.\n", root->data);
+	log(DEBUG, "data: %d.\n", root->data);
 	++count;
 
 	if (root->left)
