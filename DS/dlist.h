@@ -12,8 +12,8 @@ typedef struct dlist {
 
 int add_head_dlist(dlist_pp head, dlist_p node);
 
-void * get_head_dlist(dlist_pp head);
-void * get_tail_dlist(dlist_pp head);
+void *get_head_dlist(dlist_pp head);
+void *get_tail_dlist(dlist_pp head);
 
 int delete_head_dlist(dlist_pp head);
 int delete_tail_dlist(dlist_pp head);

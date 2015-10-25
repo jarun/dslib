@@ -7,7 +7,7 @@
 
 int current_log_level = DEBUG;
 
-int main(void)
+int main()
 {
 	int count = 0;
 	tree_pp root = NULL;
@@ -28,7 +28,7 @@ int main(void)
 }
 
 #if 0
-int main(void)
+int main()
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
@@ -63,7 +63,7 @@ int main(void)
 	return 0;
 }
 
-int main(void)
+int main()
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
@@ -100,7 +100,7 @@ int main(void)
 	return 0;
 }
 
-int main(void)
+int main()
 {
 	int count = 5;
 
