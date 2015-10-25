@@ -24,4 +24,7 @@ int  delete_tree(tree_p root);
 int print_tree(tree_p root);
 
 /* Traverse tree in BFS to find a given value */
-int search_BFS(tree_pp root, int val);
+int search_BFS(tree_pp root, int val, bool stop);
+
+/* Traverse tree in DFS to find a given value */
+int search_DFS(tree_pp root, int val, bool stop);

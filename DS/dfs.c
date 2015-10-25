@@ -1,7 +1,7 @@
 #include "tree.h"
 #include "stack.h"
 
-int search_DFS(tree_pp root, int val)
+int search_DFS(tree_pp root, int val, bool stop)
 {
 	int ret = FALSE;
 	tree_p node = NULL;
@@ -12,6 +12,8 @@ int search_DFS(tree_pp root, int val)
 		return FALSE;
 	}
 
+	if (stop == TRUE)
+		printf("TRUE\n");
 
 	stack = get_stack();
 	if (!push(stack, *root)) {

@@ -16,7 +16,7 @@ int main()
 	printf("Calling generate_tree()\n");
 	root = generate_tree(arr, ARR_LEN);
 
-	search_BFS(root, 30);
+	search_BFS(root, 60, TRUE);
 
 	count = print_tree(*root);
 	printf("the number of nodes printed: %d\n", count);
