@@ -38,7 +38,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 		return FALSE;
 	}
 
-	while ((node = pop(stack)) != NULL) {
+	while (node) {
 		log(DEBUG, "tracking...\n");
 
 		while (node->left) {
@@ -46,8 +46,10 @@ int search_DFS(tree_pp root, int val, bool stop)
 				log(INFO, "FOUND %d\n", val);
 				ret = TRUE;
 
-				if (stop)
+				if (stop) {
+					node = NULL;
 					break;
+				}
 			}
 
 			if (!push(stack, node->left)) {
@@ -65,15 +67,23 @@ int search_DFS(tree_pp root, int val, bool stop)
 					log(INFO, "FOUND %d\n", val);
 					ret = TRUE;
 
-					if (stop)
+					if (stop) {
+						node = NULL;
 						break;
+					}
 				}
 
 				if (!push(stack, node->right)) {
 					printf(" push()failed.\n");
 					ret = FALSE;
-					break;
-				}
+
+					/* Break out of both the loops */
+					node = NULL;
+				} else
+					node = node->right;
+
+				/* Always break inner loop if there's a right node */
+				break;
 			}
 		}
 	}
