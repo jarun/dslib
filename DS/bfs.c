@@ -49,5 +49,6 @@ int search_BFS(tree_pp root, int val)
 		log(INFO, "NOT FOUND");
 
 	destroy_queue(queue);
+
 	return ret;
 }

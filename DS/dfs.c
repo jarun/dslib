@@ -7,9 +7,9 @@ int search_DFS(tree_pp root, int val)
 	tree_p node = NULL;
 	stack_p stack = NULL;
 
-	if (!*root || !root) {
+	if (!root || !*root) {
 		printf("root node is NULL.\n");
-		ret = FALSE;
+		return FALSE;
 	}
 
 
@@ -17,7 +17,7 @@ int search_DFS(tree_pp root, int val)
 	if (!push(stack, *root)) {
 		printf("push failed.\n");
 		destroy_stack(stack);
-		ret = FALSE;
+		return FALSE;
 	}
 
 	while ((node = pop(stack)) != NULL) {
@@ -26,6 +26,8 @@ int search_DFS(tree_pp root, int val)
 			ret = TRUE;
 			break;
 		}
+
+		log(DEBUG, "tracking...\n");
 
 		if (node->left) {
 			if (!push(stack, node->left)) {
@@ -45,6 +47,5 @@ int search_DFS(tree_pp root, int val)
 	}
 
 	destroy_stack(stack);
-
 	return ret;
 }
