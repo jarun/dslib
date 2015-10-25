@@ -40,7 +40,7 @@ int search_DFS(tree_pp root, int val)
 			}
 		}
 	}
-		
+
 	destroy_stack(stack);
 
 	return ret;
