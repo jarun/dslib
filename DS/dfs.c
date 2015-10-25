@@ -1,6 +1,17 @@
 #include "tree.h"
 #include "stack.h"
 
+/*
+ * Tree Depth First Search implementation
+ * Implements iterative search using a Stack
+ *
+ * PARAMS
+ * ------
+ * root: pointer to the root node pointer of a tree
+ * val : value to search
+ * stop: stop if val is found
+ */
+
 int search_DFS(tree_pp root, int val, bool stop)
 {
 	int ret = FALSE;
