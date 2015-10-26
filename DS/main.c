@@ -7,16 +7,20 @@
 
 int current_log_level = INFO;
 
-int main()
+int main(int argc, char **argv)
 {
 	int count = 0;
+	bool stop = TRUE;
 	tree_pp root = NULL;
 	int arr[ARR_LEN] = {10, 20, 30, 40, 50};
 
 	log(DEBUG, "Calling generate_tree()\n");
 	root = generate_tree(arr, ARR_LEN);
 
-	search_BFS(root, 60, TRUE);
+	if (argc == 2)
+		search_BFS(root, atoi(argv[1]), stop);
+	else
+		search_BFS(root, 10, stop);
 
 	count = print_tree(*root);
 	log(DEBUG, "nodes printed: %d\n", count);

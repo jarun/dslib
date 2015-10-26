@@ -4,6 +4,7 @@
 
 #pragma once
 
+/* Introduce boolean type */
 #define TRUE 1
 #define FALSE !TRUE
 

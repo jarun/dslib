@@ -4,6 +4,7 @@
 /*
  * Tree Depth First Search implementation
  * Implements iterative search using a Stack
+ * Checks for a match before adding a node to Stack
  *
  * PARAMS
  * ------
@@ -23,6 +24,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 		return FALSE;
 	}
 
+	/* Check for a match in root node */
 	node = *root;
 	if (node->data == val) {
 		log(INFO, "FOUND %d\n", val);
@@ -38,9 +40,12 @@ int search_DFS(tree_pp root, int val, bool stop)
 		return FALSE;
 	}
 
+	/* Process all valid nodes */
 	while (node) {
 		log(INFO, "tracking...\n");
 
+		/* Match and add complete
+		   left subtree to Stack */
 		while (node->left) {
 			if (node->left->data == val) {
 				log(INFO, "FOUND %d\n", val);
@@ -54,14 +59,15 @@ int search_DFS(tree_pp root, int val, bool stop)
 
 			if (!push(stack, node->left)) {
 				log(ERROR, "push failed!\n");
-				ret = FALSE;
-				break;
+				destroy_stack(stack);
+				return FALSE;
 			}
 
 			node = node->left;
 		}
 
 		while ((node = pop(stack)) != NULL) {
+			/* Process right child of node */
 			if (node->right) {
 				if (node->right->data == val) {
 					log(INFO, "FOUND %d\n", val);
@@ -73,22 +79,21 @@ int search_DFS(tree_pp root, int val, bool stop)
 					}
 				}
 
+				/* Add right child t Stack */
 				if (!push(stack, node->right)) {
 					log(ERROR, "push failed!\n");
-					ret = FALSE;
+					destroy_stack(stack);
+					return FALSE;
+				}
 
-					/* Break out of both the loops */
-					node = NULL;
-				} else
-					node = node->right;
-
-				/* Always break inner loop
-				   if there's a right node */
+				node = node->right;
+				/* Break inner loop if there's a right node */
 				break;
 			}
 		}
 	}
 
+	/* Report if no match was found */
 	if (!ret)
 		log(INFO, "NOT FOUND\n");
 
