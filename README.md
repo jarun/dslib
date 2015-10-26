@@ -16,7 +16,7 @@ Building blocks
 NOTE: by the first release, the code will be well-commented.
 
 # Compilation
-The following compilation steps are tested on Ubuntu 14.04.3 x64_64:
+The following compilation steps are tested on Ubuntu 14.04.3 x86_64:
 <pre>$ git clone https://github.com/jarun/dslib/
 $ cd dslib/DS
 $ make</pre>
