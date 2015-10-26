@@ -1,5 +1,5 @@
 /*
- * Program to unwind the stack frames of a x86_64 process using libunwind
+ * A modular, level based log file implementation
  *
  * Author: Arun Prakash Jana <engineerarun@gmail.com>
  * Copyright (C) 2014, 2015 by Arun Prakash Jana <engineerarun@gmail.com>
