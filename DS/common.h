@@ -1,5 +1,4 @@
 #include <stdlib.h>
-
 #include "log.h"
 
 #pragma once
