@@ -20,6 +20,10 @@
 
 #include "stack.h"
 
+/*
+ * Create a new Stack
+ * Alocate a head node
+ */
 stack_p get_stack()
 {
 	stack_p stack = calloc(1, sizeof(stack_t));
@@ -28,6 +32,10 @@ stack_p get_stack()
 	return stack;
 }
 
+/*
+ * Push a value to Stack
+ * Allocates a new dlist node and inserts value
+ */
 bool push(stack_p stack, void *val)
 {
 	dlist_p nodeptr = calloc(1, sizeof(dlist_t));
@@ -40,6 +48,10 @@ bool push(stack_p stack, void *val)
 		return FALSE;
 }
 
+/*
+ * Pop a value from Stack
+ * Deallocates the dlist node holding the value
+ */
 void *pop(stack_p stack)
 {
 	void *data = get_head_dlist(stack->head);
@@ -50,6 +62,10 @@ void *pop(stack_p stack)
 	return data;
 }
 
+/*
+ * Deallocate all dlist nodes
+ * Destroy Stack
+ */
 bool destroy_stack(stack_p stack)
 {
 	if (destroy_dlist(stack->head) == -1)
