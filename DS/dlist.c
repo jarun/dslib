@@ -1,5 +1,28 @@
+/*
+ * Circular Doubly Linked List implementation
+ *
+ * Author: Arun Prakash Jana <engineerarun@gmail.com>
+ * Copyright (C) 2015 by Arun Prakash Jana <engineerarun@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "dlist.h"
 
+/*
+ * Add a node to the head of dlist
+ */
 int add_head_dlist(dlist_pp head, dlist_p node)
 {
 	if (!node) {
@@ -29,6 +52,10 @@ int add_head_dlist(dlist_pp head, dlist_p node)
 	return 1;
 }
 
+/*
+ * Get the value in the head node of dlist
+ * The node is not deleted
+ */
 void *get_head_dlist(dlist_pp head)
 {
 	if (!head || !*head) {
@@ -39,6 +66,10 @@ void *get_head_dlist(dlist_pp head)
 	return (*head)->data;
 }
 
+/*
+ * Get the value in the tail node of dlist
+ * The node is not deleted
+ */
 void *get_tail_dlist(dlist_pp head)
 {
 	if (!head || !*head) {
@@ -49,6 +80,9 @@ void *get_tail_dlist(dlist_pp head)
 	return (*head)->prev->data;
 }
 
+/*
+ * Delete the head node of dlist
+ */
 int delete_head_dlist(dlist_pp head)
 {
 	dlist_p tmp;
@@ -75,6 +109,9 @@ int delete_head_dlist(dlist_pp head)
 	return 1;
 }
 
+/*
+ * Delete the tail node of dlist
+ */
 int delete_tail_dlist(dlist_pp head)
 {
 	dlist_p tmp;
@@ -100,6 +137,10 @@ int delete_tail_dlist(dlist_pp head)
 	return 1;
 }
 
+/*
+ * Deallocate all memory and destroy the dlist
+ * Returns the number of nodes deleted
+ */
 int destroy_dlist(dlist_pp head)
 {
 	dlist_p tmp;
@@ -110,6 +151,7 @@ int destroy_dlist(dlist_pp head)
 		return -1;
 	}
 
+	/* Set tail->next to NULL to end deletion loop */
 	(*head)->prev->next = NULL;
 
 	while (*head) {
@@ -125,6 +167,9 @@ int destroy_dlist(dlist_pp head)
 	return deleted;
 }
 
+/*
+ * Count the total number of nodes in the dlist
+ */
 int count_nodes_dlist(dlist_pp head)
 {
 	dlist_p tmp;

@@ -1,3 +1,23 @@
+/*
+ * Iterative DFS
+ *
+ * Author: Arun Prakash Jana <engineerarun@gmail.com>
+ * Copyright (C) 2015 by Arun Prakash Jana <engineerarun@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "tree.h"
 #include "stack.h"
 
@@ -34,6 +54,8 @@ int search_DFS(tree_pp root, int val, bool stop)
 	}
 
 	stack = get_stack();
+
+	/* Add root node to Stack */
 	if (!push(stack, *root)) {
 		log(ERROR, "push failed!\n");
 		destroy_stack(stack);
@@ -57,6 +79,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 				}
 			}
 
+			/* Add node to stack */
 			if (!push(stack, node->left)) {
 				log(ERROR, "push failed!\n");
 				destroy_stack(stack);
@@ -79,7 +102,7 @@ int search_DFS(tree_pp root, int val, bool stop)
 					}
 				}
 
-				/* Add right child t Stack */
+				/* Add right child to Stack */
 				if (!push(stack, node->right)) {
 					log(ERROR, "push failed!\n");
 					destroy_stack(stack);

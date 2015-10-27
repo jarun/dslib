@@ -1,5 +1,5 @@
 /*
- * Implementation of a Binary Search Tree
+ * Binary Search Tree implementation
  *
  * Author: Ananya Jana <ananya.jana@gmail.com>
  * Copyright (C) 2015 by Arun Prakash Jana <engineerarun@gmail.com>
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with tictactoe.  If not, see <http://www.gnu.org/licenses/>.
+ * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "tree.h"

@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with tictactoe.  If not, see <http://www.gnu.org/licenses/>.
+ * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "log.h"
