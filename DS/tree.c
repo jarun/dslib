@@ -20,6 +20,9 @@
 
 #include "tree.h"
 
+/*
+ * Generate a tree from an array of integers
+ */
 tree_p *generate_tree(int *arr, int len)
 {
 	int i = 0;
@@ -77,6 +80,9 @@ tree_p *generate_tree(int *arr, int len)
 	return head;
 }
 
+/*
+ * Delete a tree from its root
+ */
 int delete_tree(tree_p root)
 {
 	int count = 0;
@@ -98,6 +104,9 @@ int delete_tree(tree_p root)
 	return count;
 }
 
+/*
+ * Print the values in a tree
+ */
 int print_tree(tree_p root)
 {
 	int count = 0;
