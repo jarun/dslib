@@ -21,8 +21,10 @@ The following compilation steps are tested on Ubuntu 14.04.3 x86_64:
 <pre>$ git clone https://github.com/jarun/dslib/
 $ cd dslib/DS
 $ make</pre>
-  
-NOTE: By the first release, installation steps would be available along with installable shared library.
+To install dslib, run:
+<pre>$ sudo make install</pre>
+To unnstall dslib from your system, run:
+<pre>$ sudo make uninstall</pre>
 
 # Developers
 Arun Prakash Jana &lt;engineerarun@gmail.com&gt;  
