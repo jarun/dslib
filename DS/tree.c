@@ -34,19 +34,19 @@ tree_p *generate_tree(int *arr, int len)
 		return NULL;
 	}
 
-	root = (tree_p) malloc(sizeof(tree_t));
+	root = (tree_p) calloc(1, sizeof(tree_t));
 	if (!root) {
-		log(ERROR, "malloc failed.\n");
+		log(ERROR, "calloc failed.\n");
 		return NULL;
 	}
 	root->data = arr[0];
 	root->left = root->right = NULL;
-	head = malloc(sizeof(tree_p));
+	head = calloc(1, sizeof(tree_p));
 	*head = root;
 
 	for (i = 1; i < len; ++i) {
 		if (!root) {
-			root = (tree_p) malloc(sizeof(tree_t));
+			root = (tree_p) calloc(1, sizeof(tree_t));
 			root->data = arr[i];
 			root->left = root->right = NULL;
 			continue;
@@ -55,7 +55,7 @@ tree_p *generate_tree(int *arr, int len)
 		while (root) {
 			if (arr[i] < root->data) {
 				if (!root->left) {
-					root->left = malloc(sizeof(tree_t));
+					root->left = calloc(1, sizeof(tree_t));
 					root = root->left;
 					root->data = arr[i];
 					root->left = root->right = NULL;
@@ -65,7 +65,7 @@ tree_p *generate_tree(int *arr, int len)
 				root = root->left;
 			} else if (arr[i] >= root->data) {
 				if (!root->right) {
-					root->right = malloc(sizeof(tree_t));
+					root->right = calloc(1, sizeof(tree_t));
 					root = root->right;
 					root->data = arr[i];
 					root->left = root->right = NULL;
