@@ -36,5 +36,8 @@ bool push(stack_p stack, void *val);
 /* Pop a value from Stack */
 void *pop(stack_p stack);
 
+/* Check if a stack is empty */
+bool isEmpty(stack_p stack);
+
 /* Clean up Stack */
 bool destroy_stack(stack_p stack);
