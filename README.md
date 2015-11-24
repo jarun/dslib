@@ -21,10 +21,16 @@ The following compilation steps are tested on Ubuntu 14.04.3 x86_64:
 <pre>$ git clone https://github.com/jarun/dslib/
 $ cd dslib/DS
 $ make</pre>
-To install dslib, run:
+To install `dslib`, run:
 <pre>$ sudo make install</pre>
-To unnstall dslib from your system, run:
+To unnstall `dslib` from your system, run:
 <pre>$ sudo make uninstall</pre>
+
+# Testing
+If you are not writing your own application using `dslib`, add test-cases in main.c, compile and run:
+<pre>$ gcc -o ds main.c -lds
+$ ./ds</pre>
+A sample testcase to create tree and search a value in it is already implemented in main.c. Change `current_log_level` in main.c to DEBUG for detaild information of the sample run.
 
 # Developers
 Arun Prakash Jana &lt;engineerarun@gmail.com&gt;  
