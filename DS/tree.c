@@ -57,7 +57,7 @@ tree_p *generate_tree(int *arr, int len)
 				}
 
 				root = root->left;
-			} else if (arr[i] >= root->data) {
+			} else {
 				if (!root->right) {
 					root->right = calloc(1, sizeof(tree_t));
 					root = root->right;
