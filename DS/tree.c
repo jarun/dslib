@@ -25,7 +25,7 @@
  */
 tree_p *generate_tree(int *arr, int len)
 {
-	int i = 0;
+	int i = 1;
 	tree_p *head = NULL;
 	tree_p root = NULL;
 
@@ -44,7 +44,7 @@ tree_p *generate_tree(int *arr, int len)
 	head = calloc(1, sizeof(tree_p));
 	*head = root;
 
-	for (i = 1; i < len; ++i) {
+	for (; i < len; i++) {
 		while (root) { // The loop ensures element is inserted
 			if (arr[i] < root->data) {
 				if (!root->left) {
