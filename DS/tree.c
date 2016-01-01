@@ -1,5 +1,5 @@
 /*
- * Binary Search Tree implementation
+ * Iterative Binary Search Tree implementation
  *
  * Author: Ananya Jana <ananya.jana@gmail.com>
  * Copyright (C) 2015 by Arun Prakash Jana <engineerarun@gmail.com>
@@ -45,25 +45,23 @@ tree_p *generate_tree(int *arr, int len)
 	*head = root;
 
 	for (; i < len; i++) {
-		while (root) { // The loop ensures element is inserted
+		while (root) {
 			if (arr[i] < root->data) {
 				if (!root->left) {
 					root->left = calloc(1, sizeof(tree_t));
 					root = root->left;
 					root->data = arr[i];
-					root->left = root->right = NULL;
-					root = *head; // Start from head to insert next element
+					root = *head; // Restart next element insertion from head
 					break;
 				}
 
 				root = root->left;
-			} else {
+			} else { // Insert equal or greater elements to right
 				if (!root->right) {
 					root->right = calloc(1, sizeof(tree_t));
 					root = root->right;
 					root->data = arr[i];
-					root->left = root->right = NULL;
-					root = *head; // Start from head to insert next element
+					root = *head; // Restart next element insertion from head
 					break;
 				}
 
