@@ -34,7 +34,7 @@ typedef struct tree {
 tree_p *generate_tree(int *arr, int len);
 
 /* Destroy the tree */
-int  delete_tree(tree_p root);
+int delete_tree(tree_p root);
 
 /* Print a tree */
 int print_tree(tree_p root);

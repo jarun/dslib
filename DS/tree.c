@@ -98,7 +98,7 @@ int delete_tree(tree_p root)
 }
 
 /*
- * Print the values in a tree
+ * Print the values in a tree in preorder
  */
 int print_tree(tree_p root)
 {
