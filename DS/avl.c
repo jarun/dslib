@@ -42,6 +42,7 @@ avl_pp generate_avl(int *arr, int len)
 	avl_p root = NULL;
 	avl_p tmp = NULL;
 	nodedata_p p = NULL;
+	bool modified;
 	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
 
 	if (!arr || !len) {
@@ -68,15 +69,16 @@ avl_pp generate_avl(int *arr, int len)
 					root->height = height(root);
 
 					/* No need to rebalance twice for one insertion */
-					bool modified = FALSE;
+					modified = FALSE;
 
 					/* Unwind stack and rebalance each node, if required */
 					while ((p = pop(stack)) != NULL) {
-						tmp = p->node;
-						free(p);
-
-						if (!modified)
+						if (!modified) {
+							tmp = p->node;
 							modified = rebalance(stack, head, tmp, arr[i]);
+						}
+
+						free(p);
 					}
 
 					root = *head; // Restart next element insertion from head
@@ -98,14 +100,15 @@ avl_pp generate_avl(int *arr, int len)
 					root->right->data = arr[i];
 					root->height = height(root);
 
-					bool modified = FALSE;
+					modified = FALSE;
 
 					while ((p = pop(stack)) != NULL) {
-						tmp = p->node;
-						free(p);
-
-						if (!modified)
+						if (!modified) {
+							tmp = p->node;
 							modified = rebalance(stack, head, tmp, arr[i]);
+						}
+
+						free(p);
 					}
 
 					root = *head;
