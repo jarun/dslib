@@ -54,8 +54,6 @@ avl_p *generate_avl(int *arr, int len)
 	*head = root;
 
 	for (; i < len; i++) {
-		root = *head; // Restart next element insertion from head
-
 		while (root) {
 			if (arr[i] < root->data) {
 				if (!root->left) {
@@ -73,6 +71,7 @@ avl_p *generate_avl(int *arr, int len)
 						rebalance(stack, head, tmp, arr[i]);
 					}
 
+					root = *head; // Restart next element insertion from head
 					break;
 				}
 
@@ -97,6 +96,7 @@ avl_p *generate_avl(int *arr, int len)
 						rebalance(stack, head, tmp, arr[i]);
 					}
 
+					root = *head; // Restart next element insertion from head
 					break;
 				}
 
