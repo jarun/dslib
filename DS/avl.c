@@ -30,18 +30,18 @@
 typedef struct {
 	avl_p node;
 	int direction;
-} nodedata;
+} nodedata, *nodedata_p;
 
 /*
  * Generate an AVL tree iteratively from an array of integers
  */
-avl_p *generate_avl(int *arr, int len)
+avl_pp generate_avl(int *arr, int len)
 {
 	int i = 1;
 	avl_pp head = NULL;
 	avl_p root = NULL;
 	avl_p tmp = NULL;
-	nodedata *p = NULL;
+	nodedata_p p = NULL;
 	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
 
 	if (!arr || !len) {
@@ -85,7 +85,7 @@ avl_p *generate_avl(int *arr, int len)
 
 				/* Push the parent node and traversal
 				   direction in stack as we traverse down */
-				nodedata *n = malloc(sizeof(nodedata));
+				nodedata_p n = malloc(sizeof(nodedata));
 				n->node = root;
 				n->direction = LEFT;
 				push(stack, n);
@@ -112,7 +112,7 @@ avl_p *generate_avl(int *arr, int len)
 					break;
 				}
 
-				nodedata *n = malloc(sizeof(nodedata));
+				nodedata_p n = malloc(sizeof(nodedata));
 				n->node = root;
 				n->direction = RIGHT;
 				push(stack, n);
@@ -132,7 +132,7 @@ avl_p *generate_avl(int *arr, int len)
  */
 bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 {
-	nodedata *p = NULL;
+	nodedata_p p = NULL;
 	int direction;
 	avl_p parent = NULL;
 	bool modified = TRUE;

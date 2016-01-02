@@ -35,7 +35,7 @@ typedef struct avl {
 bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data);
 
 /* Generate AVL tree from an array of input values */
-avl_p *generate_avl(int *arr, int len);
+avl_pp generate_avl(int *arr, int len);
 
 /* Calculate height of an AVL tree node */
 int height(avl_p node);

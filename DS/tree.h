@@ -29,7 +29,7 @@ typedef struct tree {
 } tree_t, *tree_p, **tree_pp;
 
 /* Generate tree from an array of input values */
-tree_p *generate_tree(int *arr, int len);
+tree_pp generate_tree(int *arr, int len);
 
 /* Destroy the tree */
 int delete_tree(tree_p root);

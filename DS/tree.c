@@ -23,10 +23,10 @@
 /*
  * Generate a tree from an array of integers
  */
-tree_p *generate_tree(int *arr, int len)
+tree_pp generate_tree(int *arr, int len)
 {
 	int i = 1;
-	tree_p *head = NULL;
+	tree_pp head = NULL;
 	tree_p root = NULL;
 
 	if (!arr || !len) {
