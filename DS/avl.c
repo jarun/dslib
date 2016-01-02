@@ -133,6 +133,8 @@ avl_p *generate_avl(int *arr, int len)
 		}
 	}
 
+	destroy_stack(stack);
+
 	return head;
 }
 
