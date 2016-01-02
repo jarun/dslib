@@ -22,8 +22,7 @@
 #include "queue.h"
 #include "stack.h"
 #include "tree.h"
-
-#define ARR_LEN	5
+#include "avl.h"
 
 int current_log_level = INFO;
 
@@ -31,11 +30,36 @@ int main(int argc, char **argv)
 {
 	int count = 0;
 	bool stop = TRUE;
+	avl_pp root = NULL;
+	int arr[] = {30, 110, 10, 90, 120, 150, 70, 140, 40, 130, 20, 50, 100, 80, 60};
+
+	log(DEBUG, "Calling generate_avl()\n");
+	root = generate_avl(arr, sizeof(arr) / sizeof(arr[0]));
+
+	if (argc == 2)
+		search_BFS_avl(root, atoi(argv[1]), stop);
+	else
+		search_BFS_avl(root, 10, stop);
+
+	count = print_avl(*root, *root);
+	log(INFO, "nodes printed: %d\n", count);
+
+	count = delete_avl(*root);
+	log(INFO, "nodes deleted: %d\n", count);
+
+	return 0;
+}
+
+#if 0
+int main(int argc, char **argv)
+{
+	int count = 0;
+	bool stop = TRUE;
 	tree_pp root = NULL;
-	int arr[ARR_LEN] = {10, 20, 30, 40, 50};
+	int arr[] = {10, 20, 30, 40, 50};
 
 	log(DEBUG, "Calling generate_tree()\n");
-	root = generate_tree(arr, ARR_LEN);
+	root = generate_tree(arr, sizeof(arr) / sizeof(arr[0]));
 
 	if (argc == 2)
 		search_BFS(root, atoi(argv[1]), stop);
@@ -43,15 +67,14 @@ int main(int argc, char **argv)
 		search_BFS(root, 10, stop);
 
 	count = print_tree(*root);
-	log(DEBUG, "nodes printed: %d\n", count);
+	log(INFO, "nodes printed: %d\n", count);
 
 	count = delete_tree(*root);
-	log(DEBUG, "nodes deleted: %d\n", count);
+	log(INFO, "nodes deleted: %d\n", count);
 
 	return 0;
 }
 
-#if 0
 int main()
 {
 	int count = 5;
