@@ -9,6 +9,8 @@ Building blocks
 - tree : A binary search tree custructed from integer values.
 - BFS : Breadth-first search implemented using the `queue`.
 - DFS : Depth-first search implemented using the `stack`.
+- AVL : An AVL tree implementation, stores integer values.
+- BFS_avl : AVL tree breadth-first search implemented using the `queue`.
   
 NOTE: by the first release, the code will be well-commented.
 
@@ -30,7 +32,7 @@ To unnstall `dslib` from your system, run:
 If you are not writing your own application using `dslib`, add test-cases in main.c, compile and run:
 <pre>$ gcc -o ds main.c -lds
 $ ./ds</pre>
-A sample testcase to create tree and search a value in it is already implemented in main.c. Change `current_log_level` in main.c to DEBUG for detaild information of the sample run.
+A sample testcase to create tree and search a value in it is already implemented in <i>main.c</i>. Change `current_log_level` in <i>main.c</i> to DEBUG for detailed information of the sample run.
 
 # Developers
 Arun Prakash Jana &lt;engineerarun@gmail.com&gt;  
