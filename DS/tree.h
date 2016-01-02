@@ -22,8 +22,6 @@
 
 #pragma once
 
-struct tree;
-
 typedef struct tree {
 	int data;
 	struct tree *left;

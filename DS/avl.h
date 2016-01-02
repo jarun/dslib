@@ -24,8 +24,6 @@
 
 #pragma once
 
-struct avl;
-
 typedef struct avl {
 	int data;
 	struct avl *left;
