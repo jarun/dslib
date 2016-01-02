@@ -67,12 +67,16 @@ avl_p *generate_avl(int *arr, int len)
 					root->left->data = arr[i];
 					root->height = height(root);
 
+					/* No need to rebalance twice for one insertion */
+					bool modified = FALSE;
+
 					/* Unwind stack and rebalance each node, if required */
 					while ((p = pop(stack)) != NULL) {
 						tmp = p->node;
 						free(p);
 
-						rebalance(stack, head, tmp, arr[i]);
+						if (!modified)
+							modified = rebalance(stack, head, tmp, arr[i]);
 					}
 
 					root = *head; // Restart next element insertion from head
@@ -94,11 +98,14 @@ avl_p *generate_avl(int *arr, int len)
 					root->right->data = arr[i];
 					root->height = height(root);
 
+					bool modified = FALSE;
+
 					while ((p = pop(stack)) != NULL) {
 						tmp = p->node;
 						free(p);
 
-						rebalance(stack, head, tmp, arr[i]);
+						if (!modified)
+							modified = rebalance(stack, head, tmp, arr[i]);
 					}
 
 					root = *head;
@@ -123,11 +130,12 @@ avl_p *generate_avl(int *arr, int len)
 /*
  * Rebalance subtree tmp based on balance factor & skew
  */
-void rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
+bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 {
 	nodedata *p = NULL;
 	int direction;
 	avl_p parent = NULL;
+	bool modified = TRUE;
 
 	if (BalanceFactor(tmp) == -2) { /* Right subtree longer */
 		if ((p = pop(stack)) != NULL) {
@@ -169,12 +177,15 @@ void rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 			else
 				*head = LeftRight(tmp);
 		}
-	}
+	} else
+		modified = FALSE;
 
 	if (p)
 		free(p);
 
 	tmp->height = height(tmp);
+
+	return modified;
 }
 
 /*

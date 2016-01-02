@@ -32,6 +32,7 @@ int main(int argc, char **argv)
 	bool stop = TRUE;
 	avl_pp root = NULL;
 	int arr[] = {30, 110, 10, 90, 120, 150, 70, 140, 40, 130, 20, 50, 100, 80, 60};
+	//int arr[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
 
 	log(DEBUG, "Calling generate_avl()\n");
 	root = generate_avl(arr, sizeof(arr) / sizeof(arr[0]));
