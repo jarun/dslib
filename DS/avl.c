@@ -23,13 +23,17 @@
 #define LEFT  0
 #define RIGHT 1
 
+/*
+ * Struct to hold an AVL node and traversal
+ * direction (left or right) to child node
+ */
 typedef struct {
 	avl_p node;
 	int direction;
 } nodedata;
 
 /*
- * Generate an AVL tree from an array of integers
+ * Generate an AVL tree iteratively from an array of integers
  */
 avl_p *generate_avl(int *arr, int len)
 {
@@ -37,6 +41,7 @@ avl_p *generate_avl(int *arr, int len)
 	avl_pp head = NULL;
 	avl_p root = NULL;
 	avl_p tmp = NULL;
+	nodedata *p = NULL;
 	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
 
 	if (!arr || !len) {
@@ -57,16 +62,15 @@ avl_p *generate_avl(int *arr, int len)
 		while (root) {
 			if (arr[i] < root->data) {
 				if (!root->left) {
+					/* Create an AVL node for new value */
 					root->left = calloc(1, sizeof(avl_t));
 					root->left->data = arr[i];
 					root->height = height(root);
 
-					nodedata *p;
-
+					/* Unwind stack and rebalance each node, if required */
 					while ((p = pop(stack)) != NULL) {
 						tmp = p->node;
 						free(p);
-						p = NULL;
 
 						rebalance(stack, head, tmp, arr[i]);
 					}
@@ -75,10 +79,14 @@ avl_p *generate_avl(int *arr, int len)
 					break;
 				}
 
+				/* Push the parent node and traversal
+				   direction in stack as we traverse down */
 				nodedata *n = malloc(sizeof(nodedata));
 				n->node = root;
 				n->direction = LEFT;
 				push(stack, n);
+
+				/* Traverse further left */
 				root = root->left;
 			} else {
 				if (!root->right) {
@@ -86,17 +94,14 @@ avl_p *generate_avl(int *arr, int len)
 					root->right->data = arr[i];
 					root->height = height(root);
 
-					nodedata *p;
-
 					while ((p = pop(stack)) != NULL) {
 						tmp = p->node;
 						free(p);
-						p = NULL;
 
 						rebalance(stack, head, tmp, arr[i]);
 					}
 
-					root = *head; // Restart next element insertion from head
+					root = *head;
 					break;
 				}
 
@@ -104,6 +109,7 @@ avl_p *generate_avl(int *arr, int len)
 				n->node = root;
 				n->direction = RIGHT;
 				push(stack, n);
+
 				root = root->right;
 			}
 		}
@@ -123,41 +129,44 @@ void rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 	int direction;
 	avl_p parent = NULL;
 
-	if (BalanceFactor(tmp) == -2) {
+	if (BalanceFactor(tmp) == -2) { /* Right subtree longer */
 		if ((p = pop(stack)) != NULL) {
 			parent = p->node;
 			direction = p->direction;
 		}
 		/* If p is NULL, this is the topmost node, update *head */
 
-		if (data >= tmp->right->data) {
+		if (data >= tmp->right->data) { /* Right-right skewed subtree */
 			if (p)
-				direction == RIGHT ?  (parent->right = RightRight(tmp)) : (parent->left = RightRight(tmp));
+				direction == RIGHT ?  (parent->right = RightRight(tmp))
+					: (parent->left = RightRight(tmp));
 			else
 				*head = RightRight(tmp);
-		} else {
+		} else { /* Right-left skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = RightLeft(tmp)) : (parent->left = RightLeft(tmp));
+				direction == RIGHT ? (parent->right = RightLeft(tmp))
+					: (parent->left = RightLeft(tmp));
 			else
 				*head = RightLeft(tmp);
 		}
-	} else if (BalanceFactor(tmp) == 2) {
+	} else if (BalanceFactor(tmp) == 2) { /* Left subtree longer */
 		if ((p = pop(stack)) != NULL) {
 			parent = p->node;
 			direction = p->direction;
 		}
 		/* If p is NULL, this is the topmost node, update *head */
 
-		if (data < tmp->left->data) {
+		if (data < tmp->left->data) { /* Left-left skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = LeftLeft(tmp)) : (parent->left = LeftLeft(tmp));
+				direction == RIGHT ? (parent->right = LeftLeft(tmp))
+					: (parent->left = LeftLeft(tmp));
 			else
 				*head = LeftLeft(tmp);
-		} else {
+		} else { /* Left-right skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = LeftRight(tmp)) : (parent->left = LeftRight(tmp));
+				direction == RIGHT ? (parent->right = LeftRight(tmp))
+					: (parent->left = LeftRight(tmp));
 			else
-
 				*head = LeftRight(tmp);
 		}
 	}
@@ -181,10 +190,7 @@ int height(avl_p node)
 	node->left == NULL ? lh = 0 : (lh = 1 + node->left->height);
 	node->right == NULL ? rh = 0 : (rh = 1 + node->right->height);
 
-	if (lh >= rh)
-		return lh;
-	else
-		return rh;
+	return (lh >= rh ? lh : rh);
 }
 
 /*
@@ -286,9 +292,8 @@ int delete_avl(avl_p root)
 		count += delete_avl(root->right);
 
 	free(root);
-	++count;
 
-	return count;
+	return ++count;
 }
 
 /*
