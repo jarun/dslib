@@ -48,7 +48,7 @@ avl_p RotateRight(avl_p node);
 /* Rotate a subtree towards left */
 avl_p RotateLeft(avl_p node);
 
-/* AVL subtree structure handlers */
+/* AVL subtree structure (skew) handlers */
 avl_p RightRight(avl_p node);
 avl_p LeftLeft(avl_p node);
 avl_p LeftRight(avl_p node);
