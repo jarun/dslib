@@ -18,7 +18,6 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "stack.h"
 #include "avl.h"
 
 #define LEFT  0
@@ -35,10 +34,9 @@ typedef struct {
 avl_p *generate_avl(int *arr, int len)
 {
 	int i = 1;
-	avl_p *head = NULL;
+	avl_pp head = NULL;
 	avl_p root = NULL;
 	avl_p tmp = NULL;
-	avl_p parent = NULL;
 	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
 
 	if (!arr || !len) {
@@ -72,7 +70,6 @@ avl_p *generate_avl(int *arr, int len)
 					root = root->left;
 
 					nodedata *p;
-					int direction;
 
 					if ((p = pop(stack)) != NULL) {
 						p->node->left = root;
@@ -84,47 +81,7 @@ avl_p *generate_avl(int *arr, int len)
 							free(p);
 							p = NULL;
 
-							if (BalanceFactor(tmp) == -2) {
-								if ((p = pop(stack)) != NULL) {
-									parent = p->node;
-									direction = p->direction;
-									parent = parent;
-								}
-
-								if (arr[i] >= tmp->right->data) {
-									if (p)
-										direction == RIGHT ?  (parent->right = RightRight(tmp)) : (parent->left = RightRight(tmp));
-									else
-										*head = RightRight(tmp);
-								} else {
-									if (p)
-										direction == RIGHT ? (parent->right = RightLeft(tmp)) : (parent->left = RightLeft(tmp));
-									else
-										*head = RightLeft(tmp);
-								}
-							} else if (BalanceFactor(tmp) == 2) {
-								if ((p = pop(stack)) != NULL) {
-									parent = p->node;
-									direction = p->direction;
-								}
-
-								if (arr[i] < (tmp)->left->data) {
-									if (p)
-										direction == RIGHT ? (parent->right = LeftLeft(tmp)) : (parent->left = LeftLeft(tmp));
-									else
-										*head = LeftLeft(tmp);
-								} else {
-									if (p)
-										direction == RIGHT ? (parent->right = LeftRight(tmp)) : (parent->left = LeftRight(tmp));
-									else
-										*head = LeftRight(tmp);
-								}
-							}
-
-							if (p)
-								free(p);
-
-							(tmp)->height = height(tmp);
+							rebalance(stack, head, tmp, arr[i]);
 						}
 
 						break;
@@ -149,7 +106,6 @@ avl_p *generate_avl(int *arr, int len)
 					root = root->right;
 
 					nodedata *p;
-					int direction;
 
 					if ((p = pop(stack)) != NULL) {
 						p->node->right = root;
@@ -161,47 +117,7 @@ avl_p *generate_avl(int *arr, int len)
 							free(p);
 							p = NULL;
 
-							if (BalanceFactor(tmp) == -2) {
-								if ((p = pop(stack)) != NULL) {
-									parent = p->node;
-									direction = p->direction;
-								}
-
-								if (arr[i] >= tmp->right->data) {
-									if (p)
-										direction == RIGHT ?  (parent->right = RightRight(tmp)) : (parent->left = RightRight(tmp));
-									else
-										*head = RightRight(tmp);
-								} else {
-									if (p)
-										direction == RIGHT ? (parent->right = RightLeft(tmp)) : (parent->left = RightLeft(tmp));
-									else
-										*head = RightLeft(tmp);
-								}
-							} else if (BalanceFactor(tmp) == 2) {
-								if ((p = pop(stack)) != NULL) {
-									parent = p->node;
-									direction = p->direction;
-								}
-
-								if (arr[i] < tmp->left->data) {
-									if (p)
-										direction == RIGHT ? (parent->right = LeftLeft(tmp)) : (parent->left = LeftLeft(tmp));
-									else
-										*head = LeftLeft(tmp);
-								} else {
-									if (p)
-										direction == RIGHT ? (parent->right = LeftRight(tmp)) : (parent->left = LeftRight(tmp));
-									else
-
-										*head = LeftRight(tmp);
-								}
-							}
-
-							if (p)
-								free(p);
-
-							tmp->height = height(tmp);
+							rebalance(stack, head, tmp, arr[i]);
 						}
 
 						break;
@@ -218,6 +134,60 @@ avl_p *generate_avl(int *arr, int len)
 	}
 
 	return head;
+}
+
+/*
+ * Rebalance subtree tmp based on balance factor & skew
+ */
+void rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
+{
+	nodedata *p = NULL;
+	int direction;
+	avl_p parent = NULL;
+
+	if (BalanceFactor(tmp) == -2) {
+		if ((p = pop(stack)) != NULL) {
+			parent = p->node;
+			direction = p->direction;
+		}
+		/* If p is NULL, this is the topmost node, update *head */
+
+		if (data >= tmp->right->data) {
+			if (p)
+				direction == RIGHT ?  (parent->right = RightRight(tmp)) : (parent->left = RightRight(tmp));
+			else
+				*head = RightRight(tmp);
+		} else {
+			if (p)
+				direction == RIGHT ? (parent->right = RightLeft(tmp)) : (parent->left = RightLeft(tmp));
+			else
+				*head = RightLeft(tmp);
+		}
+	} else if (BalanceFactor(tmp) == 2) {
+		if ((p = pop(stack)) != NULL) {
+			parent = p->node;
+			direction = p->direction;
+		}
+		/* If p is NULL, this is the topmost node, update *head */
+
+		if (data < tmp->left->data) {
+			if (p)
+				direction == RIGHT ? (parent->right = LeftLeft(tmp)) : (parent->left = LeftLeft(tmp));
+			else
+				*head = LeftLeft(tmp);
+		} else {
+			if (p)
+				direction == RIGHT ? (parent->right = LeftRight(tmp)) : (parent->left = LeftRight(tmp));
+			else
+
+				*head = LeftRight(tmp);
+		}
+	}
+
+	if (p)
+		free(p);
+
+	tmp->height = height(tmp);
 }
 
 /*
@@ -364,7 +334,7 @@ int print_avl(avl_p root, avl_p parent)
 	++count;
 
 	/* Print data value in the node */
-	log(INFO, "data: %d, parent data: %d\n", root->data, parent->data);
+	log(INFO, "data: %6d,  parent: %6d\n", root->data, parent->data);
 
 	if (root->left) {
 		log(INFO, "LEFT.\n");

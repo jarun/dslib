@@ -20,6 +20,7 @@
  */
 
 #include "common.h"
+#include "stack.h"
 
 #pragma once
 
@@ -31,6 +32,9 @@ typedef struct avl {
 	struct avl *right;
 	int height;
 } avl_t, *avl_p, **avl_pp;
+
+/* Rebalance a subtree if balance factory is 2 or -2 */
+void rebalance(stack_p stack, avl_pp head, avl_p tmp, int data);
 
 /* Generate AVL tree from an array of input values */
 avl_p *generate_avl(int *arr, int len);
