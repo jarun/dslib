@@ -246,8 +246,7 @@ avl_p RotateLeft(avl_p node)
  */
 avl_p RightRight(avl_p node)
 {
-	node = RotateLeft(node);
-	return node;
+	return RotateLeft(node);
 }
 
 /*
@@ -255,8 +254,7 @@ avl_p RightRight(avl_p node)
  */
 avl_p LeftLeft(avl_p node)
 {
-	node = RotateRight(node);
-	return node;
+	return RotateRight(node);
 }
 
 /*
@@ -265,9 +263,7 @@ avl_p LeftLeft(avl_p node)
 avl_p LeftRight(avl_p node)
 {
 	node->left = RotateLeft(node->left);
-	node = RotateRight(node);
-
-	return node;
+	return RotateRight(node);
 }
 
 /*
@@ -276,9 +272,7 @@ avl_p LeftRight(avl_p node)
 avl_p RightLeft(avl_p node)
 {
 	node->right = RotateRight(node->right);
-	node = RotateLeft(node);
-
-	return node;
+	return RotateLeft(node);
 }
 
 /*
@@ -342,6 +336,7 @@ int print_avl(avl_p root, avl_p parent)
 		log(INFO, "LEFT.\n");
 		count += print_avl(root->left, root);
 	}
+
 	if (root->right) {
 		log(INFO, "RIGHT.\n");
 		count += print_avl(root->right, root);
