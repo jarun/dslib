@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -fPIC
+CFLAGS = -Wall -Wextra -Werror -O3 -fPIC
 
 TARGET = libds.so.1.0
 DESTDIR = /usr/lib
@@ -10,6 +10,7 @@ all: $(TARGET)
 
 $(TARGET): $(objects)
 	gcc -shared -Wl,-soname,libds.so.1 -o $(TARGET) $(objects)
+	strip $(TARGET)
 
 .PHONY: clean
 clean:
