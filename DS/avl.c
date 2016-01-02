@@ -59,33 +59,21 @@ avl_p *generate_avl(int *arr, int len)
 		while (root) {
 			if (arr[i] < root->data) {
 				if (!root->left) {
-					nodedata *n = malloc(sizeof(nodedata));
-					n->node = root;
-					n->direction = LEFT;
-					push(stack, n);
-
 					root->left = calloc(1, sizeof(avl_t));
 					root->left->data = arr[i];
 					root->height = height(root);
-					root = root->left;
 
 					nodedata *p;
 
-					if ((p = pop(stack)) != NULL) {
-						p->node->left = root;
+					while ((p = pop(stack)) != NULL) {
+						tmp = p->node;
 						free(p);
 						p = NULL;
 
-						while ((p = pop(stack)) != NULL) {
-							tmp = p->node;
-							free(p);
-							p = NULL;
-
-							rebalance(stack, head, tmp, arr[i]);
-						}
-
-						break;
+						rebalance(stack, head, tmp, arr[i]);
 					}
+
+					break;
 				}
 
 				nodedata *n = malloc(sizeof(nodedata));
@@ -95,33 +83,21 @@ avl_p *generate_avl(int *arr, int len)
 				root = root->left;
 			} else {
 				if (!root->right) {
-					nodedata *n = malloc(sizeof(nodedata));
-					n->node = root;
-					n->direction = RIGHT;
-					push(stack, n);
-
 					root->right = calloc(1, sizeof(avl_t));
 					root->right->data = arr[i];
 					root->height = height(root);
-					root = root->right;
 
 					nodedata *p;
 
-					if ((p = pop(stack)) != NULL) {
-						p->node->right = root;
+					while ((p = pop(stack)) != NULL) {
+						tmp = p->node;
 						free(p);
 						p = NULL;
 
-						while ((p = pop(stack)) != NULL) {
-							tmp = p->node;
-							free(p);
-							p = NULL;
-
-							rebalance(stack, head, tmp, arr[i]);
-						}
-
-						break;
+						rebalance(stack, head, tmp, arr[i]);
 					}
+
+					break;
 				}
 
 				nodedata *n = malloc(sizeof(nodedata));
