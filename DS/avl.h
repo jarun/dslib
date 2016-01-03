@@ -34,7 +34,7 @@ typedef struct avl {
 avl_pp generate_avl(int *arr, int len);
 
 /* Initialize an AVL tree */
-avl_pp init_avl();
+avl_pp init_avl(void);
 
 /* Insert a node in AVL tree */
 bool insert_avl(avl_pp head, int val);

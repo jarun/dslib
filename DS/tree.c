@@ -51,17 +51,21 @@ tree_pp generate_tree(int *arr, int len)
 					root->left = calloc(1, sizeof(tree_t));
 					root = root->left;
 					root->data = arr[i];
-					root = *head; // Restart next element insertion from head
+
+					/* Restart next element insertion from head */
+					root = *head;
 					break;
 				}
 
 				root = root->left;
-			} else { // Insert equal or greater elements to right
+			} else { /* Insert equal or greater elements to right */
 				if (!root->right) {
 					root->right = calloc(1, sizeof(tree_t));
 					root = root->right;
 					root->data = arr[i];
-					root = *head; // Restart next element insertion from head
+
+					/* Restart next element insertion from head */
+					root = *head;
 					break;
 				}
 

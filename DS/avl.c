@@ -71,6 +71,7 @@ int BalanceFactor(avl_p node)
 avl_p RotateRight(avl_p node)
 {
 	avl_p left_node = node->left;
+
 	node->left = left_node->right;
 	left_node->right = node;
 
@@ -86,6 +87,7 @@ avl_p RotateRight(avl_p node)
 avl_p RotateLeft(avl_p node)
 {
 	avl_p right_node = node->right;
+
 	node->right = right_node->left;
 	right_node->left = node;
 
@@ -140,7 +142,8 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 	bool modified = TRUE;
 
 	if (BalanceFactor(tmp) == -2) { /* Right subtree longer */
-		if ((p = pop(stack)) != NULL) {
+		p = pop(stack);
+		if (p) {
 			parent = p->node;
 			direction = p->direction;
 		}
@@ -148,19 +151,22 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 
 		if (data >= tmp->right->data) { /* Right-right skewed subtree */
 			if (p)
-				direction == RIGHT ?  (parent->right = RightRight(tmp))
+				direction == RIGHT
+					?  (parent->right = RightRight(tmp))
 					: (parent->left = RightRight(tmp));
 			else
 				*head = RightRight(tmp);
 		} else { /* Right-left skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = RightLeft(tmp))
+				direction == RIGHT
+					? (parent->right = RightLeft(tmp))
 					: (parent->left = RightLeft(tmp));
 			else
 				*head = RightLeft(tmp);
 		}
 	} else if (BalanceFactor(tmp) == 2) { /* Left subtree longer */
-		if ((p = pop(stack)) != NULL) {
+		p = pop(stack);
+		if (p) {
 			parent = p->node;
 			direction = p->direction;
 		}
@@ -168,13 +174,15 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 
 		if (data < tmp->left->data) { /* Left-left skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = LeftLeft(tmp))
+				direction == RIGHT
+					? (parent->right = LeftLeft(tmp))
 					: (parent->left = LeftLeft(tmp));
 			else
 				*head = LeftLeft(tmp);
 		} else { /* Left-right skewed subtree */
 			if (p)
-				direction == RIGHT ? (parent->right = LeftRight(tmp))
+				direction == RIGHT
+					? (parent->right = LeftRight(tmp))
 					: (parent->left = LeftRight(tmp));
 			else
 				*head = LeftRight(tmp);
@@ -247,7 +255,7 @@ avl_pp generate_avl(int *arr, int len)
 /*
  * Initialize an AVL tree with empty root node
  */
-avl_pp init_avl()
+avl_pp init_avl(void)
 {
 	avl_pp head = calloc(1, sizeof(avl_p));
 	*head = NULL;
@@ -263,8 +271,10 @@ bool insert_avl(avl_pp head, int val)
 	avl_p root = NULL;
 	avl_p tmp = NULL;
 	nodedata_p p = NULL;
+	nodedata_p n = NULL;
 	bool modified;
-	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
+	/* Stack to rebalance each subtree bottom-up after insertion */
+	stack_p stack = get_stack();
 
 	if (!head) {
 		log(ERROR, "Initialize AVL tree first\n");
@@ -289,26 +299,28 @@ bool insert_avl(avl_pp head, int val)
 				root->left->data = val;
 				root->height = height(root);
 
-				/* No need to rebalance twice for one insertion */
 				modified = FALSE;
 
-				/* Unwind stack and rebalance each node, if required */
+				/* Unwind stack & rebalance nodes (only once) */
 				while ((p = pop(stack)) != NULL) {
+					/* One rebalance for one insertion */
 					if (!modified) {
 						tmp = p->node;
-						modified = rebalance(stack, head, tmp, val);
+						modified = rebalance(stack,
+								head, tmp, val);
 					}
 
 					free(p);
 				}
 
-				root = *head; // Restart next element insertion from head
+				/* Restart next element insertion from head */
+				root = *head;
 				break;
 			}
 
 			/* Push the parent node and traversal
 			   direction in stack as we traverse down */
-			nodedata_p n = malloc(sizeof(nodedata));
+			n = malloc(sizeof(nodedata));
 			n->node = root;
 			n->direction = LEFT;
 			push(stack, n);
@@ -326,7 +338,8 @@ bool insert_avl(avl_pp head, int val)
 				while ((p = pop(stack)) != NULL) {
 					if (!modified) {
 						tmp = p->node;
-						modified = rebalance(stack, head, tmp, val);
+						modified = rebalance(stack,
+								head, tmp, val);
 					}
 
 					free(p);
@@ -336,7 +349,7 @@ bool insert_avl(avl_pp head, int val)
 				break;
 			}
 
-			nodedata_p n = malloc(sizeof(nodedata));
+			n = malloc(sizeof(nodedata));
 			n->node = root;
 			n->direction = RIGHT;
 			push(stack, n);
