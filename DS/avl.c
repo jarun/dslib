@@ -288,7 +288,7 @@ int BalanceFactor(avl_p node)
 }
 
 /*
- * Delete an AVL tree from its root
+ * Delete all nodes of an AVL tree
  */
 int delete_avl(avl_p root)
 {
@@ -296,7 +296,7 @@ int delete_avl(avl_p root)
 
 	if (!root) {
 		log(ERROR, "root invalid.\n");
-		return -1;
+		return 0;
 	}
 
 	if (root->left)
@@ -306,8 +306,29 @@ int delete_avl(avl_p root)
 		count += delete_avl(root->right);
 
 	free(root);
+	root = NULL;
 
 	return ++count;
+}
+
+/*
+ * Destroy an AVL tree
+ */
+int destroy_avl(avl_pp head)
+{
+	int count = 0;
+
+	if (!head) {
+		log(ERROR, "head invalid.\n");
+		return -1;
+	}
+
+	count = delete_avl(*head);
+
+	free(head);
+	head = NULL;
+
+	return count;
 }
 
 /*

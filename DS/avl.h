@@ -55,8 +55,11 @@ avl_p RightLeft(avl_p node);
 /* Calculate balance factor of a subtree */
 int BalanceFactor(avl_p node);
 
-/* Destroy the tree */
+/* Delete all nodes in the AVL tree */
 int delete_avl(avl_p root);
+
+/* Destroy the tree */
+int destroy_avl(avl_pp head);
 
 /* Print a tree */
 int print_avl(avl_p root, avl_p parent);

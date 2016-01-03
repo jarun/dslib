@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	count = print_avl(*root, *root);
 	log(INFO, "nodes printed: %d\n", count);
 
-	count = delete_avl(*root);
+	count = destroy_avl(root);
 	log(INFO, "nodes deleted: %d\n", count);
 
 	return 0;
