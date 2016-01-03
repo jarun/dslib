@@ -62,21 +62,21 @@ int main(int argc, char **argv)
 {
 	int count = 0;
 	bool stop = TRUE;
-	tree_pp root = NULL;
+	tree_pp head = NULL;
 	int arr[] = {10, 20, 30, 40, 50};
 
 	log(DEBUG, "Calling generate_tree()\n");
-	root = generate_tree(arr, sizeof(arr) / sizeof(arr[0]));
+	head = generate_tree(arr, sizeof(arr) / sizeof(arr[0]));
 
 	if (argc == 2)
-		search_BFS(root, atoi(argv[1]), stop);
+		search_BFS(head, atoi(argv[1]), stop);
 	else
-		search_BFS(root, 10, stop);
+		search_BFS(head, 10, stop);
 
-	count = print_tree(*root);
+	count = print_tree(*head);
 	log(INFO, "nodes printed: %d\n", count);
 
-	count = delete_tree(*root);
+	count = destroy_tree(head);
 	log(INFO, "nodes deleted: %d\n", count);
 
 	return 0;

@@ -74,7 +74,7 @@ tree_pp generate_tree(int *arr, int len)
 }
 
 /*
- * Delete a tree from its root
+ * Delete all nodes of a tree
  */
 int delete_tree(tree_p root)
 {
@@ -92,7 +92,27 @@ int delete_tree(tree_p root)
 		count += delete_tree(root->right);
 
 	free(root);
-	++count;
+	root = NULL;
+
+	return ++count;
+}
+
+/*
+ * Destroy a tree
+ */
+int destroy_tree(tree_pp head)
+{
+	int count = 0;
+
+	if (!head) {
+		log(ERROR, "head invalid.\n");
+		return -1;
+	}
+
+	count = delete_tree(*head);
+
+	free(head);
+	head = NULL;
 
 	return count;
 }

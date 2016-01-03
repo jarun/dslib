@@ -32,9 +32,9 @@ typedef struct tree {
 tree_pp generate_tree(int *arr, int len);
 
 /* Destroy the tree */
-int delete_tree(tree_p root);
+int destroy_tree(tree_pp head);
 
-/* Print a tree */
+/* Print a tree in preorder */
 int print_tree(tree_p root);
 
 /* Traverse tree in BFS to find a given value */
