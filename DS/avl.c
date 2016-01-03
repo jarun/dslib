@@ -37,97 +37,131 @@ typedef struct {
  */
 avl_pp generate_avl(int *arr, int len)
 {
-	int i = 1;
+	int i = 0;
 	avl_pp head = NULL;
-	avl_p root = NULL;
-	avl_p tmp = NULL;
-	nodedata_p p = NULL;
-	bool modified;
-	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
 
 	if (!arr || !len) {
 		log(ERROR, "Invalid array.\n");
 		return NULL;
 	}
 
-	root = (avl_p) calloc(1, sizeof(avl_t));
-	if (!root) {
-		log(ERROR, "calloc failed.\n");
-		return NULL;
-	}
-	root->data = arr[0];
-	head = calloc(1, sizeof(avl_p));
-	*head = root;
+	head = init_avl();
 
 	for (; i < len; i++) {
-		while (root) {
-			if (arr[i] < root->data) {
-				if (!root->left) {
-					/* Create an AVL node for new value */
-					root->left = calloc(1, sizeof(avl_t));
-					root->left->data = arr[i];
-					root->height = height(root);
+		if (insert_avl(head, arr[i]) == FALSE) {
+			log(ERROR, "Insertion failed.\n");
+			destroy_avl(head);
+			return NULL;
+		}
+	}
 
-					/* No need to rebalance twice for one insertion */
-					modified = FALSE;
+	return head;
+}
 
-					/* Unwind stack and rebalance each node, if required */
-					while ((p = pop(stack)) != NULL) {
-						if (!modified) {
-							tmp = p->node;
-							modified = rebalance(stack, head, tmp, arr[i]);
-						}
+/*
+ * Initialize an AVL tree with empty root node
+ */
+avl_pp init_avl()
+{
+	avl_pp head = calloc(1, sizeof(avl_p));
+	*head = NULL;
 
-						free(p);
+	return head;
+}
+
+/*
+ * Insert a new node into AVL tree
+ */
+bool insert_avl(avl_pp head, int val)
+{
+	avl_p root = NULL;
+	avl_p tmp = NULL;
+	nodedata_p p = NULL;
+	bool modified;
+	stack_p stack = get_stack(); // Stack to rebalance each subtree bottom-up after insertion
+
+	if (!head) {
+		log(ERROR, "Initialize AVL tree first\n");
+		return FALSE;
+	}
+
+	root = *head;
+
+	if (!root) {
+		root = (avl_p) calloc(1, sizeof(avl_t));
+		root->data = val;
+		*head = root;
+
+		return TRUE;
+	}
+
+	while (root) {
+		if (val < root->data) {
+			if (!root->left) {
+				/* Create an AVL node for new value */
+				root->left = calloc(1, sizeof(avl_t));
+				root->left->data = val;
+				root->height = height(root);
+
+				/* No need to rebalance twice for one insertion */
+				modified = FALSE;
+
+				/* Unwind stack and rebalance each node, if required */
+				while ((p = pop(stack)) != NULL) {
+					if (!modified) {
+						tmp = p->node;
+						modified = rebalance(stack, head, tmp, val);
 					}
 
-					root = *head; // Restart next element insertion from head
-					break;
+					free(p);
 				}
 
-				/* Push the parent node and traversal
-				   direction in stack as we traverse down */
-				nodedata_p n = malloc(sizeof(nodedata));
-				n->node = root;
-				n->direction = LEFT;
-				push(stack, n);
-
-				/* Traverse further left */
-				root = root->left;
-			} else {
-				if (!root->right) {
-					root->right = calloc(1, sizeof(avl_t));
-					root->right->data = arr[i];
-					root->height = height(root);
-
-					modified = FALSE;
-
-					while ((p = pop(stack)) != NULL) {
-						if (!modified) {
-							tmp = p->node;
-							modified = rebalance(stack, head, tmp, arr[i]);
-						}
-
-						free(p);
-					}
-
-					root = *head;
-					break;
-				}
-
-				nodedata_p n = malloc(sizeof(nodedata));
-				n->node = root;
-				n->direction = RIGHT;
-				push(stack, n);
-
-				root = root->right;
+				root = *head; // Restart next element insertion from head
+				break;
 			}
+
+			/* Push the parent node and traversal
+			   direction in stack as we traverse down */
+			nodedata_p n = malloc(sizeof(nodedata));
+			n->node = root;
+			n->direction = LEFT;
+			push(stack, n);
+
+			/* Traverse further left */
+			root = root->left;
+		} else {
+			if (!root->right) {
+				root->right = calloc(1, sizeof(avl_t));
+				root->right->data = val;
+				root->height = height(root);
+
+				modified = FALSE;
+
+				while ((p = pop(stack)) != NULL) {
+					if (!modified) {
+						tmp = p->node;
+						modified = rebalance(stack, head, tmp, val);
+					}
+
+					free(p);
+				}
+
+				root = *head;
+				break;
+			}
+
+			nodedata_p n = malloc(sizeof(nodedata));
+			n->node = root;
+			n->direction = RIGHT;
+			push(stack, n);
+
+			root = root->right;
 		}
 	}
 
 	destroy_stack(stack);
 
-	return head;
+	return TRUE;
 }
 
 /*

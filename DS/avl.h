@@ -31,11 +31,17 @@ typedef struct avl {
 	int height;
 } avl_t, *avl_p, **avl_pp;
 
-/* Rebalance a subtree if balance factory is 2 or -2 */
-bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data);
-
 /* Generate AVL tree from an array of input values */
 avl_pp generate_avl(int *arr, int len);
+
+/* Initialize an AVL tree */
+avl_pp init_avl();
+
+/* Insert a node in AVL tree */
+bool insert_avl(avl_pp head, int val);
+
+/* Rebalance a subtree if balance factory is 2 or -2 */
+bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data);
 
 /* Calculate height of an AVL tree node */
 int height(avl_p node);
