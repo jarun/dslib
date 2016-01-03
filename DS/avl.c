@@ -18,6 +18,7 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "stack.h"
 #include "avl.h"
 
 #define LEFT  0
@@ -31,6 +32,191 @@ typedef struct {
 	avl_p node;
 	int direction;
 } nodedata, *nodedata_p;
+
+/*
+ * Calculate the height of a node in AVL tree
+ */
+int height(avl_p node)
+{
+	int lh, rh;
+
+	if (!node)
+		return 0;
+
+	node->left == NULL ? lh = 0 : (lh = 1 + node->left->height);
+	node->right == NULL ? rh = 0 : (rh = 1 + node->right->height);
+
+	return (lh >= rh ? lh : rh);
+}
+
+/*
+ * Calculate balance factor of subtree
+ */
+int BalanceFactor(avl_p node)
+{
+	int lh, rh;
+
+	if (!node)
+		return 0;
+
+	node->left == NULL ? lh = 0 : (lh = 1 + node->left->height);
+	node->right == NULL ? rh = 0 : (rh = 1 + node->right->height);
+
+	return (lh - rh);
+}
+
+/*
+ * Rotate a node towards right
+ */
+avl_p RotateRight(avl_p node)
+{
+	avl_p left_node = node->left;
+	node->left = left_node->right;
+	left_node->right = node;
+
+	node->height = height(node);
+	left_node->height = height(left_node);
+
+	return left_node;
+}
+
+/*
+ * Rotate a node towards left
+ */
+avl_p RotateLeft(avl_p node)
+{
+	avl_p right_node = node->right;
+	node->right = right_node->left;
+	right_node->left = node;
+
+	node->height = height(node);
+	right_node->height = height(right_node);
+
+	return right_node;
+}
+
+/*
+ * Adjust a right right skewed subtree
+ */
+avl_p RightRight(avl_p node)
+{
+	return RotateLeft(node);
+}
+
+/*
+ * Adjust a left left skewed subtree
+ */
+avl_p LeftLeft(avl_p node)
+{
+	return RotateRight(node);
+}
+
+/*
+ * Adjust a left right skewed subtree
+ */
+avl_p LeftRight(avl_p node)
+{
+	node->left = RotateLeft(node->left);
+	return RotateRight(node);
+}
+
+/*
+ * Adjust a right left skewed subtree
+ */
+avl_p RightLeft(avl_p node)
+{
+	node->right = RotateRight(node->right);
+	return RotateLeft(node);
+}
+
+/*
+ * Rebalance subtree tmp based on balance factor & skew
+ */
+bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
+{
+	nodedata_p p = NULL;
+	int direction;
+	avl_p parent = NULL;
+	bool modified = TRUE;
+
+	if (BalanceFactor(tmp) == -2) { /* Right subtree longer */
+		if ((p = pop(stack)) != NULL) {
+			parent = p->node;
+			direction = p->direction;
+		}
+		/* If p is NULL, this is the topmost node, update *head */
+
+		if (data >= tmp->right->data) { /* Right-right skewed subtree */
+			if (p)
+				direction == RIGHT ?  (parent->right = RightRight(tmp))
+					: (parent->left = RightRight(tmp));
+			else
+				*head = RightRight(tmp);
+		} else { /* Right-left skewed subtree */
+			if (p)
+				direction == RIGHT ? (parent->right = RightLeft(tmp))
+					: (parent->left = RightLeft(tmp));
+			else
+				*head = RightLeft(tmp);
+		}
+	} else if (BalanceFactor(tmp) == 2) { /* Left subtree longer */
+		if ((p = pop(stack)) != NULL) {
+			parent = p->node;
+			direction = p->direction;
+		}
+		/* If p is NULL, this is the topmost node, update *head */
+
+		if (data < tmp->left->data) { /* Left-left skewed subtree */
+			if (p)
+				direction == RIGHT ? (parent->right = LeftLeft(tmp))
+					: (parent->left = LeftLeft(tmp));
+			else
+				*head = LeftLeft(tmp);
+		} else { /* Left-right skewed subtree */
+			if (p)
+				direction == RIGHT ? (parent->right = LeftRight(tmp))
+					: (parent->left = LeftRight(tmp));
+			else
+				*head = LeftRight(tmp);
+		}
+	} else
+		modified = FALSE;
+
+	if (p)
+		free(p);
+
+	tmp->height = height(tmp);
+
+	return modified;
+}
+
+/*
+ * Delete all nodes of an AVL tree
+ */
+int delete_avl(avl_p root)
+{
+	int count = 0;
+
+	if (!root) {
+		log(ERROR, "root invalid.\n");
+		return 0;
+	}
+
+	if (root->left)
+		count += delete_avl(root->left);
+
+	if (root->right)
+		count += delete_avl(root->right);
+
+	free(root);
+	root = NULL;
+
+	return ++count;
+}
+
+/*=======================================================*/
+/*            Library exposed APIs start here            */
+/*=======================================================*/
 
 /*
  * Generate an AVL tree iteratively from an array of integers
@@ -162,187 +348,6 @@ bool insert_avl(avl_pp head, int val)
 	destroy_stack(stack);
 
 	return TRUE;
-}
-
-/*
- * Rebalance subtree tmp based on balance factor & skew
- */
-bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
-{
-	nodedata_p p = NULL;
-	int direction;
-	avl_p parent = NULL;
-	bool modified = TRUE;
-
-	if (BalanceFactor(tmp) == -2) { /* Right subtree longer */
-		if ((p = pop(stack)) != NULL) {
-			parent = p->node;
-			direction = p->direction;
-		}
-		/* If p is NULL, this is the topmost node, update *head */
-
-		if (data >= tmp->right->data) { /* Right-right skewed subtree */
-			if (p)
-				direction == RIGHT ?  (parent->right = RightRight(tmp))
-					: (parent->left = RightRight(tmp));
-			else
-				*head = RightRight(tmp);
-		} else { /* Right-left skewed subtree */
-			if (p)
-				direction == RIGHT ? (parent->right = RightLeft(tmp))
-					: (parent->left = RightLeft(tmp));
-			else
-				*head = RightLeft(tmp);
-		}
-	} else if (BalanceFactor(tmp) == 2) { /* Left subtree longer */
-		if ((p = pop(stack)) != NULL) {
-			parent = p->node;
-			direction = p->direction;
-		}
-		/* If p is NULL, this is the topmost node, update *head */
-
-		if (data < tmp->left->data) { /* Left-left skewed subtree */
-			if (p)
-				direction == RIGHT ? (parent->right = LeftLeft(tmp))
-					: (parent->left = LeftLeft(tmp));
-			else
-				*head = LeftLeft(tmp);
-		} else { /* Left-right skewed subtree */
-			if (p)
-				direction == RIGHT ? (parent->right = LeftRight(tmp))
-					: (parent->left = LeftRight(tmp));
-			else
-				*head = LeftRight(tmp);
-		}
-	} else
-		modified = FALSE;
-
-	if (p)
-		free(p);
-
-	tmp->height = height(tmp);
-
-	return modified;
-}
-
-/*
- * Calculate the height of a node in AVL tree
- */
-int height(avl_p node)
-{
-	int lh, rh;
-
-	if (!node)
-		return 0;
-
-	node->left == NULL ? lh = 0 : (lh = 1 + node->left->height);
-	node->right == NULL ? rh = 0 : (rh = 1 + node->right->height);
-
-	return (lh >= rh ? lh : rh);
-}
-
-/*
- * Rotate a node towards right
- */
-avl_p RotateRight(avl_p node)
-{
-	avl_p left_node = node->left;
-	node->left = left_node->right;
-	left_node->right = node;
-
-	node->height = height(node);
-	left_node->height = height(left_node);
-
-	return left_node;
-}
-
-/*
- * Rotate a node towards left
- */
-avl_p RotateLeft(avl_p node)
-{
-	avl_p right_node = node->right;
-	node->right = right_node->left;
-	right_node->left = node;
-	
-	node->height = height(node);
-	right_node->height = height(right_node);
-
-	return right_node;
-}
-
-/*
- * Adjust a right right skewed subtree
- */
-avl_p RightRight(avl_p node)
-{
-	return RotateLeft(node);
-}
-
-/*
- * Adjust a left left skewed subtree
- */
-avl_p LeftLeft(avl_p node)
-{
-	return RotateRight(node);
-}
-
-/*
- * Adjust a left right skewed subtree
- */
-avl_p LeftRight(avl_p node)
-{
-	node->left = RotateLeft(node->left);
-	return RotateRight(node);
-}
-
-/*
- * Adjust a right left skewed subtree
- */
-avl_p RightLeft(avl_p node)
-{
-	node->right = RotateRight(node->right);
-	return RotateLeft(node);
-}
-
-/*
- * Calculate balance factor of subtree
- */
-int BalanceFactor(avl_p node)
-{
-	int lh, rh;
-
-	if (!node)
-		return 0;
-
-	node->left == NULL ? lh = 0 : (lh = 1 + node->left->height);
-	node->right == NULL ? rh = 0 : (rh = 1 + node->right->height);
-
-	return (lh - rh);
-}
-
-/*
- * Delete all nodes of an AVL tree
- */
-int delete_avl(avl_p root)
-{
-	int count = 0;
-
-	if (!root) {
-		log(ERROR, "root invalid.\n");
-		return 0;
-	}
-
-	if (root->left)
-		count += delete_avl(root->left);
-
-	if (root->right)
-		count += delete_avl(root->right);
-
-	free(root);
-	root = NULL;
-
-	return ++count;
 }
 
 /*

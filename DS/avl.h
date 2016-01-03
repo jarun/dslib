@@ -20,7 +20,6 @@
  */
 
 #include "common.h"
-#include "stack.h"
 
 #pragma once
 
@@ -39,27 +38,6 @@ avl_pp init_avl();
 
 /* Insert a node in AVL tree */
 bool insert_avl(avl_pp head, int val);
-
-/* Rebalance a subtree if balance factory is 2 or -2 */
-bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data);
-
-/* Calculate height of an AVL tree node */
-int height(avl_p node);
-
-/* Rotate a subtree towards right */
-avl_p RotateRight(avl_p node);
-
-/* Rotate a subtree towards left */
-avl_p RotateLeft(avl_p node);
-
-/* AVL subtree structure (skew) handlers */
-avl_p RightRight(avl_p node);
-avl_p LeftLeft(avl_p node);
-avl_p LeftRight(avl_p node);
-avl_p RightLeft(avl_p node);
-
-/* Calculate balance factor of a subtree */
-int BalanceFactor(avl_p node);
 
 /* Destroy the tree */
 int destroy_avl(avl_pp head);
