@@ -24,7 +24,7 @@
  * Create a new Stack
  * Alocate a head node
  */
-stack_p get_stack()
+stack_p get_stack(void)
 {
 	stack_p stack = calloc(1, sizeof(stack_t));
 

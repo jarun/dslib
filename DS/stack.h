@@ -28,7 +28,7 @@ typedef struct {
 } stack_t, *stack_p;
 
 /* Create a new Stack */
-stack_p get_stack();
+stack_p get_stack(void);
 
 /* Push a value to Stack */
 bool push(stack_p stack, void *val);

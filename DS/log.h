@@ -28,7 +28,8 @@
 #define DEBUG 2
 
 #define log(level, format, ...) \
-	debug_log(__FILE__, __FUNCTION__, __LINE__, level, format, ##__VA_ARGS__)
+	debug_log(__FILE__, __func__, __LINE__, \
+			level, format, ##__VA_ARGS__)
 
 void debug_log(const char *file,
 		const char *func,

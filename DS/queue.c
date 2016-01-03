@@ -24,7 +24,7 @@
  * Create a new Queue
  * Alocate a head node
  */
-queue_p get_queue()
+queue_p get_queue(void)
 {
 	queue_p queue = calloc(1, sizeof(queue_t));
 

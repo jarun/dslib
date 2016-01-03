@@ -313,8 +313,6 @@ bool insert_avl(avl_pp head, int val)
 					free(p);
 				}
 
-				/* Restart next element insertion from head */
-				root = *head;
 				break;
 			}
 
@@ -345,7 +343,6 @@ bool insert_avl(avl_pp head, int val)
 					free(p);
 				}
 
-				root = *head;
 				break;
 			}
 

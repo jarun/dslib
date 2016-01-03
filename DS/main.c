@@ -31,8 +31,10 @@ int main(int argc, char **argv)
 	int count = 0;
 	bool stop = TRUE;
 	avl_pp head = init_avl();
-	int arr[] = {30, 110, 10, 90, 120, 150, 70, 140, 40, 130, 20, 50, 100, 80, 60};
-	//int arr[] = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150};
+	int arr[] = {30, 110, 10, 90, 120, 150, 70,
+		140, 40, 130, 20, 50, 100, 80, 60};
+	/* int arr[] = {10, 20, 30, 40, 50, 60, 70, 80,
+		90, 100, 110, 120, 130, 140, 150}; */
 	int len = sizeof(arr) / sizeof(arr[0]);
 
 	for (; count < len; count++) {
@@ -82,7 +84,7 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
@@ -117,7 +119,7 @@ int main()
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	int count = 5;
 	int arr[5] = {0, 1, 2, 3, 4};
@@ -154,7 +156,7 @@ int main()
 	return 0;
 }
 
-int main()
+int main(void)
 {
 	int count = 5;
 

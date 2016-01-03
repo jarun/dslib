@@ -52,7 +52,7 @@ tree_pp generate_tree(int *arr, int len)
 					root = root->left;
 					root->data = arr[i];
 
-					/* Restart next element insertion from head */
+					/* Restart insertion from head */
 					root = *head;
 					break;
 				}
@@ -64,7 +64,7 @@ tree_pp generate_tree(int *arr, int len)
 					root = root->right;
 					root->data = arr[i];
 
-					/* Restart next element insertion from head */
+					/* Restart insertion from head */
 					root = *head;
 					break;
 				}

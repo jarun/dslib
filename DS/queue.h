@@ -28,7 +28,7 @@ typedef struct {
 } queue_t, *queue_p;
 
 /* Create a new Queue */
-queue_p get_queue();
+queue_p get_queue(void);
 
 /* Add a value to Queue */
 bool enqueue(queue_p queue, void *val);
