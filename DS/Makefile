@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -O3 -fPIC
 TARGET = libds.so.1.0
 DESTDIR = /usr/lib
 
-objects = log.o dlist.o tree.o avl.o queue.o stack.o bfs_avl.o
+objects = log.o dlist.o tree.o avl.o queue.o stack.o
 
 all: $(TARGET)
 

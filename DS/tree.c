@@ -18,9 +18,9 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "tree.h"
 #include "queue.h"
 #include "stack.h"
+#include "tree.h"
 
 /*
  * Generate a tree from an array of integers
