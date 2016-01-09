@@ -7,13 +7,10 @@ Building blocks
 - queue : Builds on top of `dlist`. Each element is a dlist node pointing to the value inserted in the queue.
 - stack : Builds on top of `dlist`. Each element is a dlist node pointing to the value pushed in the stack.
 - tree : A binary search tree custructed from integer values.
-- BFS : Breadth-first search implemented using the `queue`.
-- DFS : Depth-first search implemented using the `stack`.
 - AVL : An AVL tree implementation, stores integer values.
-- BFS_avl : AVL tree breadth-first search implemented using the `queue`.
+- BFS : Iterative Breadth-first search for tree and AVL implemented using the `queue`.
+- DFS : Iterative Depth-first search for tree and AVL implemented using the `stack`.
   
-NOTE: by the first release, the code will be well-commented.
-
 # License
 `dslib` is GPLv3 licensed.  
 Copyright (C) 2015 Arun Prakash Jana &lt;engineerarun@gmail.com&gt;
