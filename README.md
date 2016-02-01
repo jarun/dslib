@@ -13,7 +13,7 @@ Building blocks
   
 # License
 `dslib` is GPLv3 licensed.  
-Copyright (C) 2015 Arun Prakash Jana &lt;engineerarun@gmail.com&gt;
+Copyright (C) 2015 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
 
 # Compilation
 The following compilation steps are tested on Ubuntu 14.04.3 x86_64:
@@ -32,5 +32,5 @@ $ ./ds</pre>
 A sample testcase to create tree and search a value in it is already implemented in <i>main.c</i>. Change `current_log_level` in <i>main.c</i> to DEBUG for detailed information of the sample run.
 
 # Developers
-Arun Prakash Jana &lt;engineerarun@gmail.com&gt;  
-Ananya Jana &lt;ananya.jana@gmail.com&gt;
+[Arun Prakash Jana](mailto:engineerarun@gmail.com)  
+[Ananya Jana](mailto:ananya.jana@gmail.com)
