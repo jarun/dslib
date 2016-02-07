@@ -36,5 +36,8 @@ bool enqueue(queue_p queue, void *val);
 /* Remove a value from Queue */
 void *dequeue(queue_p queue);
 
+/* Check if the Queue is empty */
+bool isQueueEmpty(queue_p queue);
+
 /* Clean up Queue */
 bool destroy_queue(queue_p queue);

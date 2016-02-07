@@ -63,6 +63,17 @@ void *dequeue(queue_p queue)
 }
 
 /*
+ * Check if a Queue has any elements
+ */
+bool isQueueEmpty(queue_p queue)
+{
+	if (get_head_dlist(queue->head))
+		return TRUE;
+
+	return FALSE;
+}
+
+/*
  * Deallocate all dlist nodes
  * Destroy Queue
  */

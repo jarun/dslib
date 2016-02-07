@@ -17,6 +17,7 @@ int count_nodes_dlist(dlist_pp head);
 queue_p get_queue(void);
 bool enqueue(queue_p queue, void *val);
 void *dequeue(queue_p queue);
+bool isQueueEmpty(queue_p queue);
 bool destroy_queue(queue_p queue);
 
 ##################
@@ -26,7 +27,7 @@ bool destroy_queue(queue_p queue);
 stack_p get_stack(void);
 bool push(stack_p stack, void *val);
 void *pop(stack_p stack);
-bool isEmpty(stack_p stack);
+bool isStackEmpty(stack_p stack);
 bool destroy_stack(stack_p stack);
 
 ##############################
