@@ -202,7 +202,7 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 /*
  * Delete all nodes of an AVL tree
  */
-int delete_avl(avl_p root)
+int delete_avl_nodes(avl_p root)
 {
 	int count = 0;
 
@@ -212,10 +212,10 @@ int delete_avl(avl_p root)
 	}
 
 	if (root->left)
-		count += delete_avl(root->left);
+		count += delete_avl_nodes(root->left);
 
 	if (root->right)
-		count += delete_avl(root->right);
+		count += delete_avl_nodes(root->right);
 
 	free(root);
 	root = NULL;
@@ -373,7 +373,7 @@ int destroy_avl(avl_pp head)
 		return -1;
 	}
 
-	count = delete_avl(*head);
+	count = delete_avl_nodes(*head);
 
 	free(head);
 	head = NULL;

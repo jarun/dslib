@@ -31,6 +31,12 @@ typedef struct tree {
 /* Generate tree from an array of input values */
 tree_pp generate_tree(int *arr, int len);
 
+/* Initalize a tree */
+tree_pp init_tree(void);
+
+/* Insert a node in tree */
+bool insert_tree(tree_pp head, int val);
+
 /* Destroy the tree */
 int destroy_tree(tree_pp head);
 

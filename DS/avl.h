@@ -47,6 +47,3 @@ int print_avl(avl_p root, avl_p parent);
 
 /* Traverse tree in BFS to find a given value */
 int search_BFS_avl(avl_pp root, int val, bool stop);
-
-/* Traverse tree in DFS to find a given value */
-int search_DFS_avl(avl_pp root, int val, bool stop);

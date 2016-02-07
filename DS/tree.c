@@ -23,66 +23,9 @@
 #include "tree.h"
 
 /*
- * Generate a tree from an array of integers
- */
-tree_pp generate_tree(int *arr, int len)
-{
-	int i = 1;
-	tree_pp head = NULL;
-	tree_p root = NULL;
-
-	if (!arr || !len) {
-		log(ERROR, "Invalid array.\n");
-		return NULL;
-	}
-
-	root = (tree_p) calloc(1, sizeof(tree_t));
-	if (!root) {
-		log(ERROR, "calloc failed.\n");
-		return NULL;
-	}
-	root->data = arr[0];
-	root->left = root->right = NULL;
-	head = calloc(1, sizeof(tree_p));
-	*head = root;
-
-	for (; i < len; i++) {
-		while (root) {
-			if (arr[i] < root->data) {
-				if (!root->left) {
-					root->left = calloc(1, sizeof(tree_t));
-					root = root->left;
-					root->data = arr[i];
-
-					/* Restart insertion from head */
-					root = *head;
-					break;
-				}
-
-				root = root->left;
-			} else { /* Insert equal or greater elements to right */
-				if (!root->right) {
-					root->right = calloc(1, sizeof(tree_t));
-					root = root->right;
-					root->data = arr[i];
-
-					/* Restart insertion from head */
-					root = *head;
-					break;
-				}
-
-				root = root->right;
-			}
-		}
-	}
-
-	return head;
-}
-
-/*
  * Delete all nodes of a tree
  */
-int delete_tree(tree_p root)
+int delete_tree_nodes(tree_p root)
 {
 	int count = 0;
 
@@ -92,15 +35,103 @@ int delete_tree(tree_p root)
 	}
 
 	if (root->left)
-		count += delete_tree(root->left);
+		count += delete_tree_nodes(root->left);
 
 	if (root->right)
-		count += delete_tree(root->right);
+		count += delete_tree_nodes(root->right);
 
 	free(root);
 	root = NULL;
 
 	return ++count;
+}
+
+/*=======================================================*/
+/*            Library exposed APIs start here            */
+/*=======================================================*/
+
+/*
+ * Generate a tree from an array of integers
+ */
+tree_pp generate_tree(int *arr, int len)
+{
+	int i = 0;
+	tree_pp head = NULL;
+
+	if (!arr || !len) {
+		log(ERROR, "Invalid array.\n");
+		return NULL;
+	}
+
+	head = init_tree();
+
+	for (; i < len; i++) {
+		if (insert_tree(head, arr[i]) == FALSE) {
+			log(ERROR, "Insertion failed.\n");
+			destroy_tree(head);
+			return NULL;
+		}
+	}
+
+	return head;
+}
+
+/*
+ * Initialize a tree with empty root node
+ */
+tree_pp init_tree(void)
+{
+	tree_pp head = calloc(1, sizeof(tree_p));
+	*head = NULL;
+
+	return head;
+}
+
+/*
+ * Insert a new node into tree
+ */
+bool insert_tree(tree_pp head, int val)
+{
+	tree_p root = NULL;
+
+	if (!head) {
+		log(ERROR, "Initialize tree first.\n");
+		return FALSE;
+	}
+
+	root = *head;
+
+	if (!root) {
+		root = (tree_p) calloc(1, sizeof(tree_t));
+		root->data = val;
+		*head = root;
+
+		return TRUE;
+	}
+
+	while (root) {
+		if (val < root->data) {
+			if (!root->left) {
+				root->left = calloc(1, sizeof(tree_t));
+				root = root->left;
+				root->data = val;
+				return TRUE;
+			}
+
+			root = root->left;
+		} else { /* Insert equal or greater elements to right */
+			if (!root->right) {
+				root->right = calloc(1, sizeof(tree_t));
+				root = root->right;
+				root->data = val;
+				return TRUE;
+			}
+
+			root = root->right;
+		}
+	}
+
+	return FALSE;
 }
 
 /*
@@ -115,7 +146,7 @@ int destroy_tree(tree_pp head)
 		return -1;
 	}
 
-	count = delete_tree(*head);
+	count = delete_tree_nodes(*head);
 
 	free(head);
 	head = NULL;
@@ -157,7 +188,6 @@ int print_tree(tree_p root)
  * val : value to search
  * stop: stop if val is found
  */
-
 int search_BFS(tree_pp root, int val, bool stop)
 {
 	tree_p node = NULL;
@@ -248,7 +278,6 @@ int search_BFS(tree_pp root, int val, bool stop)
  * val : value to search
  * stop: stop if val is found
  */
-
 int search_DFS(tree_pp root, int val, bool stop)
 {
 	int ret = FALSE;
