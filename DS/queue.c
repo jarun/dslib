@@ -42,7 +42,7 @@ bool enqueue(queue_p queue, void *val)
 
 	nodeptr->data = val;
 
-	if (add_head_dlist(queue->head, nodeptr))
+	if (add_head_dlist(queue->head, nodeptr)) /* Last In */
 		return TRUE;
 	else
 		return FALSE;
@@ -54,7 +54,7 @@ bool enqueue(queue_p queue, void *val)
  */
 void *dequeue(queue_p queue)
 {
-	void *data = get_tail_dlist(queue->head);
+	void *data = get_tail_dlist(queue->head); /* Last Out */
 
 	if (delete_tail_dlist(queue->head) == -1)
 		log(DEBUG, "head or first node is NULL!\n");

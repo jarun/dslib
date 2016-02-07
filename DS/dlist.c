@@ -43,7 +43,7 @@ int add_head_dlist(dlist_pp head, dlist_p node)
 		return 1;
 	}
 
-	node->next = *head;
+	node->next = *head; /* Current head become head->next */
 	node->prev = (*head)->prev;
 	(*head)->prev->next = node;
 	(*head)->prev = node;
@@ -102,7 +102,7 @@ int delete_head_dlist(dlist_pp head)
 	(*head)->data = NULL;
 	(*head)->prev->next = (*head)->next;
 	(*head)->next->prev = (*head)->prev;
-	*head = (*head)->next;
+	*head = (*head)->next; /* head->next becomes next head */
 
 	free(tmp);
 
@@ -129,7 +129,7 @@ int delete_tail_dlist(dlist_pp head)
 
 	tmp = (*head)->prev;
 	tmp->data = NULL;
-	tmp->prev->next = tmp->next;
+	tmp->prev->next = tmp->next; /* tail->prev becomes new tail */
 	tmp->next->prev = tmp->prev;
 
 	free(tmp);
