@@ -1,0 +1,53 @@
+########################################
+1. Circular Doubly Linked List [dlist.h]
+########################################
+
+int add_head_dlist(dlist_pp head, dlist_p node);
+void *get_head_dlist(dlist_pp head);
+void *get_tail_dlist(dlist_pp head);
+int delete_head_dlist(dlist_pp head);
+int delete_tail_dlist(dlist_pp head);
+int destroy_dlist(dlist_pp head);
+int count_nodes_dlist(dlist_pp head);
+
+##################
+2. Queue [queue.h]
+##################
+
+queue_p get_queue(void);
+bool enqueue(queue_p queue, void *val);
+void *dequeue(queue_p queue);
+bool destroy_queue(queue_p queue);
+
+##################
+3. Stack [stack.h]
+##################
+
+stack_p get_stack(void);
+bool push(stack_p stack, void *val);
+void *pop(stack_p stack);
+bool isEmpty(stack_p stack);
+bool destroy_stack(stack_p stack);
+
+##############################
+4. Binary Search Tree [tree.h]
+##############################
+
+tree_pp generate_tree(int *arr, int len);
+tree_pp init_tree(void);
+bool insert_tree(tree_pp head, int val);
+int destroy_tree(tree_pp head);
+int print_tree(tree_p root);
+int search_BFS(tree_pp root, int val, bool stop);
+int search_DFS(tree_pp root, int val, bool stop);
+
+###################
+5. AVL Tree [avl.h]
+###################
+
+avl_pp generate_avl(int *arr, int len);
+avl_pp init_avl(void);
+bool insert_avl(avl_pp head, int val);
+int destroy_avl(avl_pp head);
+int print_avl(avl_p root, avl_p parent);
+int search_BFS_avl(avl_pp root, int val, bool stop);
