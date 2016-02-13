@@ -188,7 +188,7 @@ int print_tree(tree_p root)
  * val : value to search
  * stop: stop if val is found
  */
-int search_BFS(tree_pp root, int val, bool stop)
+bool search_BFS(tree_pp root, int val, bool stop)
 {
 	tree_p node = NULL;
 	queue_p queue = NULL;
@@ -278,7 +278,7 @@ int search_BFS(tree_pp root, int val, bool stop)
  * val : value to search
  * stop: stop if val is found
  */
-int search_DFS(tree_pp root, int val, bool stop)
+bool search_DFS(tree_pp root, int val, bool stop)
 {
 	int ret = FALSE;
 	tree_p node = NULL;

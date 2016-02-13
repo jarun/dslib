@@ -44,7 +44,7 @@ int destroy_tree(tree_pp head);
 int print_tree(tree_p root);
 
 /* Traverse tree in BFS to find a given value */
-int search_BFS(tree_pp root, int val, bool stop);
+bool search_BFS(tree_pp root, int val, bool stop);
 
 /* Traverse tree in DFS to find a given value */
-int search_DFS(tree_pp root, int val, bool stop);
+bool search_DFS(tree_pp root, int val, bool stop);

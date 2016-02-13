@@ -422,7 +422,7 @@ int print_avl(avl_p root, avl_p parent)
  * val : value to search
  * stop: stop if val is found
  */
-int search_BFS_avl(avl_pp root, int val, bool stop)
+bool search_BFS_avl(avl_pp root, int val, bool stop)
 {
 	avl_p node = NULL;
 	queue_p queue = NULL;
