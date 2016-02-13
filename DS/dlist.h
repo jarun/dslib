@@ -23,12 +23,10 @@
 #pragma once
 
 /* Circular Doubly Linked List ADT */
-typedef struct dlist *dlist_p;
-
 typedef struct dlist {
 	void *data;
-	dlist_p next;
-	dlist_p prev;
+	struct dlist *next;
+	struct dlist *prev;
 } dlist_t, *dlist_p, **dlist_pp;
 
 /* Add node at head of list */
