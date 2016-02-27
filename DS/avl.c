@@ -22,9 +22,6 @@
 #include "queue.h"
 #include "avl.h"
 
-#define LEFT  0
-#define RIGHT 1
-
 /*
  * Struct to hold an AVL node and traversal
  * direction (left or right) to child node

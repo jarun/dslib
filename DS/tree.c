@@ -135,6 +135,85 @@ bool insert_tree(tree_pp head, int val)
 }
 
 /*
+ * Delete a node from tree
+ */
+bool delete_tree(tree_pp head, int val)
+{
+	tree_p root = NULL;
+	tree_p prev = NULL;
+	int direction;
+	tree_p tmp = NULL;
+
+
+	if (!head) {
+		log(ERROR, "Initialize tree first.\n");
+		return FALSE;
+	}
+
+	root = *head;
+
+	while (root) {
+		if (val < root->data) {
+			if (!root->left)
+				break;
+
+			prev = root;
+			direction = LEFT;
+			root = root->left;
+		} else if (val > root->data) { /* Greater elements are in right subtree */
+			if (!root->right)
+				break;
+
+			prev = root;
+			direction = RIGHT;
+			root = root->right;
+		} else { /* Match found */
+			if (!root->left) {
+				tmp = root;
+				if (prev) {
+					if (direction == LEFT)
+						prev->left = root->right;
+					else
+						prev->right = root->right;
+				} else /* This was the root node */
+					*head = NULL;
+
+				free(tmp);
+				root = NULL;
+				return TRUE;
+			} else if (!root->right) {
+				tmp = root;
+				if (prev) {
+					if (direction == LEFT)
+						prev->left = root->left;
+					else
+						prev->right = root->left;
+				} else /* This was the root node */
+					*head = NULL;
+
+				free(tmp);
+				root = NULL;
+				return TRUE;
+			} else { /* Both subtrees have children */
+				/* Delete inorder successor */
+				tree_p min = root->right;
+				while (min->left)
+					min = min->left;
+
+				root->data = min->data;
+				/* Let's use some recursion here */
+				delete_tree(&(root->right), min->data);
+
+				return TRUE;
+			}
+		}
+	}
+
+	/* Fall through if root is NULL */
+	return FALSE;
+}
+
+/*
  * Destroy a tree
  */
 int destroy_tree(tree_pp head)
