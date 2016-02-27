@@ -142,8 +142,6 @@ bool delete_tree_node(tree_pp head, int val)
 	tree_p root = NULL;
 	tree_p prev = NULL;
 	int direction;
-	tree_p tmp = NULL;
-
 
 	if (!head) {
 		log(ERROR, "Initialize tree first.\n");
@@ -169,7 +167,6 @@ bool delete_tree_node(tree_pp head, int val)
 			root = root->right;
 		} else { /* Match found */
 			if (!root->left) {
-				tmp = root;
 				if (prev) {
 					if (direction == LEFT)
 						prev->left = root->right;
@@ -178,11 +175,9 @@ bool delete_tree_node(tree_pp head, int val)
 				} else /* This was the root node */
 					*head = NULL;
 
-				free(tmp);
-				root = NULL;
+				free(root);
 				return TRUE;
 			} else if (!root->right) {
-				tmp = root;
 				if (prev) {
 					if (direction == LEFT)
 						prev->left = root->left;
@@ -191,8 +186,7 @@ bool delete_tree_node(tree_pp head, int val)
 				} else /* This was the root node */
 					*head = NULL;
 
-				free(tmp);
-				root = NULL;
+				free(root);
 				return TRUE;
 			} else { /* Both subtrees have children */
 				/* Delete inorder successor */
