@@ -148,14 +148,13 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 			parent = p->node;
 			direction = p->direction;
 		}
-		/* If p is NULL, this is the topmost node, update *head */
 
 		if (data >= tmp->right->data) { /* Right-right skewed subtree */
 			if (p)
 				direction == RIGHT
 					?  (parent->right = RightRight(tmp))
 					: (parent->left = RightRight(tmp));
-			else
+			else /* If p is NULL, this is the topmost node, update *head */
 				*head = RightRight(tmp);
 		} else { /* Right-left skewed subtree */
 			if (p)
