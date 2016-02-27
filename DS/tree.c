@@ -66,7 +66,7 @@ tree_pp generate_tree(int *arr, int len)
 	head = init_tree();
 
 	for (; i < len; i++) {
-		if (insert_tree(head, arr[i]) == FALSE) {
+		if (insert_tree_node(head, arr[i]) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_tree(head);
 			return NULL;
@@ -90,7 +90,7 @@ tree_pp init_tree(void)
 /*
  * Insert a new node into tree
  */
-bool insert_tree(tree_pp head, int val)
+bool insert_tree_node(tree_pp head, int val)
 {
 	tree_p root = NULL;
 
@@ -137,7 +137,7 @@ bool insert_tree(tree_pp head, int val)
 /*
  * Delete a node from tree
  */
-bool delete_tree(tree_pp head, int val)
+bool delete_tree_node(tree_pp head, int val)
 {
 	tree_p root = NULL;
 	tree_p prev = NULL;
@@ -202,7 +202,7 @@ bool delete_tree(tree_pp head, int val)
 
 				root->data = min->data;
 				/* Let's use some recursion here */
-				delete_tree(&(root->right), min->data);
+				delete_tree_node(&(root->right), min->data);
 
 				return TRUE;
 			}

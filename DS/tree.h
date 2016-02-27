@@ -35,10 +35,10 @@ tree_pp generate_tree(int *arr, int len);
 tree_pp init_tree(void);
 
 /* Insert a node in tree */
-bool insert_tree(tree_pp head, int val);
+bool insert_tree_node(tree_pp head, int val);
 
 /* Delete a node from tree */
-bool delete_tree(tree_pp head, int val);
+bool delete_tree_node(tree_pp head, int val);
 
 /* Destroy the tree */
 int destroy_tree(tree_pp head);

@@ -36,7 +36,8 @@ bool destroy_stack(stack_p stack);
 
 tree_pp generate_tree(int *arr, int len);
 tree_pp init_tree(void);
-bool insert_tree(tree_pp head, int val);
+bool insert_tree_node(tree_pp head, int val);
+bool delete_tree_node(tree_pp head, int val);
 int destroy_tree(tree_pp head);
 int print_tree(tree_p root);
 int search_BFS(tree_pp root, int val, bool stop);
