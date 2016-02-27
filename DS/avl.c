@@ -270,7 +270,6 @@ avl_pp init_avl(void)
 bool insert_avl(avl_pp head, int val)
 {
 	avl_p root = NULL;
-	avl_p tmp = NULL;
 	nodedata_p p = NULL;
 	nodedata_p n = NULL;
 	bool modified;
@@ -306,9 +305,8 @@ bool insert_avl(avl_pp head, int val)
 				while ((p = pop(stack)) != NULL) {
 					/* One rebalance for one insertion */
 					if (!modified) {
-						tmp = p->node;
 						modified = rebalance(stack,
-								head, tmp, val);
+								head, p->node, val);
 					}
 
 					free(p);
@@ -336,9 +334,8 @@ bool insert_avl(avl_pp head, int val)
 
 				while ((p = pop(stack)) != NULL) {
 					if (!modified) {
-						tmp = p->node;
 						modified = rebalance(stack,
-								head, tmp, val);
+								head, p->node, val);
 					}
 
 					free(p);
