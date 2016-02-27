@@ -119,7 +119,7 @@ bool insert_tree_node(tree_pp head, int val)
 			}
 
 			root = root->left;
-		} else { /* Insert equal or greater elements to right */
+		} else if (val > root->data) { /* Insert greater elements in right subtree */
 			if (!root->right) {
 				root->right = calloc(1, sizeof(tree_t));
 				root = root->right;
@@ -128,6 +128,9 @@ bool insert_tree_node(tree_pp head, int val)
 			}
 
 			root = root->right;
+		} else {
+			log(ERROR, "BST must have unique values.\n");
+			return FALSE;
 		}
 	}
 
