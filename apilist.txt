@@ -49,7 +49,7 @@ int search_DFS(tree_pp root, int val, bool stop);
 
 avl_pp generate_avl(int *arr, int len);
 avl_pp init_avl(void);
-bool insert_avl(avl_pp head, int val);
+bool insert_avl_node(avl_pp head, int val);
 int destroy_avl(avl_pp head);
 int print_avl(avl_p root, avl_p parent);
 int search_BFS_avl(avl_pp root, int val, bool stop);
