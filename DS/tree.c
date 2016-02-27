@@ -101,14 +101,6 @@ bool insert_tree_node(tree_pp head, int val)
 
 	root = *head;
 
-	if (!root) {
-		root = (tree_p) calloc(1, sizeof(tree_t));
-		root->data = val;
-		*head = root;
-
-		return TRUE;
-	}
-
 	while (root) {
 		if (val < root->data) {
 			if (!root->left) {
@@ -130,8 +122,16 @@ bool insert_tree_node(tree_pp head, int val)
 			root = root->right;
 		} else {
 			log(ERROR, "BST must have unique values.\n");
-			return FALSE;
+			break;
 		}
+	}
+
+	if (!*head) {
+		root = (tree_p) calloc(1, sizeof(tree_t));
+		root->data = val;
+		*head = root;
+
+		return TRUE;
 	}
 
 	return FALSE;
