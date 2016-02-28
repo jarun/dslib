@@ -25,7 +25,7 @@
 #include "avl.h"
 
 int current_log_level = INFO;
-
+#if 0
 int main(int argc, char **argv)
 {
 	int count = 0;
@@ -58,8 +58,8 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+#endif
 
-#if 0
 int main(int argc, char **argv)
 {
 	int count = 0;
@@ -78,12 +78,19 @@ int main(int argc, char **argv)
 	count = print_tree(*head);
 	log(INFO, "nodes printed: %d\n", count);
 
+	delete_tree_node(head, 30);
+	log(INFO, "\n\n");
+
+	count = print_tree(*head);
+	log(INFO, "nodes printed: %d\n", count);
+
 	count = destroy_tree(head);
 	log(INFO, "nodes deleted: %d\n", count);
 
 	return 0;
 }
 
+#if 0
 int main(void)
 {
 	int count = 5;
