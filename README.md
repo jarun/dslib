@@ -1,7 +1,9 @@
 # dslib
 An under-development library of handy data structures with a circular doubly linked list in its heart. The idea is to build up on top of the base data structure and implement newer data structures. Library-internal data structures are dynamically (de)allocated.
 
-`dslib` is **GPLv3** licensed. Copyright (C) 2015 [Arun Prakash Jana](mailto:engineerarun@gmail.com).
+![GPLv3](https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/GPLv3_Logo.svg/200px-GPLv3_Logo.svg.png)
+
+`dslib` is GPLv3 licensed. Copyright (C) 2015 [Arun Prakash Jana](mailto:engineerarun@gmail.com).
 
 # Table of Contents
 - [Building blocks](#building-blocks)
