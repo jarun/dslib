@@ -6,17 +6,20 @@ OBJS = $(SRC:%.c=%.o)
 INCLUDE = -I$(PWD)/include
 TARGET = bin/libds.so.1.0
 
+BINDIR = ./bin
 DESTDIR = /usr/lib
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
+	mkdir $(BINDIR)
 	gcc -shared -Wl,-soname,libds.so.1 -o $(TARGET) $(OBJS)
 	strip $(TARGET)
 
 .PHONY: clean
 clean:
-	-rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET)
+	rm -rf $(BINDIR)
 
 distclean: clean
 	rm -f *~
