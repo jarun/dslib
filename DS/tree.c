@@ -176,7 +176,7 @@ bool delete_tree_node(tree_pp head, int val)
 					else
 						prev->right = root->right;
 				} else /* This was the root node */
-					*head = NULL;
+					*head = root->right;
 
 				free(root);
 				return TRUE;
@@ -187,7 +187,7 @@ bool delete_tree_node(tree_pp head, int val)
 					else
 						prev->right = root->left;
 				} else /* This was the root node */
-					*head = NULL;
+					*head = root->left;
 
 				free(root);
 				return TRUE;
