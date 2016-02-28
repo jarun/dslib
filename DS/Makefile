@@ -1,6 +1,7 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -O3 -fPIC
+CFLAGS = -Wall -Wextra -Werror -O3 -fPIC $(INCLUDE)
 
+INCLUDE = -I$(PWD)/../include
 TARGET = libds.so.1.0
 DESTDIR = /usr/lib
 
