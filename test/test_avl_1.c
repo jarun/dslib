@@ -48,6 +48,11 @@ int main(int argc, char **argv)
 		search_BFS_avl(head, 10, stop);
 
 	count = print_avl(*head, *head);
+	log(INFO, "nodes printed: %d\n\n\n", count);
+
+	if (delete_avl_node(head, 110) == TRUE)
+		log(INFO, "AVL node deleted\n");
+	count = print_avl(*head, *head);
 	log(INFO, "nodes printed: %d\n", count);
 
 	count = destroy_avl(head);
