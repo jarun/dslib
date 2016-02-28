@@ -19,17 +19,17 @@ The core component is a circular doubly linked list. Library-internal data struc
 
 # Building blocks
 - **dlist:** Circular doubly linked list with a void pointer pointing to the data in each node. As you can guess, the library doesn't take care (de)allocating the actual memory used for the data. A node simply points to the data plus next and previous node pointers.
-- **queue:** Builds on top of `dlist`. Each element is a dlist node pointing to the value inserted in the queue.
-- **stack:** Builds on top of `dlist`. Each element is a dlist node pointing to the value pushed in the stack.
-- **tree:** A binary search tree custructed from integer values.
-- **AVL:** An AVL tree implementation, stores integer values.
-- **BFS:** Iterative Breadth-first search for tree and AVL implemented using the `queue`.
-- **DFS:** Iterative Depth-first search for tree implemented using the `stack`.
+- **queue:** Builds on top of dlist. Each element is a dlist node pointing to the value inserted in the queue.
+- **stack:** Builds on top of dlist. Each element is a dlist node pointing to the value pushed in the stack.
+- **tree:** A binary search tree, stores integers.
+- **AVL:** An AVL tree implementation, stores integers.
+- **BFS:** Iterative Breadth-first search for tree and AVL implemented using the queue.
+- **DFS:** Iterative Depth-first search for tree implemented using the stack.
 
 There are test cases for each DS. Though not very organized, they provide an insight into the usage of `dslib`.
 
 # APIs
-A complete list of APIs can be found in `apilist.txt`. Most of the APIs are iterative.
+A complete list of APIs can be found in *apilist.txt*. Most of the APIs are iterative.
 The following 2 APIs are recursive and the iterative implementations are left as an exercise:
 - bool delete_tree_node(tree_pp head, int val);
 - bool delete_avl_node(avl_pp head, int val);
