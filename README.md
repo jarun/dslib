@@ -43,5 +43,5 @@ Only informative logs are enabled. For DEBUG logs, set:
 in the source test file.
 
 # Developers
-[Arun Prakash Jana](mailto:engineerarun@gmail.com)  
-[Ananya Jana](mailto:ananya.jana@gmail.com)
+1. [Arun Prakash Jana](mailto:engineerarun@gmail.com)  
+2. [Ananya Jana](mailto:ananya.jana@gmail.com)
