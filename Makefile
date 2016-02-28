@@ -16,10 +16,15 @@ $(TARGET): $(OBJS)
 	gcc -shared -Wl,-soname,libds.so.1 -o $(BINDIR)/$(TARGET) $(OBJS)
 	strip $(BINDIR)/$(TARGET)
 
+test:
+	cd test && $(MAKE)
+
 .PHONY: clean
 clean:
 	rm -f $(OBJS) $(BINDIR)/$(TARGET)
 	rm -rf $(BINDIR)
+	# clean test files too
+	cd test && $(MAKE) clean
 
 distclean: clean
 	rm -f *~
