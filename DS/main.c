@@ -26,6 +26,7 @@
 
 int current_log_level = INFO;
 #if 0
+/* Test AVL tree */
 int main(int argc, char **argv)
 {
 	int count = 0;
@@ -60,6 +61,7 @@ int main(int argc, char **argv)
 }
 #endif
 
+/* Test BST */
 int main(int argc, char **argv)
 {
 	int count = 0;
@@ -91,6 +93,7 @@ int main(int argc, char **argv)
 }
 
 #if 0
+/* Test stack */
 int main(void)
 {
 	int count = 5;
@@ -126,6 +129,7 @@ int main(void)
 	return 0;
 }
 
+/* Test queue */
 int main(void)
 {
 	int count = 5;
@@ -163,6 +167,7 @@ int main(void)
 	return 0;
 }
 
+/* Test dlist */
 int main(void)
 {
 	int count = 5;
