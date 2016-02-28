@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -O3 $(INCLUDE)
 
-INCLUDE = -I../include
+INCLUDE = -I/usr/include/dslib
 LIBS = -lds
 
 all:

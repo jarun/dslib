@@ -18,8 +18,8 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "common.h"
-#include "stack.h"
+#include <common.h>
+#include <stack.h>
 
 int current_log_level = INFO;
 

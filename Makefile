@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -O3 -fPIC -I$(INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -O3 -fPIC $(INCLUDE)
 
 SRC = $(wildcard src/*.c)
 OBJS = $(SRC:%.c=%.o)
-INCLUDE = $(PWD)/include
+INCLUDE = -I$(PWD)/include
 TARGET = libds.so.1.0
 
 BINDIR = ./bin
