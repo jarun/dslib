@@ -44,7 +44,7 @@ To unnstall `dslib` from your system, run:
     $ sudo make uninstall
 
 # Testing
-Compile test cases under `test` subdirectory:
+Make sure `dslib` is installed. To compile test cases under `test` subdirectory:
 
     $ cd test
     $ make
