@@ -12,7 +12,7 @@ DESTDIR = /usr/lib
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	mkdir $(BINDIR)
+	mkdir -p $(BINDIR)
 	gcc -shared -Wl,-soname,libds.so.1 -o $(BINDIR)/$(TARGET) $(OBJS)
 	strip $(BINDIR)/$(TARGET)
 
