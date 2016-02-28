@@ -1,21 +1,22 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -O3 -fPIC $(INCLUDE)
 
-INCLUDE = -I$(PWD)/../include
-TARGET = libds.so.1.0
-DESTDIR = /usr/lib
+SRC = $(wildcard src/*.c)
+OBJS = $(SRC:%.c=%.o)
+INCLUDE = -I$(PWD)/include
+TARGET = bin/libds.so.1.0
 
-objects = log.o dlist.o tree.o avl.o queue.o stack.o
+DESTDIR = /usr/lib
 
 all: $(TARGET)
 
-$(TARGET): $(objects)
-	gcc -shared -Wl,-soname,libds.so.1 -o $(TARGET) $(objects)
+$(TARGET): $(OBJS)
+	gcc -shared -Wl,-soname,libds.so.1 -o $(TARGET) $(OBJS)
 	strip $(TARGET)
 
 .PHONY: clean
 clean:
-	-rm -f $(objects) $(TARGET)
+	-rm -f $(OBJS) $(TARGET)
 
 distclean: clean
 	rm -f *~
