@@ -355,6 +355,79 @@ bool insert_avl_node(avl_pp head, int val)
 }
 
 /*
+ * Delete a node from AVL tree
+ * Recursive method
+ */
+bool delete_avl_node(avl_pp head, int val)
+{
+	avl_p node;
+	avl_p tmp;
+
+	if (!head) {
+		log(ERROR, "Initialize AVL tree first\n");
+		return FALSE;
+	}
+
+	node = *head;
+	if (!node) {
+		log(ERROR, "No nodes to delete\n");
+		return FALSE;
+	}
+
+	if (val > node->data) {
+		if (!node->right)
+			return FALSE;
+
+		if (delete_avl_node(&(node->right), val) == FALSE)
+			return FALSE;
+
+		if (BalanceFactor(node) == 2) {
+			if (BalanceFactor(node->left) >= 0)
+				node = LeftLeft(node);
+			else
+				node = LeftRight(node);
+		}
+	} else if (val < node->data) {
+		if (!node->left)
+			return FALSE;
+
+		if (delete_avl_node(&(node->left), val) == FALSE)
+			return FALSE;
+
+		if (BalanceFactor(node) == -2) {
+			if (BalanceFactor(node->right) <= 0)
+				node = RightRight(node);
+			else
+				node = RightLeft(node);
+		}
+	} else { /* Match found */
+		if (node->right) {  /* Delete the inorder successor */
+			tmp = node->right;
+			while (tmp->left)
+				tmp = tmp->left;
+
+			node->data = tmp->data;
+			if (delete_avl_node(&(node->right), tmp->data) == FALSE)
+				return FALSE;
+
+			if (BalanceFactor(node) == 2) {
+				if (BalanceFactor(node->left) >= 0)
+					node = LeftLeft(node);
+				else
+					node = LeftRight(node);
+			}
+		} else {
+			*head = node->left;
+			return TRUE;
+		}
+	}
+
+	node->height = height(node);
+	*head = node;
+	return TRUE;
+}
+
+/*
  * Destroy an AVL tree
  */
 int destroy_avl(avl_pp head)

@@ -39,6 +39,9 @@ avl_pp init_avl(void);
 /* Insert a node in AVL tree */
 bool insert_avl_node(avl_pp head, int val);
 
+/* Delete a node from AVL tree */
+bool delete_avl_node(avl_pp head, int val);
+
 /* Destroy the tree */
 int destroy_avl(avl_pp head);
 
