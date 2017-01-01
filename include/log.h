@@ -2,7 +2,7 @@
  * A modular, level based log file implementation
  *
  * Author: Arun Prakash Jana <engineerarun@gmail.com>
- * Copyright (C) 2014, 2015 by Arun Prakash Jana <engineerarun@gmail.com>
+ * Copyright (C) 2014 by Arun Prakash Jana <engineerarun@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
