@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -Werror -O3 -fPIC $(INCLUDE)
 
 SRC = $(wildcard src/*.c)
 OBJS = $(SRC:%.c=%.o)
-INCLUDE = -I$(PWD)/include
+INCLUDE = -Iinclude
 TARGET = libds.so.1.0
 
 BINDIR = ./bin
@@ -14,7 +14,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	mkdir -p $(BINDIR)
-	gcc -shared -Wl,-soname,libds.so.1 -o $(BINDIR)/$(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -shared -Wl,-soname,libds.so.1 -o $(BINDIR)/$(TARGET) $(OBJS)
 	strip $(BINDIR)/$(TARGET)
 
 .PHONY: test clean
@@ -30,7 +30,7 @@ clean:
 distclean: clean
 	rm -f *~
 
-install:
+install: $(TARGET)
 	install -m755 -d $(HEADERDIR)
 	install -m644 -t $(HEADERDIR) include/*.h
 	install -o root -m 644 $(BINDIR)/$(TARGET) $(DESTDIR)/
