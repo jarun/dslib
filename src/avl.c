@@ -18,6 +18,7 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <errno.h>
 #include "stack.h"
 #include "queue.h"
 #include "avl.h"
@@ -149,15 +150,15 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 		if (data >= tmp->right->data) { /* Right-right skewed subtree */
 			if (p)
 				direction == RIGHT
-					?  (parent->right = RightRight(tmp))
-					: (parent->left = RightRight(tmp));
+				?  (parent->right = RightRight(tmp))
+				: (parent->left = RightRight(tmp));
 			else /* If p is NULL, this is the topmost node, update *head */
 				*head = RightRight(tmp);
 		} else { /* Right-left skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = RightLeft(tmp))
-					: (parent->left = RightLeft(tmp));
+				? (parent->right = RightLeft(tmp))
+				: (parent->left = RightLeft(tmp));
 			else
 				*head = RightLeft(tmp);
 		}
@@ -172,15 +173,15 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 		if (data < tmp->left->data) { /* Left-left skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = LeftLeft(tmp))
-					: (parent->left = LeftLeft(tmp));
+				? (parent->right = LeftLeft(tmp))
+				: (parent->left = LeftLeft(tmp));
 			else
 				*head = LeftLeft(tmp);
 		} else { /* Left-right skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = LeftRight(tmp))
-					: (parent->left = LeftRight(tmp));
+				? (parent->right = LeftRight(tmp))
+				: (parent->left = LeftRight(tmp));
 			else
 				*head = LeftRight(tmp);
 		}
@@ -217,6 +218,172 @@ int delete_avl_nodes(avl_p root)
 	root = NULL;
 
 	return ++count;
+}
+
+int lockWriteSem(int semId)
+{
+	struct sembuf sem;
+	sem.sem_flg=SEM_UNDO;
+
+	//increase counter wantWrite
+	sem.sem_num=wantWrite;
+	sem.sem_op=+1;
+	SEM_wantWrite:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_wantWrite;
+				break;
+			default:
+				perror("increase wantWrite semCount error:");
+				return -1;
+				break;
+		}
+	}
+
+	//wait until =0 readerWork
+	sem.sem_num=readWorking;
+	sem.sem_op=0;
+	SEM_waitReaders:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_waitReaders;
+				break;
+			default:
+				perror("wait until 0 readWorking take error:");
+				return -1;
+				break;
+		}
+	}
+	//wait noThread already work
+	sem.sem_num=writeWorking;
+	sem.sem_op=-1;
+	SEM_writeWorking:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_writeWorking;
+				break;
+			default:
+				perror("lock writeWorking error:");
+				return -1;
+				break;
+		}
+	}
+	return 0;
+}
+
+int unlockWriteSem(int semId)
+{
+	struct sembuf sem;
+	sem.sem_flg=SEM_UNDO;
+
+	//signal finish writing work
+	sem.sem_num=writeWorking;
+	sem.sem_op=1;
+	SEM_writeWorking:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_writeWorking;
+				break;
+			default:
+				perror("unlock writeWorking error:");
+				return -1;
+				break;
+		}
+	}
+	//reduce counter of wantWrite
+	sem.sem_num=wantWrite;
+	sem.sem_op=-1;
+	SEM_wantWrite:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_wantWrite;
+				break;
+			default:
+				perror("decrease wantWrite semCount error:");
+				return -1;
+				break;
+		}
+	}
+	return 0;
+}
+
+
+int lockReadSem(int semId)
+{
+	struct sembuf sem[2];
+	sem[0].sem_num=wantWrite;
+	sem[0].sem_flg=SEM_UNDO;
+	sem[1].sem_num=readWorking;
+	sem[1].sem_flg=SEM_UNDO;
+
+	//to be sure not concurrency problem, read Thread must be wait until no writes works, and instantly increase his counter
+	sem[0].sem_op=0;
+	sem[1].sem_op=+1;
+	SEM_wantWrite_readWorking:
+	if(semop(semId,sem,2))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_wantWrite_readWorking;
+				break;
+			default:
+				perror("lockRead sem take error:");
+				return -1;
+				break;
+		}
+	}
+
+	return 0;
+}
+
+int unlockReadSem(int semId)
+{
+	struct sembuf sem;
+	sem.sem_flg=SEM_UNDO;
+	sem.sem_num=readWorking;
+	sem.sem_op=-1;
+	SEM_readWorking:
+	if(semop(semId,&sem,1))
+	{
+		switch (errno)
+		{
+			case EINTR:
+				goto SEM_readWorking;
+				break;
+			default:
+				perror("unlockRead sem take error:");
+				return -1;
+				break;
+		}
+	}
+	return 0;
+}
+
+void semInfo(int semId)
+{
+	unsigned short semInfo[3];
+	semctl(semId,0,GETALL,semInfo);
+	//enum semName {wantWrite=0,readWorking=1,writeWorking=2};
+
+	printf("\nsem writeWorking=%d\n",semInfo[writeWorking]);
+	printf("sem readWorking=%d\n",semInfo[readWorking]);
+	printf("sem wantWrite=%d\n",semInfo[wantWrite]);
 }
 
 /*=======================================================*/
@@ -302,7 +469,7 @@ bool insert_avl_node(avl_pp head, int val)
 					/* One rebalance for one insertion */
 					if (!modified) {
 						modified = rebalance(stack,
-								head, p->node, val);
+						                     head, p->node, val);
 					}
 
 					free(p);
@@ -331,7 +498,7 @@ bool insert_avl_node(avl_pp head, int val)
 				while ((p = pop(stack)) != NULL) {
 					if (!modified) {
 						modified = rebalance(stack,
-								head, p->node, val);
+						                     head, p->node, val);
 					}
 
 					free(p);
@@ -502,7 +669,7 @@ bool search_BFS_avl(avl_pp root, int val, bool stop)
 	/* Check for a match in root node */
 	node = *root;
 	if (node->data == val) {
-		log(INFO, "FOUND %d\n", val);
+		//log(INFO, "FOUND %d\n", val);
 
 		if (stop)
 			return TRUE;
@@ -519,12 +686,12 @@ bool search_BFS_avl(avl_pp root, int val, bool stop)
 
 	/* Loop through all nodes in the Queue */
 	while ((node = dequeue(queue)) != NULL) {
-		log(INFO, "tracking...\n");
+		//log(INFO, "tracking...\n");
 
 		/* Process left child of node */
 		if (node->left) {
 			if (node->left->data == val) {
-				log(INFO, "FOUND %d\n", val);
+				//log(INFO, "FOUND %d\n", val);
 				ret = TRUE;
 
 				if (stop)
@@ -542,7 +709,7 @@ bool search_BFS_avl(avl_pp root, int val, bool stop)
 		/* Process right child of node */
 		if (node->right) {
 			if (node->right->data == val) {
-				log(INFO, "FOUND %d\n", val);
+				//log(INFO, "FOUND %d\n", val);
 				ret = TRUE;
 
 				if (stop)
@@ -563,6 +730,101 @@ bool search_BFS_avl(avl_pp root, int val, bool stop)
 		log(INFO, "NOT FOUND\n");
 
 	destroy_queue(queue);
+
+	return ret;
+}
+
+/**
+/*=======================================================*/
+/*     Library Thread Safe exposed APIs start here       */
+/*=======================================================*/
+
+/*
+ * Generate an AVL tree iteratively from an array of integers
+ */
+avl_pp_S generate_avl_S(int *arr, int len)
+{
+	int i = 0;
+	avl_pp_S head;
+
+	if (!arr || !len) {
+		log(ERROR, "Invalid array.\n");
+		head.avlRoot=NULL;
+		return head;
+	}
+
+	head = init_avl_S();
+
+	for (; i < len; i++) {
+		if (insert_avl_node(head.avlRoot, arr[i]) == FALSE) {
+			log(ERROR, "Insertion failed.\n");
+			destroy_avl(head.avlRoot);
+			head.avlRoot=NULL;
+			return head;
+		}
+	}
+
+	return head;
+}
+
+avl_pp_S init_avl_S(void)
+{
+	avl_pp_S head ;
+	head.avlRoot= calloc(1, sizeof(avl_p));
+	*head.avlRoot = NULL;
+
+
+	head.semId= semget(IPC_PRIVATE,3, IPC_CREAT|0666);
+	if(head.semId==-1)
+	{
+		perror("Create Sem-s take error:");
+		head.avlRoot=NULL;
+		return head;	}
+
+	//enum semName {wantWrite=0,readWorking=1,writeWorking=2}; number is Id of sem
+	unsigned short semStartVal[3]={0,0,1};
+
+	//setup 3 semaphore in system5
+	if(semctl(head.semId,0,SETALL,semStartVal))
+	{
+		perror("set Sem take error:");
+		head.avlRoot=NULL;
+		return head;
+	}
+
+	printf("SEMAFORO CREATO\n");
+	semInfo(head.semId);
+
+
+
+	return head;
+}
+
+bool insert_avl_node_S(avl_pp_S head, int val)
+{
+	bool ret;
+	lockWriteSem(head.semId);
+	ret=insert_avl_node(head.avlRoot,val);
+	unlockWriteSem(head.semId);
+
+	return ret;
+}
+
+bool delete_avl_node_S(avl_pp_S head, int val)
+{
+	bool ret;
+	lockWriteSem(head.semId);
+	ret=delete_avl_node(head.avlRoot,val);
+	unlockWriteSem(head.semId);
+	return ret;
+}
+
+bool search_BFS_avl_S(avl_pp_S root, int val, bool stop)
+{
+	bool ret;
+	lockReadSem(root.semId);
+	ret=search_BFS_avl(root.avlRoot,val,stop);
+	unlockReadSem(root.semId);
 
 	return ret;
 }
