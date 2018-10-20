@@ -20,6 +20,9 @@
  */
 
 #include "common.h"
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 
 #pragma once
 
@@ -30,23 +33,49 @@ typedef struct avl {
 	int height;
 } avl_t, *avl_p, **avl_pp;
 
+enum semName {wantWrite=0,readWorking=1,writeWorking=2};
+
+typedef struct avlThSafe
+{
+	avl_pp avlRoot;
+	int semId;
+}avl_pp_S;
+
 /* Generate AVL tree from an array of input values */
 avl_pp generate_avl(int *arr, int len);
+avl_pp_S generate_avl_S(int *arr, int len);
 
 /* Initialize an AVL tree */
 avl_pp init_avl(void);
+avl_pp_S init_avl_S(void);
 
 /* Insert a node in AVL tree */
 bool insert_avl_node(avl_pp head, int val);
+bool insert_avl_node_S(avl_pp_S head, int val);
+
 
 /* Delete a node from AVL tree */
 bool delete_avl_node(avl_pp head, int val);
+bool delete_avl_node_S(avl_pp_S head, int val);
 
 /* Destroy the tree */
 int destroy_avl(avl_pp head);
+// avl will be destroy isn't necessary sincronize it (is better not destroy)
 
 /* Print a tree in preorder */
 int print_avl(avl_p root, avl_p parent);
 
 /* Traverse tree in BFS to find a given value */
 bool search_BFS_avl(avl_pp root, int val, bool stop);
+bool search_BFS_avl_S(avl_pp_S root, int val, bool stop);
+
+void semInfo(int semId);
+
+int lockWriteSem(int semId);
+
+int unlockWriteSem(int semId);
+
+int lockReadSem(int semId);
+
+int unlockReadSem(int semId);
+
