@@ -30,4 +30,18 @@
 #define LEFT  0
 #define RIGHT 1
 
+/*=======================================================*/
+/*      Syncronize for ThreadSafe APIs start here        */
+/*=======================================================*/
+
+enum semName {wantWrite=0,readWorking=1,writeWorking=2};
+
+int lockWriteSem(int semId);
+
+int unlockWriteSem(int semId);
+
+int lockReadSem(int semId);
+
+int unlockReadSem(int semId);
+
 typedef unsigned char bool;
