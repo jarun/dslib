@@ -58,8 +58,6 @@ int print_avl(avl_p root, avl_p parent);
 int search_BFS_avl(avl_pp root, int key);
 
 
-
-
 /*=======================================================*/
 /*         Library ThreadSafe APIs start here            */
 /*=======================================================*/

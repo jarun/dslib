@@ -36,13 +36,14 @@
  *  6° Unlock-write
  *  ...
  *
+ * To end script type ctrl+\ (sigKill)
  *
  */
 
 #define nSearch 5
 
 #include <common.h>
-#include <avl.h>
+#include "avl.h"
 
 
 #include <signal.h>
@@ -61,7 +62,7 @@ int current_log_level = INFO;
 
 avl_pp_S head;
 
-int main(int argc, char **argv)
+int main()
 {
 
 	signal(SIGINT, lockWriteSem_sig);

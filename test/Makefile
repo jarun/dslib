@@ -1,5 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -O3 $(INCLUDE)
+CFLAGS2 = -Wall -Wextra -O3 $(INCLUDE)
 
 INCLUDE = -I/usr/include/dslib
 LIBS = -lds
@@ -10,7 +11,7 @@ all:
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_dlist_1 test_dlist_1.c $(LIBS)
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_queue_1 test_queue_1.c $(LIBS)
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_stack_1 test_stack_1.c $(LIBS)
-	$(CC) $(CFLAGS) $(INCLUDE) -o avl_Thread_Safe_Test avl_Thread_Safe_Test.c $(LIBS)
+	$(CC) $(CFLAGS2) $(INCLUDE) -o avl_Thread_Safe_Test avl_Thread_Safe_Test.c $(LIBS) -lpthread
 
 .PHONY: clean
 clean:

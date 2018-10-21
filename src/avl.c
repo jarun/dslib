@@ -18,7 +18,6 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <errno.h>
 #include "stack.h"
 #include "queue.h"
 #include "avl.h"

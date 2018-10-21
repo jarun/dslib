@@ -18,14 +18,15 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
 #include "log.h"
+
+#pragma once
+
+#include <stdlib.h>
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <errno.h>
-
-#pragma once
 
 /* Introduce boolean type */
 #define TRUE 1
