@@ -20,9 +20,7 @@
  */
 
 #include "common.h"
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
+
 
 #pragma once
 
@@ -38,20 +36,16 @@ typedef struct avl {
 
 /* Generate AVL tree from an array of input values */
 avl_pp generate_avl(int *arr, int len);
-avl_pp_S generate_avl_S(int *arr, int len);
 
 /* Initialize an AVL tree */
 avl_pp init_avl(void);
-avl_pp_S init_avl_S(void);
 
 /* Insert a node in AVL tree */
 bool insert_avl_node(avl_pp head, int key, int data);
-bool insert_avl_node_S(avl_pp_S head, int key, int data);
 
 
 /* Delete a node from AVL tree */
 bool delete_avl_node(avl_pp head, int key);
-bool delete_avl_node_S(avl_pp_S head, int key);
 
 /* Destroy the tree */
 int destroy_avl(avl_pp head);
@@ -62,9 +56,7 @@ int print_avl(avl_p root, avl_p parent);
 
 /* Traverse tree in BFS to find a given value */
 int search_BFS_avl(avl_pp root, int key);
-int search_BFS_avl_S(avl_pp_S root, int key);
 
-void semInfo(int semId);
 
 
 
@@ -72,7 +64,7 @@ void semInfo(int semId);
 /*         Library ThreadSafe APIs start here            */
 /*=======================================================*/
 
-
+//The struct is a generalization of avl_pp, to include for every tree one semaphore
 typedef struct avlThSafe
 {
 	avl_pp avlRoot;

@@ -3,6 +3,33 @@
 //
 
 #include "common.h"
+
+
+int semInit()
+{
+	int semId=semget(IPC_PRIVATE,3, IPC_CREAT | IPC_EXCL | 0666);
+	if(semId==-1)
+	{
+		perror("Create Sem-s take error:");
+		return -1;
+	}
+
+	//enum semName {wantWrite=0,readWorking=1,writeWorking=2}; number is Id of sem
+	unsigned short semStartVal[3]={0,0,1};
+
+	//setup 3 semaphore in system5
+	if(semctl(semId,0,SETALL,semStartVal))
+	{
+		perror("set Sem take error:");
+		return -1;
+	}
+
+	printf("SEMAFORO Created\n");
+	semInfo(semId);
+
+	return semId;
+}
+
 int lockWriteSem(int semId)
 {
 	struct sembuf sem;

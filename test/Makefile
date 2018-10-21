@@ -10,6 +10,7 @@ all:
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_dlist_1 test_dlist_1.c $(LIBS)
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_queue_1 test_queue_1.c $(LIBS)
 	$(CC) $(CFLAGS) $(INCLUDE) -o test_stack_1 test_stack_1.c $(LIBS)
+	$(CC) $(CFLAGS) $(INCLUDE) -o avl_Thread_Safe_Test avl_Thread_Safe_Test.c $(LIBS)
 
 .PHONY: clean
 clean:

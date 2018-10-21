@@ -20,6 +20,10 @@
 
 #include <stdlib.h>
 #include "log.h"
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <errno.h>
 
 #pragma once
 
@@ -30,18 +34,30 @@
 #define LEFT  0
 #define RIGHT 1
 
+typedef unsigned char bool;
+
 /*=======================================================*/
 /*      Syncronize for ThreadSafe APIs start here        */
 /*=======================================================*/
 
 enum semName {wantWrite=0,readWorking=1,writeWorking=2};
 
+int semInit();
+
+/*#######################################*/
+/*   Lock/unlock for writers function    */
+/*#######################################*/
 int lockWriteSem(int semId);
 
 int unlockWriteSem(int semId);
 
+/*#######################################*/
+/*   Lock/unlock for readers function    */
+/*#######################################*/
 int lockReadSem(int semId);
 
 int unlockReadSem(int semId);
 
-typedef unsigned char bool;
+//semInfo print
+void semInfo(int semId);
+

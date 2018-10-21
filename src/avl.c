@@ -500,7 +500,6 @@ int search_BFS_avl(avl_pp root, int key)
 	//return -2 is not Found
 	avl_p node = NULL;
 	queue_p queue = NULL;
-	int ret = 0;
 
 	if (!root || !*root) {
 		log(ERROR, "avl tree or root node is NULL!\n");
@@ -602,32 +601,17 @@ avl_pp_S generate_avl_S(int *arr, int len)
 avl_pp_S init_avl_S(void)
 {
 	avl_pp_S head ;
-	head.avlRoot= calloc(1, sizeof(avl_p));
-	*head.avlRoot = NULL;
 
-
-	head.semId= semget(IPC_PRIVATE,3, IPC_CREAT|0666);
+	head.semId= semInit();
 	if(head.semId==-1)
 	{
-		perror("Create Sem-s take error:");
-		head.avlRoot=NULL;
-		return head;	}
-
-	//enum semName {wantWrite=0,readWorking=1,writeWorking=2}; number is Id of sem
-	unsigned short semStartVal[3]={0,0,1};
-
-	//setup 3 semaphore in system5
-	if(semctl(head.semId,0,SETALL,semStartVal))
-	{
-		perror("set Sem take error:");
+		perror("Sem Setup failed");
 		head.avlRoot=NULL;
 		return head;
 	}
 
-	printf("SEMAFORO CREATO\n");
-	semInfo(head.semId);
-
-
+	head.avlRoot= calloc(1, sizeof(avl_p));
+	*head.avlRoot = NULL;
 
 	return head;
 }

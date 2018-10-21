@@ -1,7 +1,7 @@
 /*
- * Test cases for AVL tree
+ * Test cases for AVL-ThreadSafe tree
  *
- * Author: Arun Prakash Jana <engineerarun@gmail.com>
+ * Author: Emanuele Alfano <alfystar1701@gmail.com>
  * Copyright (C) 2015 by Arun Prakash Jana <engineerarun@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,10 +18,33 @@
  * along with dslib.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
+ * This demo works in posix, it create "nSearch" thread and him call forEver
+ * "search_BFS_avl_S", with ctrl+c you send a lockWrite,
+ * with ctrl+z you send unlockWrite
+ *
+ * The function must send in order:
+ * 1° Lock-write
+ * 2° Unlock-write
+ *
+ * Is also possible send different configuratio:
+ * 1° Lock-write
+ *      2° Lock-write
+ *          3° Lock-write
+ *          4° Unlock-write
+ *      5° Unlock-write
+ *  6° Unlock-write
+ *  ...
+ *
+ *
+ */
+
 #define nSearch 5
 
 #include <common.h>
 #include <avl.h>
+
+
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -29,19 +52,20 @@
 
 void searchTh(void *info);
 
-void sigInt (int sig);
+void lockWriteSem_sig (int sig);
 
-void sigTSTP(int sig);
+void unlockWriteSem_sig (int sig);
 
 
 int current_log_level = INFO;
+
 avl_pp_S head;
 
 int main(int argc, char **argv)
 {
 
-	signal(SIGINT, sigInt);
-	signal(SIGTSTP,sigTSTP);
+	signal(SIGINT, lockWriteSem_sig);
+	signal(SIGTSTP,unlockWriteSem_sig);
 	head = init_avl_S();
 
 
@@ -84,9 +108,9 @@ void searchTh(void *info)
 
 }
 
-void sigInt (int sig)
+void lockWriteSem_sig(int sig)
 {
-	printf("\n\t####sigInt recive\n\n");
+	printf("\n\t****sigINT recive %d\n\n",sig);
 	lockWriteSem(head.semId);
 	printf("\n\t####sigInt lock Write preso\n");
 
@@ -94,9 +118,9 @@ void sigInt (int sig)
 
 }
 
-void sigTSTP(int sig)
+void unlockWriteSem_sig(int sig)
 {
-	printf("\n\t****sigTSTP recive\n\n");
+	printf("\n\t****sigTSTP recive %d\n\n",sig);
 	unlockWriteSem(head.semId);
 	printf("\n\t****sigTSTP unlock Write libero\n");
 
