@@ -43,7 +43,7 @@
  * finish his work and finaly the write lock arrive
  */
 
-#define nSearch 500
+#define nSearch 50
 
 #include <common.h>
 #include "avl.h"
@@ -73,18 +73,20 @@ int main()
 	head = init_avl_S();
 
 
-	int len = 5;
+	int n_nodeInsert = nSearch*10;
 
-	for (int count = 0; count < len; count++) {
-
-		if (insert_avl_node_S(head,count,(int)random()%10000) == FALSE) {
+	for (int count = 0; count < n_nodeInsert; count++) {
+			//random()%n_nodeInsert*5 to have found node and not found node
+		if (insert_avl_node_S(head,count,(int)random()%n_nodeInsert*5) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head.avlRoot);
 			return 0;
 		}
 	}
-	print_avl(*head.avlRoot,*head.avlRoot);
-	sleep(20);
+	print_avl_S(head);
+
+	//sleep(20);  to he time for see tree print
+
 	pthread_t tid;
 	printf("iniziano i search \n");
 
