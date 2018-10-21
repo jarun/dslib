@@ -38,9 +38,12 @@
  *
  * To end script type ctrl+\ (sigKill)
  *
+ *
+ * Is important to see that, when first writeLock arrive, search thread just at work
+ * finish his work and finaly the write lock arrive
  */
 
-#define nSearch 5
+#define nSearch 500
 
 #include <common.h>
 #include "avl.h"
