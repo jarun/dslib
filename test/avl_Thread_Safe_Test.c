@@ -65,8 +65,9 @@ int current_log_level = INFO;
 
 avl_pp_S head;
 
-int n_nodeInsert = nSearch*10;
-int searchRange=n_nodeInsert*5;
+int n_nodeInsert;
+
+int searchRange;
 
 int main()
 {
@@ -75,7 +76,8 @@ int main()
 	signal(SIGTSTP,unlockWriteSem_sig);
 	head = init_avl_S();
 
-
+	n_nodeInsert = nSearch*10;
+	searchRange=n_nodeInsert*2;
 
 
 	for (int count = 0; count < n_nodeInsert; count++) {
