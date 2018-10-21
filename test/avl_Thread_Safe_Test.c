@@ -65,6 +65,9 @@ int current_log_level = INFO;
 
 avl_pp_S head;
 
+int n_nodeInsert = nSearch*10;
+int searchRange=n_nodeInsert*5;
+
 int main()
 {
 
@@ -73,11 +76,11 @@ int main()
 	head = init_avl_S();
 
 
-	int n_nodeInsert = nSearch*10;
+
 
 	for (int count = 0; count < n_nodeInsert; count++) {
 			//random()%n_nodeInsert*5 to have found node and not found node
-		if (insert_avl_node_S(head,count,(int)random()%n_nodeInsert*5) == FALSE) {
+		if (insert_avl_node_S(head,count,(int)random()%searchRange) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head.avlRoot);
 			return 0;
@@ -105,7 +108,7 @@ void searchTh(void *info)
 	int keySearch;
 	int found;
 	while (1) {
-		keySearch=(int) random() % 10000;
+		keySearch=(int) random() % searchRange;
 		found=search_BFS_avl_S(head,keySearch);
 		printf("TH-Search %d Search key %d and ret %d\n", id,keySearch,found);
 		usleep(1000000*random()%100);   //attesa casuale tra 1 e 100 ms
