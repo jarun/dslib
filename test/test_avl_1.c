@@ -45,9 +45,9 @@ int main(int argc, char **argv)
 	}
 
 	if (argc == 2)
-		search_BFS_avl(head, atoi(argv[1]));
+		search_BFS_avl(head, atoi(argv[1]),TRUE, TRUE);
 	else
-		search_BFS_avl(head, 10);
+		search_BFS_avl(head, 10, TRUE, TRUE);
 
 	count = print_avl(*head, *head);
 	log(INFO, "nodes printed: %d\n\n\n", count);
