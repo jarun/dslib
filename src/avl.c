@@ -514,7 +514,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 	node = *root;
 	if (node->keyNode == key) {
 
-		if(show) log(INFO, "FOUND %d\n", val);
+		if(show) log(INFO, "FOUND %d\n", key);
 
 		if (stop) return node->data;
 		else ret = node->data;
@@ -536,7 +536,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 		/* Process left child of node */
 		if (node->left) {
 			if (node->left->keyNode == key) {
-				if (show) log(INFO, "FOUND %d\n", val);
+				if (show) log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
 				if (stop) return node->left->data;
 				else ret = node->left->data;
@@ -554,7 +554,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 		/* Process right child of node */
 		if (node->right) {
 			if (node->right->keyNode == key) {
-				if (show) log(INFO, "FOUND %d\n", val);
+				if (show) log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
 				if (stop) return node->right->data;
 				else ret = node->left->data;
