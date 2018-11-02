@@ -111,7 +111,7 @@ void searchTh(void *info)
 	int found;
 	while (1) {
 		keySearch = (int) random() % searchRange;
-		found = search_BFS_avl_S(head, keySearch, TRUE, TRUE);
+		found = search_BFS_avl_S(head, keySearch, TRUE, FALSE);
 		printf("TH-Search %d Search key %d and ret %d\n", id,keySearch,found);
 		usleep(1000000*random()%100);   //random wait between 1 and 100 ms
 	}
