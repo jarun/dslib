@@ -55,7 +55,7 @@ int destroy_avl(avl_pp head);
 int print_avl(avl_p root, avl_p parent);
 
 /* Traverse tree in BFS to find a given value */
-int search_BFS_avl(avl_pp root, int key);
+int search_BFS_avl(avl_pp root, int key, bool stop,bool show);
 
 
 /*=======================================================*/
@@ -90,6 +90,6 @@ int print_avl_S(avl_pp_S root);
 
 
 /* Traverse tree in BFS to find a given value */
-int search_BFS_avl_S(avl_pp_S root, int key);
+int search_BFS_avl_S(avl_pp_S root, int key, bool stop, bool show);
 
 

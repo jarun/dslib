@@ -1,6 +1,6 @@
-# dslibAlfy-vesion
+# dslib thread-safe version
 
-This fork was creat to add Thread-Safe mode, and there was implement only for avl
+For now the Thread-Safe mode is implemented only for avl-tree
 But in common.h and common.c there are the lock funx so is very easy extend this property at all other structure
 
 
