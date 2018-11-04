@@ -591,7 +591,7 @@ avl_pp_S generate_avl_S(int *arr, int len)
 
 	if (!arr || !len) {
 		log(ERROR, "Invalid array.\n");
-		head.avlRoot=NULL;
+		head.avlRoot = NULL;
 		return head;
 	}
 
@@ -601,7 +601,7 @@ avl_pp_S generate_avl_S(int *arr, int len)
 		if (insert_avl_node(head.avlRoot,i, arr[i]) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head.avlRoot);
-			head.avlRoot=NULL;
+			head.avlRoot = NULL;
 			return head;
 		}
 	}
@@ -614,10 +614,10 @@ avl_pp_S init_avl_S(void)
 	avl_pp_S head ;
 
 	head.semId= semInit();
-	if(head.semId==-1)
+	if(head.semId == -1)
 	{
 		perror("Sem Setup failed");
-		head.avlRoot=NULL;
+		head.avlRoot = NULL;
 		return head;
 	}
 
@@ -631,9 +631,8 @@ bool insert_avl_node_S(avl_pp_S head, int key, int data)
 {
 	bool ret;
 	lockWriteSem(head.semId);
-	ret=insert_avl_node(head.avlRoot,key, data);
+	ret = insert_avl_node(head.avlRoot, key, data);
 	unlockWriteSem(head.semId);
-
 	return ret;
 }
 
@@ -641,7 +640,7 @@ bool delete_avl_node_S(avl_pp_S head, int key)
 {
 	bool ret;
 	lockWriteSem(head.semId);
-	ret=delete_avl_node(head.avlRoot,key);
+	ret = delete_avl_node(head.avlRoot,key);
 	unlockWriteSem(head.semId);
 	return ret;
 }
@@ -650,9 +649,8 @@ int search_BFS_avl_S(avl_pp_S root, int key, bool stop, bool show)
 {
 	int ret;
 	lockReadSem(root.semId);
-	ret=search_BFS_avl( root.avlRoot, key, stop, show);
+	ret = search_BFS_avl( root.avlRoot, key, stop, show);
 	unlockReadSem(root.semId);
-
 	return ret;
 }
 
@@ -660,8 +658,7 @@ int print_avl_S(avl_pp_S root)
 {
 	int ret;
 	lockReadSem(root.semId);
-	ret=print_avl(*root.avlRoot,*root.avlRoot);
+	ret = print_avl(*root.avlRoot, *root.avlRoot);
 	unlockReadSem(root.semId);
-
 	return ret;
 }
