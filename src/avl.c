@@ -493,11 +493,11 @@ int print_avl(avl_p root, avl_p parent)
  * ------
  * root: pointer to the root node pointer of an AVL tree
  * val : value to search
- * stop: (TRUE) stop if Key is found and return val. (FALSE) continue visiting of tree and return last key found
- * show: (TRUE) print debug information during visitig, (FALSE) hiding debug information during visitig
+ * stop: TRUE: stop if Key is found and return val.
+ *       FALSE: continue visiting of tree, print debug info and return the val of the last key.
  */
 
-int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
+int search_BFS_avl(avl_pp root, int key, bool stop)
 {
 	//return -1 is error
 	//return -2 is not Found
@@ -514,7 +514,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 	node = *root;
 	if (node->keyNode == key) {
 
-		if(show) log(INFO, "FOUND %d\n", key);
+		if(!stop) log(INFO, "FOUND %d\n", key);
 
 		if (stop) return node->data;
 		else ret = node->data;
@@ -531,12 +531,12 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 
 	/* Loop through all nodes in the Queue */
 	while ((node = dequeue(queue)) != NULL) {
-		if (show) log(INFO, "tracking...\n");
+		if (!stop) log(INFO, "tracking...\n");
 
 		/* Process left child of node */
 		if (node->left) {
 			if (node->left->keyNode == key) {
-				if (show) log(INFO, "FOUND %d\n", key);
+				if (!stop) log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
 				if (stop) return node->left->data;
 				else ret = node->left->data;
@@ -554,7 +554,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop,bool show)
 		/* Process right child of node */
 		if (node->right) {
 			if (node->right->keyNode == key) {
-				if (show) log(INFO, "FOUND %d\n", key);
+				if (!stop) log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
 				if (stop) return node->right->data;
 				else ret = node->left->data;
@@ -645,11 +645,11 @@ bool delete_avl_node_S(avl_pp_S head, int key)
 	return ret;
 }
 
-int search_BFS_avl_S(avl_pp_S root, int key, bool stop, bool show)
+int search_BFS_avl_S(avl_pp_S root, int key, bool stop)
 {
 	int ret;
 	lockReadSem(root.semId);
-	ret = search_BFS_avl( root.avlRoot, key, stop, show);
+	ret = search_BFS_avl( root.avlRoot, key, stop);
 	unlockReadSem(root.semId);
 	return ret;
 }
