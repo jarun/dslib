@@ -507,7 +507,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 
 	if (!root || !*root) {
 		log(ERROR, "avl tree or root node is NULL!\n");
-		return -1;
+		return -2;  //because avl is empty so key is not found
 	}
 
 	/* Check for a match in root node */
