@@ -8,7 +8,7 @@
 int semInit()
 {
 	int semId = semget(IPC_PRIVATE,3, IPC_CREAT | IPC_EXCL | 0666);
-	if(semId == -1)
+	if (semId == -1)
 	{
 		perror("Create Sem-s take error:");
 		return -1;
@@ -18,7 +18,7 @@ int semInit()
 	unsigned short semStartVal[3] = {0, 0, 1};
 
 	//setup 3 semaphore in system5
-	if(semctl(semId, 0, SETALL, semStartVal))
+	if (semctl(semId, 0, SETALL, semStartVal))
 	{
 		perror("set Sem take error:");
 		return -1;
@@ -39,7 +39,7 @@ int lockWriteSem(int semId)
 	sem.sem_num = wantWrite;
 	sem.sem_op = +1;
 	SEM_wantWrite:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
@@ -58,7 +58,7 @@ int lockWriteSem(int semId)
 	sem.sem_op = 0;
 
 	SEM_waitReaders:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
@@ -76,7 +76,7 @@ int lockWriteSem(int semId)
 	sem.sem_op = -1;
 
 	SEM_writeWorking:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
@@ -102,7 +102,7 @@ int unlockWriteSem(int semId)
 	sem.sem_op = 1;
 
 	SEM_writeWorking:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
@@ -120,7 +120,7 @@ int unlockWriteSem(int semId)
 	sem.sem_op = -1;
 
 	SEM_wantWrite:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
@@ -149,7 +149,7 @@ int lockReadSem(int semId)
 	sem[0].sem_op = 0;
 	sem[1].sem_op = +1;
 	SEM_wantWrite_readWorking:
-	if(semop(semId, sem, 2))
+	if (semop(semId, sem, 2))
 	{
 		switch (errno)
 		{
@@ -174,7 +174,7 @@ int unlockReadSem(int semId)
 	sem.sem_op = -1;
 
 	SEM_readWorking:
-	if(semop(semId, &sem, 1))
+	if (semop(semId, &sem, 1))
 	{
 		switch (errno)
 		{
