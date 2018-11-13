@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 {
 	int count = 0;
 
-	//bool stop = TRUE;
+	bool stop = FALSE;
 
 	avl_pp head = init_avl();
 	int arr[] = {30, 110, 10, 90, 120, 150, 70,
@@ -45,9 +45,9 @@ int main(int argc, char **argv)
 	}
 
 	if (argc == 2)
-		search_BFS_avl(head, atoi(argv[1]), FALSE);
+		search_BFS_avl(head, atoi(argv[1]), stop);
 	else
-		search_BFS_avl(head, 10, FALSE);
+		search_BFS_avl(head, 10, stop);
 
 	count = print_avl(*head, *head);
 	log(INFO, "nodes printed: %d\n\n\n", count);
