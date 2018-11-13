@@ -78,7 +78,7 @@ int main()
 
 
 	for (int count = 0; count < n_nodeInsert; count++) {
-		if (insert_avl_node_S(head, count, (int) random() % searchRange) == FALSE)
+		if (insert_avl_node_S(head, count, (int)random() % searchRange) == FALSE)
 		{
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head.avlRoot);
@@ -87,7 +87,7 @@ int main()
 	}
 	print_avl_S(head);
 
-	//sleep(20);  to he time for see tree print
+	//sleep(20);  //to give time to see tree print
 
 	pthread_t tid;
 	printf("iniziano i search \n");
@@ -106,10 +106,14 @@ void searchTh(void *info)
 	int id = *(int *)info;
 	int keySearch;
 	int found;
-	while (1) {
+	while (1)
+	{
 		keySearch = (int) random() % searchRange;
+
 		found = search_BFS_avl_S(head, keySearch, TRUE);
+
 		printf("TH-Search %d Search key %d and ret %d\n", id, keySearch, found);
+
 		usleep(1000000*random()%100);   //random wait between 1 and 100 ms
 	}
 	free(info);
