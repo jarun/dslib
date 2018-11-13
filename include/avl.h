@@ -21,7 +21,6 @@
 
 #include "common.h"
 
-
 #pragma once
 
 typedef struct avl {
@@ -31,8 +30,6 @@ typedef struct avl {
 	struct avl *right;
 	int height;
 } avl_t, *avl_p, **avl_pp;
-
-
 
 /* Generate AVL tree from an array of input values */
 avl_pp generate_avl(int *arr, int len);
@@ -57,7 +54,6 @@ int print_avl(avl_p root, avl_p parent);
 /* Traverse tree in BFS to find a given value */
 int search_BFS_avl(avl_pp root, int key, bool stop);
 
-
 /*=======================================================*/
 /*         Library ThreadSafe APIs start here            */
 /*=======================================================*/
@@ -78,7 +74,6 @@ avl_pp_S init_avl_S(void);
 /* Insert a node in AVL tree */
 bool insert_avl_node_S(avl_pp_S head, int key, int data);
 
-
 /* Delete a node from AVL tree */
 bool delete_avl_node_S(avl_pp_S head, int key);
 
@@ -88,8 +83,5 @@ bool delete_avl_node_S(avl_pp_S head, int key);
 /* Print a tree in preorder, start by root */
 int print_avl_S(avl_pp_S root);
 
-
 /* Traverse tree in BFS to find a given value */
 int search_BFS_avl_S(avl_pp_S root, int key, bool stop);
-
-
