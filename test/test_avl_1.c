@@ -37,7 +37,7 @@ int main(int argc, char **argv)
 	int len = sizeof(arr) / sizeof(arr[0]);
 
 	for (; count < len; count++) {
-		if (insert_avl_node(head, arr[count],20) == FALSE) {
+		if (insert_avl_node(head, arr[count], 20) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head);
 			return 0;
