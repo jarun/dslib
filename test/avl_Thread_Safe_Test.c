@@ -74,8 +74,8 @@ int main()
 	signal(SIGTSTP, unlockWriteSem_sig);
 	head = init_avl_S();
 
-	n_nodeInsert = nSearch*10;
-	searchRange = n_nodeInsert*2;
+	n_nodeInsert = nSearch * 10;
+	searchRange = n_nodeInsert * 2;
 
 
 	for (int count = 0; count < n_nodeInsert; count++) {

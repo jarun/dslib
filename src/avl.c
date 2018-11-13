@@ -230,7 +230,7 @@ int delete_avl_nodes(avl_p root)
  */
 avl_pp generate_avl(int *arr, int len)
 {
-	int i = 0;
+
 	avl_pp head = NULL;
 
 	if (!arr || !len) {
@@ -239,8 +239,8 @@ avl_pp generate_avl(int *arr, int len)
 	}
 
 	head = init_avl();
-	for (; i < len; i++) {
-		if (insert_avl_node(head,i, arr[i]) == FALSE) {
+	for (int i = 0; i < len; i++) {
+		if (insert_avl_node(head, i, arr[i]) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head);
 			return NULL;
@@ -469,7 +469,7 @@ int print_avl(avl_p root, avl_p parent)
 	++count;
 
 	/* Print keyNode value in the node */
-	log(INFO, "keyNode: %6d:%d,  parent: %6d\n", root->keyNode,root->data, parent->keyNode);
+	log(INFO, "keyNode: %6d:%d,  parent: %6d\n", root->keyNode, root->data, parent->keyNode);
 
 	if (root->left) {
 		log(INFO, "LEFT.\n");
@@ -598,7 +598,7 @@ avl_pp_S generate_avl_S(int *arr, int len)
 	head = init_avl_S();
 
 	for (; i < len; i++) {
-		if (insert_avl_node(head.avlRoot,i, arr[i]) == FALSE) {
+		if (insert_avl_node(head.avlRoot, i, arr[i]) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head.avlRoot);
 			head.avlRoot = NULL;
@@ -613,7 +613,7 @@ avl_pp_S init_avl_S(void)
 {
 	avl_pp_S head ;
 
-	head.semId= semInit();
+	head.semId = semInit();
 	if(head.semId == -1)
 	{
 		perror("Sem Setup failed");
@@ -621,7 +621,7 @@ avl_pp_S init_avl_S(void)
 		return head;
 	}
 
-	head.avlRoot= calloc(1, sizeof(avl_p));
+	head.avlRoot = calloc(1, sizeof(avl_p));
 	*head.avlRoot = NULL;
 
 	return head;
@@ -640,7 +640,7 @@ bool delete_avl_node_S(avl_pp_S head, int key)
 {
 	bool ret;
 	lockWriteSem(head.semId);
-	ret = delete_avl_node(head.avlRoot,key);
+	ret = delete_avl_node(head.avlRoot, key);
 	unlockWriteSem(head.semId);
 	return ret;
 }

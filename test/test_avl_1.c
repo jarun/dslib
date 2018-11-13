@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 	}
 
 	if (argc == 2)
-		search_BFS_avl(head, atoi(argv[1]),FALSE);
+		search_BFS_avl(head, atoi(argv[1]), FALSE);
 	else
 		search_BFS_avl(head, 10, FALSE);
 
