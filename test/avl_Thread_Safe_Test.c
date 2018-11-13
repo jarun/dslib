@@ -60,12 +60,11 @@ void unlockWriteSem_sig (int sig);
 
 
 int current_log_level = INFO;
-
 avl_pp_S head;
 
 int n_nodeInsert;
-
 int searchRange;
+int writePending=0;
 
 int main()
 {
@@ -79,7 +78,6 @@ int main()
 
 
 	for (int count = 0; count < n_nodeInsert; count++) {
-		//random()%n_nodeInsert*5 to have found node and not found node
 		if (insert_avl_node_S(head, count, (int) random() % searchRange) == FALSE)
 		{
 			log(ERROR, "Insertion failed.\n");
@@ -120,18 +118,20 @@ void searchTh(void *info)
 
 void lockWriteSem_sig(int sig)
 {
-	printf("\n\t****sigINT receive %d\n\n", sig);
+	writePending++;
+	printf("\n\t****sigINT receive sig = %d; n°writePending = %d \n\n", sig, writePending);
 	lockWriteSem(head.semId);
-	printf("\n\t####sigInt lock Write preso\n");
-
+	printf("\n\t####sigInt lock Write TAKE\n");
 	return;
 }
 
 void unlockWriteSem_sig(int sig)
 {
-	printf("\n\t****sigTSTP receive %d\n\n", sig);
+	//note, if writePending = 0, this signal stay in wait until arrive one lockWriteSem_sig,
+	//but the library wasn't design tu solve this!!! It work only if every Writer, on the Start lock the tree, and at the End unlock then.
+	printf("\n\t#(sigTSTP) receive sig = %d\n\n", sig);
 	unlockWriteSem(head.semId);
-	printf("\n\t****sigTSTP unlock Write libero\n");
-
+	writePending--;
+	printf("\n\t#(sigTSTP) unlock Write; n°writePending = %d\n", writePending);
 	return;
 }
