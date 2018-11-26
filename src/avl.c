@@ -306,16 +306,12 @@ bool insert_avl_node(avl_pp head, int key, int data)
 				/* Unwind stack & rebalance nodes (only once) */
 				while ((p = pop(stack)) != NULL) {
 					/* One rebalance for one insertion */
-					if (!modified) {
-						modified = rebalance(stack,head, p->node, key);
-					}
-
+					if (!modified)
+						modified = rebalance(stack, head, p->node, key);
 					free(p);
 				}
-
 				break;
 			}
-
 			/* Push the parent node and traversal
 			   direction in stack as we traverse down */
 			n = malloc(sizeof(nodedata));
@@ -336,14 +332,10 @@ bool insert_avl_node(avl_pp head, int key, int data)
 				modified = FALSE;
 
 				while ((p = pop(stack)) != NULL) {
-					if (!modified) {
-						modified = rebalance(stack,
-						                     head, p->node, key);
-					}
-
+					if (!modified)
+						modified = rebalance(stack, head, p->node, key);
 					free(p);
 				}
-
 				break;
 			}
 
@@ -513,13 +505,13 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 	/* Check for a match in root node */
 	node = *root;
 	if (node->keyNode == key) {
-
-		if(!stop) log(INFO, "FOUND %d\n", key);
-
-		if (stop) return node->data;
-		else ret = node->data;
+		if (!stop)
+			log(INFO, "FOUND %d\n", key);
+		if (stop)
+			ret = node->data;
+		else
+			ret = node->data;
 	}
-
 	queue = get_queue();
 
 	/* Add root node to Queue */
@@ -531,15 +523,18 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 
 	/* Loop through all nodes in the Queue */
 	while ((node = dequeue(queue)) != NULL) {
-		if (!stop) log(INFO, "tracking...\n");
-
+		if (!stop)
+			log(INFO, "tracking...\n");
 		/* Process left child of node */
 		if (node->left) {
 			if (node->left->keyNode == key) {
-				if (!stop) log(INFO, "FOUND %d\n", key);
+				if (!stop)
+					log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
-				if (stop) return node->left->data;
-				else ret = node->left->data;
+				if (stop)
+					ret = node->left->data;
+				else
+					ret = node->left->data;
 				break;
 			}
 
@@ -554,10 +549,13 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 		/* Process right child of node */
 		if (node->right) {
 			if (node->right->keyNode == key) {
-				if (!stop) log(INFO, "FOUND %d\n", key);
+				if (!stop)
+					log(INFO, "FOUND %d\n", key);
 				destroy_queue(queue);
-				if (stop) return node->right->data;
-				else ret = node->left->data;
+				if (stop)
+					ret = node->right->data;
+				else
+					ret = node->left->data;
 				break;
 			}
 
@@ -611,11 +609,10 @@ avl_pp_S generate_avl_S(int *arr, int len)
 
 avl_pp_S init_avl_S(void)
 {
-	avl_pp_S head ;
+	avl_pp_S head;
 
 	head.semId = semInit();
-	if(head.semId == -1)
-	{
+	if (head.semId == -1) {
 		perror("Sem Setup failed");
 		head.avlRoot = NULL;
 		return head;
@@ -630,6 +627,7 @@ avl_pp_S init_avl_S(void)
 bool insert_avl_node_S(avl_pp_S head, int key, int data)
 {
 	bool ret;
+
 	lockWriteSem(head.semId);
 	ret = insert_avl_node(head.avlRoot, key, data);
 	unlockWriteSem(head.semId);
@@ -639,6 +637,7 @@ bool insert_avl_node_S(avl_pp_S head, int key, int data)
 bool delete_avl_node_S(avl_pp_S head, int key)
 {
 	bool ret;
+
 	lockWriteSem(head.semId);
 	ret = delete_avl_node(head.avlRoot, key);
 	unlockWriteSem(head.semId);
@@ -648,8 +647,9 @@ bool delete_avl_node_S(avl_pp_S head, int key)
 int search_BFS_avl_S(avl_pp_S root, int key, bool stop)
 {
 	int ret;
+
 	lockReadSem(root.semId);
-	ret = search_BFS_avl( root.avlRoot, key, stop);
+	ret = search_BFS_avl(root.avlRoot, key, stop);
 	unlockReadSem(root.semId);
 	return ret;
 }
@@ -657,6 +657,7 @@ int search_BFS_avl_S(avl_pp_S root, int key, bool stop)
 int print_avl_S(avl_pp_S root)
 {
 	int ret;
+
 	lockReadSem(root.semId);
 	ret = print_avl(*root.avlRoot, *root.avlRoot);
 	unlockReadSem(root.semId);

@@ -59,11 +59,10 @@ int search_BFS_avl(avl_pp root, int key, bool stop);
 /*=======================================================*/
 
 //The struct is a generalization of avl_pp, to include for every tree one semaphore
-typedef struct avlThSafe
-{
+typedef struct avlThSafe {
 	avl_pp avlRoot;
 	int semId;
-}avl_pp_S;
+} avl_pp_S;
 
 /* Generate AVL tree from an array of input values */
 avl_pp_S generate_avl_S(int *arr, int len);

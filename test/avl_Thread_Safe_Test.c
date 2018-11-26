@@ -53,61 +53,20 @@
 #include <unistd.h>
 #include <pthread.h>
 
-//prototype
-void searchTh(void *info);
-void lockWriteSem_sig (int sig);
-void unlockWriteSem_sig (int sig);
-
-
 int current_log_level = INFO;
 avl_pp_S head;
 
 int n_nodeInsert;
 int searchRange;
-int writePending=0;
-
-int main()
-{
-
-	signal(SIGINT, lockWriteSem_sig);
-	signal(SIGTSTP, unlockWriteSem_sig);
-	head = init_avl_S();
-
-	n_nodeInsert = nSearch * 10;
-	searchRange = n_nodeInsert * 2;
-
-
-	for (int count = 0; count < n_nodeInsert; count++) {
-		if (insert_avl_node_S(head, count, (int)random() % searchRange) == FALSE)
-		{
-			log(ERROR, "Insertion failed.\n");
-			destroy_avl(head.avlRoot);
-			return 0;
-		}
-	}
-	print_avl_S(head);
-
-	//sleep(20);  //to give time to see tree print
-
-	pthread_t tid;
-	printf("iniziano i search \n");
-
-	for (int count = 0; count < nSearch; count++) {
-		int *i = malloc(sizeof(int));
-		*i=  count;
-		pthread_create(&tid, NULL, searchTh, i);
-	}
-	while (1) pause();
-	return 0;
-}
+int writePending;
 
 void searchTh(void *info)
 {
 	int id = *(int *)info;
 	int keySearch;
 	int found;
-	while (1)
-	{
+
+	while (1) {
 		keySearch = (int) random() % searchRange;
 
 		found = search_BFS_avl_S(head, keySearch, TRUE);
@@ -123,10 +82,9 @@ void searchTh(void *info)
 void lockWriteSem_sig(int sig)
 {
 	writePending++;
-	printf("\n\t****sigINT receive sig = %d; n°writePending = %d \n\n", sig, writePending);
+	printf("\n\t****sigINT receive sig = %d; n°writePending = %d\n\n", sig, writePending);
 	lockWriteSem(head.semId);
 	printf("\n\t####sigInt lock Write TAKE\n");
-	return;
 }
 
 void unlockWriteSem_sig(int sig)
@@ -137,5 +95,38 @@ void unlockWriteSem_sig(int sig)
 	unlockWriteSem(head.semId);
 	writePending--;
 	printf("\n\t#(sigTSTP) unlock Write; n°writePending = %d\n", writePending);
-	return;
+}
+
+int main(void)
+{
+
+	signal(SIGINT, lockWriteSem_sig);
+	signal(SIGTSTP, unlockWriteSem_sig);
+	head = init_avl_S();
+
+	n_nodeInsert = nSearch * 10;
+	searchRange = n_nodeInsert * 2;
+
+
+	for (int count = 0; count < n_nodeInsert; count++) {
+		if (insert_avl_node_S(head, count, (int)random() % searchRange) == FALSE) {
+			log(ERROR, "Insertion failed.\n");
+			destroy_avl(head.avlRoot);
+			return 0;
+		}
+	}
+	print_avl_S(head);
+	//sleep(20);  //to give time to see tree print
+
+	pthread_t tid;
+
+	printf("Start search Thread\n");
+	for (int count = 0; count < nSearch; count++) {
+		int *i = malloc(sizeof(int));
+		*i =  count;
+		pthread_create(&tid, NULL, searchTh, i);
+	}
+	while (1)
+		pause();
+	return 0;
 }
