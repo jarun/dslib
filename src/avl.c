@@ -146,18 +146,18 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 			direction = p->direction;
 		}
 
-		if (data >= tmp->right->data) { /* Right-right skewed subtree */
+		if (data >= tmp->right->keyNode) { /* Right-right skewed subtree */
 			if (p)
 				direction == RIGHT
-					?  (parent->right = RightRight(tmp))
-					: (parent->left = RightRight(tmp));
+				?  (parent->right = RightRight(tmp))
+				: (parent->left = RightRight(tmp));
 			else /* If p is NULL, this is the topmost node, update *head */
 				*head = RightRight(tmp);
 		} else { /* Right-left skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = RightLeft(tmp))
-					: (parent->left = RightLeft(tmp));
+				? (parent->right = RightLeft(tmp))
+				: (parent->left = RightLeft(tmp));
 			else
 				*head = RightLeft(tmp);
 		}
@@ -169,18 +169,18 @@ bool rebalance(stack_p stack, avl_pp head, avl_p tmp, int data)
 		}
 		/* If p is NULL, this is the topmost node, update *head */
 
-		if (data < tmp->left->data) { /* Left-left skewed subtree */
+		if (data < tmp->left->keyNode) { /* Left-left skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = LeftLeft(tmp))
-					: (parent->left = LeftLeft(tmp));
+				? (parent->right = LeftLeft(tmp))
+				: (parent->left = LeftLeft(tmp));
 			else
 				*head = LeftLeft(tmp);
 		} else { /* Left-right skewed subtree */
 			if (p)
 				direction == RIGHT
-					? (parent->right = LeftRight(tmp))
-					: (parent->left = LeftRight(tmp));
+				? (parent->right = LeftRight(tmp))
+				: (parent->left = LeftRight(tmp));
 			else
 				*head = LeftRight(tmp);
 		}
@@ -219,6 +219,8 @@ int delete_avl_nodes(avl_p root)
 	return ++count;
 }
 
+
+
 /*=======================================================*/
 /*            Library exposed APIs start here            */
 /*=======================================================*/
@@ -228,7 +230,7 @@ int delete_avl_nodes(avl_p root)
  */
 avl_pp generate_avl(int *arr, int len)
 {
-	int i = 0;
+
 	avl_pp head = NULL;
 
 	if (!arr || !len) {
@@ -237,9 +239,8 @@ avl_pp generate_avl(int *arr, int len)
 	}
 
 	head = init_avl();
-
-	for (; i < len; i++) {
-		if (insert_avl_node(head, arr[i]) == FALSE) {
+	for (int i = 0; i < len; i++) {
+		if (insert_avl_node(head, i, arr[i]) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head);
 			return NULL;
@@ -263,7 +264,7 @@ avl_pp init_avl(void)
 /*
  * Insert a new node into AVL tree
  */
-bool insert_avl_node(avl_pp head, int val)
+bool insert_avl_node(avl_pp head, int key, int data)
 {
 	avl_p root = NULL;
 	nodedata_p p = NULL;
@@ -281,18 +282,23 @@ bool insert_avl_node(avl_pp head, int val)
 
 	if (!root) {
 		root = (avl_p) calloc(1, sizeof(avl_t));
-		root->data = val;
+		root->keyNode = key;
+		root->data = data;
+
 		*head = root;
 
 		return TRUE;
 	}
-
+	//until current node isn't Null
 	while (root) {
-		if (val < root->data) {
+		//if keyNod < of key to add, go left of tree
+		if (key < root->keyNode) {
+			//if left null, add node as left son
 			if (!root->left) {
 				/* Create an AVL node for new value */
 				root->left = calloc(1, sizeof(avl_t));
-				root->left->data = val;
+				root->left->keyNode = key;
+				root->left->data = data;
 				root->height = height(root);
 
 				modified = FALSE;
@@ -300,17 +306,12 @@ bool insert_avl_node(avl_pp head, int val)
 				/* Unwind stack & rebalance nodes (only once) */
 				while ((p = pop(stack)) != NULL) {
 					/* One rebalance for one insertion */
-					if (!modified) {
-						modified = rebalance(stack,
-								head, p->node, val);
-					}
-
+					if (!modified)
+						modified = rebalance(stack, head, p->node, key);
 					free(p);
 				}
-
 				break;
 			}
-
 			/* Push the parent node and traversal
 			   direction in stack as we traverse down */
 			n = malloc(sizeof(nodedata));
@@ -320,23 +321,21 @@ bool insert_avl_node(avl_pp head, int val)
 
 			/* Traverse further left */
 			root = root->left;
-		} else {
+		} else {    //key to add is >= then current key node
+			//if right son null add son on it
 			if (!root->right) {
 				root->right = calloc(1, sizeof(avl_t));
-				root->right->data = val;
+				root->right->keyNode = key;
+				root->right->data = data;
 				root->height = height(root);
 
 				modified = FALSE;
 
 				while ((p = pop(stack)) != NULL) {
-					if (!modified) {
-						modified = rebalance(stack,
-								head, p->node, val);
-					}
-
+					if (!modified)
+						modified = rebalance(stack, head, p->node, key);
 					free(p);
 				}
-
 				break;
 			}
 
@@ -358,7 +357,7 @@ bool insert_avl_node(avl_pp head, int val)
  * Delete a node from AVL tree
  * Recursive method
  */
-bool delete_avl_node(avl_pp head, int val)
+bool delete_avl_node(avl_pp head, int key)
 {
 	avl_p node;
 	avl_p tmp;
@@ -374,11 +373,11 @@ bool delete_avl_node(avl_pp head, int val)
 		return FALSE;
 	}
 
-	if (val > node->data) {
+	if (key > node->keyNode) {
 		if (!node->right)
 			return FALSE;
 
-		if (delete_avl_node(&(node->right), val) == FALSE)
+		if (delete_avl_node(&(node->right), key) == FALSE)
 			return FALSE;
 
 		if (BalanceFactor(node) == 2) {
@@ -387,11 +386,11 @@ bool delete_avl_node(avl_pp head, int val)
 			else
 				node = LeftRight(node);
 		}
-	} else if (val < node->data) {
+	} else if (key < node->keyNode) {
 		if (!node->left)
 			return FALSE;
 
-		if (delete_avl_node(&(node->left), val) == FALSE)
+		if (delete_avl_node(&(node->left), key) == FALSE)
 			return FALSE;
 
 		if (BalanceFactor(node) == -2) {
@@ -406,8 +405,8 @@ bool delete_avl_node(avl_pp head, int val)
 			while (tmp->left)
 				tmp = tmp->left;
 
-			node->data = tmp->data;
-			if (delete_avl_node(&(node->right), tmp->data) == FALSE)
+			node->keyNode = tmp->keyNode;
+			if (delete_avl_node(&(node->right), tmp->keyNode) == FALSE)
 				return FALSE;
 
 			if (BalanceFactor(node) == 2) {
@@ -461,8 +460,8 @@ int print_avl(avl_p root, avl_p parent)
 
 	++count;
 
-	/* Print data value in the node */
-	log(INFO, "data: %6d,  parent: %6d\n", root->data, parent->data);
+	/* Print keyNode value in the node */
+	log(INFO, "keyNode: %6d:%d,  parent: %6d\n", root->keyNode, root->data, parent->keyNode);
 
 	if (root->left) {
 		log(INFO, "LEFT.\n");
@@ -486,83 +485,181 @@ int print_avl(avl_p root, avl_p parent)
  * ------
  * root: pointer to the root node pointer of an AVL tree
  * val : value to search
- * stop: stop if val is found
+ * stop: TRUE: stop if Key is found and return val.
+ *       FALSE: continue visiting of tree, print debug info and return the val of the last key.
  */
-bool search_BFS_avl(avl_pp root, int val, bool stop)
+
+int search_BFS_avl(avl_pp root, int key, bool stop)
 {
+	//return -1 is error
+	//return -2 is not Found
 	avl_p node = NULL;
 	queue_p queue = NULL;
-	int ret = FALSE;
+	int ret = -2;   //start with no found
 
 	if (!root || !*root) {
 		log(ERROR, "avl tree or root node is NULL!\n");
-		return FALSE;
+		return -2;  //because avl is empty so key is not found
 	}
 
 	/* Check for a match in root node */
 	node = *root;
-	if (node->data == val) {
-		log(INFO, "FOUND %d\n", val);
-
+	if (node->keyNode == key) {
+		if (!stop)
+			log(INFO, "FOUND %d\n", key);
 		if (stop)
-			return TRUE;
+			ret = node->data;
+		else
+			ret = node->data;
 	}
-
 	queue = get_queue();
 
 	/* Add root node to Queue */
 	if (!enqueue(queue, *root)) {
 		log(ERROR, "enqueue failed!\n");
 		destroy_queue(queue);
-		return FALSE;
+		return -1;
 	}
 
 	/* Loop through all nodes in the Queue */
 	while ((node = dequeue(queue)) != NULL) {
-		log(INFO, "tracking...\n");
-
+		if (!stop)
+			log(INFO, "tracking...\n");
 		/* Process left child of node */
 		if (node->left) {
-			if (node->left->data == val) {
-				log(INFO, "FOUND %d\n", val);
-				ret = TRUE;
-
+			if (node->left->keyNode == key) {
+				if (!stop)
+					log(INFO, "FOUND %d\n", key);
+				destroy_queue(queue);
 				if (stop)
-					break;
+					ret = node->left->data;
+				else
+					ret = node->left->data;
+				break;
 			}
 
 			/* Add left child to Queue */
 			if (!enqueue(queue, node->left)) {
 				log(ERROR, "enqueue failed!\n");
 				destroy_queue(queue);
-				return FALSE;
+				return -1;
 			}
 		}
 
 		/* Process right child of node */
 		if (node->right) {
-			if (node->right->data == val) {
-				log(INFO, "FOUND %d\n", val);
-				ret = TRUE;
-
+			if (node->right->keyNode == key) {
+				if (!stop)
+					log(INFO, "FOUND %d\n", key);
+				destroy_queue(queue);
 				if (stop)
-					break;
+					ret = node->right->data;
+				else
+					ret = node->left->data;
+				break;
 			}
 
 			/* Add right child to Queue */
 			if (!enqueue(queue, node->right)) {
 				log(ERROR, "enqueue failed!\n");
 				destroy_queue(queue);
-				return FALSE;
+				return -1;
 			}
 		}
 	}
 
 	/* Report if no match was found */
-	if (!ret)
-		log(INFO, "NOT FOUND\n");
 
 	destroy_queue(queue);
 
+	return ret;
+}
+
+/*=======================================================*/
+/*         Library ThreadSafe APIs start here            */
+/*=======================================================*/
+
+/*
+ * Generate an AVL tree iteratively from an array of integers
+ */
+avl_pp_S generate_avl_S(int *arr, int len)
+{
+	int i = 0;
+	avl_pp_S head;
+
+	if (!arr || !len) {
+		log(ERROR, "Invalid array.\n");
+		head.avlRoot = NULL;
+		return head;
+	}
+
+	head = init_avl_S();
+
+	for (; i < len; i++) {
+		if (insert_avl_node(head.avlRoot, i, arr[i]) == FALSE) {
+			log(ERROR, "Insertion failed.\n");
+			destroy_avl(head.avlRoot);
+			head.avlRoot = NULL;
+			return head;
+		}
+	}
+
+	return head;
+}
+
+avl_pp_S init_avl_S(void)
+{
+	avl_pp_S head;
+
+	head.semId = semInit();
+	if (head.semId == -1) {
+		perror("Sem Setup failed");
+		head.avlRoot = NULL;
+		return head;
+	}
+
+	head.avlRoot = calloc(1, sizeof(avl_p));
+	*head.avlRoot = NULL;
+
+	return head;
+}
+
+bool insert_avl_node_S(avl_pp_S head, int key, int data)
+{
+	bool ret;
+
+	lockWriteSem(head.semId);
+	ret = insert_avl_node(head.avlRoot, key, data);
+	unlockWriteSem(head.semId);
+	return ret;
+}
+
+bool delete_avl_node_S(avl_pp_S head, int key)
+{
+	bool ret;
+
+	lockWriteSem(head.semId);
+	ret = delete_avl_node(head.avlRoot, key);
+	unlockWriteSem(head.semId);
+	return ret;
+}
+
+int search_BFS_avl_S(avl_pp_S root, int key, bool stop)
+{
+	int ret;
+
+	lockReadSem(root.semId);
+	ret = search_BFS_avl(root.avlRoot, key, stop);
+	unlockReadSem(root.semId);
+	return ret;
+}
+
+int print_avl_S(avl_pp_S root)
+{
+	int ret;
+
+	lockReadSem(root.semId);
+	ret = print_avl(*root.avlRoot, *root.avlRoot);
+	unlockReadSem(root.semId);
 	return ret;
 }

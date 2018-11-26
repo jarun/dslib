@@ -1,3 +1,10 @@
+# dslib thread-safe version
+
+For now the Thread-Safe mode is implemented only for avl-tree
+But in common.h and common.c there are the lock funx so is very easy extend this property at all other structure
+
+
+
 # dslib
 The goal of `dslib` is to demonstrate how complex data structures (and related algorithms) can be developed by reusing simpler ones. In general, textbooks come with numerous unrelated examples each relevant to a specific DS. `dslib`, on the other hand, grows by consuming the earlier data structures.
 
