@@ -1,10 +1,3 @@
-# dslib thread-safe version
-
-For now the Thread-Safe mode is implemented only for avl-tree
-But in common.h and common.c there are the lock funx so is very easy extend this property at all other structure
-
-
-
 # dslib
 The goal of `dslib` is to demonstrate how complex data structures (and related algorithms) can be developed by reusing simpler ones. In general, textbooks come with numerous unrelated examples each relevant to a specific DS. `dslib`, on the other hand, grows by consuming the earlier data structures.
 
@@ -19,12 +12,13 @@ Most of the code conforms to the Linux kernel coding standards (verified against
 *Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
 
 <p align="center">
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/Donate-$5-green.svg" alt="Donate via PayPal!" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-green.svg" alt="Donate via PayPal!" /></a>
 </p>
 
 ### Table of Contents
 - [Building blocks](#building-blocks)
 - [APIs](#apis)
+- [Thread-safety](#thread-safety)
 - [Compilation](#compilation)
 - [Testing](#testing)
 - [Developers](#developers)
@@ -51,6 +45,9 @@ The following 2 APIs are recursive and the iterative implementations are left as
 bool delete_tree_node(tree_pp head, int val);
 bool delete_avl_node(avl_pp head, int val);
 ```
+
+### Thread-safety
+Currently the Thread-Safe mode is implemented only for AVL. The lock functions are in common.h and common.c and it's easy to extend thread-safety in other structures.
 
 ### Compilation
 The following compilation steps are tested on Ubuntu 14.04.4 x86_64:
