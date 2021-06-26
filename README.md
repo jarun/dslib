@@ -9,8 +9,6 @@ Most of the code conforms to the Linux kernel coding standards (verified against
 
 `dslib` is an academic library. However, we'll be glad if someone finds any other application of it.
 
-*Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
-
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-1eb0fc.svg" alt="Donate via PayPal!" /></a>
 </p>
