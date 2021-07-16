@@ -146,9 +146,14 @@ int destroy_dlist(dlist_pp head)
 	dlist_p tmp;
 	int deleted = 0;
 
-	if (!head || !*head) {
-		log(DEBUG, "No nodes to delete.\n");
+	if (!head) {
+		log(DEBUG, "head is NULL.\n");
 		return -1;
+	}
+
+	if (!*head) {
+		log(DEBUG, "No nodes to delete.\n");
+		return 0;
 	}
 
 	/* Set tail->next to NULL to end deletion loop */

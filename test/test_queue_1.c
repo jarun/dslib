@@ -21,7 +21,7 @@
 #include <common.h>
 #include <queue.h>
 
-int current_log_level = INFO;
+int current_log_level = DEBUG;
 
 /* Test queue */
 int main(void)
@@ -33,15 +33,13 @@ int main(void)
 	queue_p queue = get_queue();
 
 	while (count) {
-		if (enqueue(queue, &arr[count]) == FALSE) {
+		if (enqueue(queue, &arr[--count]) == FALSE) {
 			log(ERROR, "enqueue failed!\n");
 			destroy_queue(queue);
 			return -1;
 		}
 
-		log(DEBUG, "Node added\n");
-
-		count--;
+		log(DEBUG, "enqueued: arr[%d] = %d\n", count, arr[count]);
 	}
 
 	count = 5;
@@ -49,11 +47,9 @@ int main(void)
 	while (count) {
 		val = dequeue(queue);
 		if (val)
-			log(DEBUG, "arr[%d] = %d\n", count, (int)*val);
+			log(DEBUG, "dequeued: arr[%d] = %d\n", --count, (int)*val);
 		else
 			log(ERROR, "dequeue failed!\n");
-
-		count--;
 	}
 
 	destroy_queue(queue);

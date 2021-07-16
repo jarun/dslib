@@ -21,7 +21,7 @@
 #include <common.h>
 #include <stack.h>
 
-int current_log_level = INFO;
+int current_log_level = DEBUG;
 
 /* Test stack */
 int main(void)
@@ -32,14 +32,14 @@ int main(void)
 
 	stack_p stack = get_stack();
 
-	while (count--) {
-		if (push(stack, &arr[count]) == FALSE) {
+	while (count) {
+		if (push(stack, &arr[--count]) == FALSE) {
 			log(ERROR, "push failed!\n");
 			destroy_stack(stack);
 			return -1;
 		}
 
-		log(DEBUG, "Node added\n");
+		log(DEBUG, "pushed: arr[%d] = %d\n", count, arr[count]);
 	}
 
 	count = 5;
@@ -47,11 +47,9 @@ int main(void)
 	while (count) {
 		val = pop(stack);
 		if (val)
-			log(DEBUG, "arr[%d] = %d\n", count, (int)*val);
+			log(DEBUG, "popped: arr[%d] = %d\n", --count, (int)*val);
 		else
 			log(ERROR, "pop failed!\n");
-
-		count--;
 	}
 
 	destroy_stack(stack);

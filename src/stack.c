@@ -42,10 +42,7 @@ bool push(stack_p stack, void *val)
 
 	nodeptr->data = val;
 
-	if (add_head_dlist(stack->head, nodeptr)) /* Last In */
-		return TRUE;
-	else
-		return FALSE;
+	return (add_head_dlist(stack->head, nodeptr) == 1); /* Last In */
 }
 
 /*

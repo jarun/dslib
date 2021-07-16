@@ -53,14 +53,14 @@
 #include <unistd.h>
 #include <pthread.h>
 
-int current_log_level = INFO;
+int current_log_level = DEBUG;
 avl_pp_S head;
 
 int n_nodeInsert;
 int searchRange;
 int writePending;
 
-void searchTh(void *info)
+void *searchTh(void *info)
 {
 	int id = *(int *)info;
 	int keySearch;
@@ -77,6 +77,7 @@ void searchTh(void *info)
 	}
 	free(info);
 
+	return NULL;
 }
 
 void lockWriteSem_sig(int sig)
