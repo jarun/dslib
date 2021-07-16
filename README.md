@@ -1,5 +1,5 @@
 # dslib
-The goal of `dslib` is to demonstrate how complex data structures (and related algorithms) can be developed by reusing simpler ones. In general, textbooks come with numerous unrelated examples each relevant to a specific DS. `dslib`, on the other hand, grows by consuming the earlier data structures.
+`dslib` is a library of cohesive data structures. The goal of `dslib` is to demonstrate how complex data structures (and related algorithms) can be developed by reusing simpler ones. In general, textbooks come with numerous unrelated examples, each relevant to a specific data structure. `dslib`, on the other hand, grows by building on the elementary data structures.
 
 The core component is a circular doubly linked list. Library-internal data structures are dynamically (de)allocated.
 
