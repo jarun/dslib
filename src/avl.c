@@ -534,7 +534,7 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 				if (stop)
 					ret = node->left->data;
 				else
-					ret = node->left->data;
+					ret = node->right->data;
 				break;
 			}
 
