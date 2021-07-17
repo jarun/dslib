@@ -5,8 +5,6 @@ The core component is a circular doubly linked list. Library-internal data struc
 
 Most of the code conforms to the Linux kernel coding standards (verified against *checkpatch.pl*), other than a few unavoidable instances.
 
-`dslib` is **GPLv3** licensed. Copyright © 2015 [Arun Prakash Jana](mailto:engineerarun@gmail.com).
-
 `dslib` is an academic library. However, we'll be glad if someone finds any other application of it.
 
 <p align="center">
@@ -23,15 +21,15 @@ Most of the code conforms to the Linux kernel coding standards (verified against
 - [Contributions](#contributions)
 
 ### Building blocks
-| struct | description |
-| :---: | --- |
-| **dlist** | Circular doubly linked list with a void pointer pointing to the data in each node. As you can guess, the library doesn't take care (de)allocating the actual memory used for the data. A node simply points to the data plus next and previous node pointers. |
-| **queue** | Builds on top of dlist. Each element is a dlist node pointing to the value inserted in the queue. |
-| **stack** | Builds on top of dlist. Each element is a dlist node pointing to the value pushed in the stack. |
-| **tree** | A binary search tree, stores integers. |
-| **AVL** | An AVL tree implementation, stores integers. |
-| **BFS** | Iterative Breadth-first search for tree and AVL implemented using the queue. |
-| **DFS** | Iterative Depth-first search for tree implemented using the stack. |
+| DS | Description |
+| --- | --- |
+| dlist | Circular doubly linked list. Node has next, prev and data (`void *`, caller (de)allocates) pointers. |
+| queue | Builds on top of dlist. Each element is a dlist node pointing to the value inserted in the queue. |
+| stack | Builds on top of dlist. Each element is a dlist node pointing to the value pushed in the stack. |
+| tree | A binary search tree, stores integers. |
+| AVL | An AVL tree implementation, stores integers. |
+| BFS | Iterative Breadth-first search for tree and AVL implemented using the queue. |
+| DFS | Iterative Depth-first search for tree implemented using the stack. |
 
 There are test cases for each DS. Though not very organized, they provide an insight into the usage of `dslib`.
 
@@ -79,7 +77,7 @@ Only informative logs are enabled. For DEBUG logs, set:
 in the source test file.
 
 ### Developers
-- [Arun Prakash Jana](https://github.com/jarun)
+- [Arun Prakash Jana](https://github.com/jarun) (Copyright © 2015)
 - [Ananya Jana](https://github.com/ananyajana)
 
 ### Contributions
