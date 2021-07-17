@@ -270,8 +270,6 @@ bool insert_avl_node(avl_pp head, int key, int data)
 	nodedata_p p = NULL;
 	nodedata_p n = NULL;
 	bool modified;
-	/* Stack to rebalance each subtree bottom-up after insertion */
-	stack_p stack = get_stack();
 
 	if (!head) {
 		log(ERROR, "Initialize AVL tree first\n");
@@ -289,6 +287,10 @@ bool insert_avl_node(avl_pp head, int key, int data)
 
 		return TRUE;
 	}
+
+	/* Stack to rebalance each subtree bottom-up after insertion */
+	stack_p stack = get_stack();
+
 	//until current node isn't Null
 	while (root) {
 		//if keyNod < of key to add, go left of tree
@@ -417,6 +419,7 @@ bool delete_avl_node(avl_pp head, int key)
 			}
 		} else {
 			*head = node->left;
+			free(node);
 			return TRUE;
 		}
 	}
@@ -460,8 +463,8 @@ int print_avl(avl_p root, avl_p parent)
 
 	++count;
 
-	/* Print keyNode value in the node */
-	log(INFO, "keyNode: %6d:%d,  parent: %6d\n", root->keyNode, root->data, parent->keyNode);
+	/* Print key:data values in the node */
+	log(INFO, "key:data=%6d:%d,  parent key=%6d\n", root->keyNode, root->data, parent->keyNode);
 
 	if (root->left) {
 		log(INFO, "LEFT.\n");
@@ -528,13 +531,12 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 		/* Process left child of node */
 		if (node->left) {
 			if (node->left->keyNode == key) {
-				if (!stop)
-					log(INFO, "FOUND %d\n", key);
-				destroy_queue(queue);
 				if (stop)
 					ret = node->left->data;
-				else
+				else {
+					log(INFO, "FOUND %d\n", key);
 					ret = node->right->data;
+				}
 				break;
 			}
 
@@ -549,13 +551,12 @@ int search_BFS_avl(avl_pp root, int key, bool stop)
 		/* Process right child of node */
 		if (node->right) {
 			if (node->right->keyNode == key) {
-				if (!stop)
-					log(INFO, "FOUND %d\n", key);
-				destroy_queue(queue);
 				if (stop)
 					ret = node->right->data;
-				else
+				else {
+					log(INFO, "FOUND %d\n", key);
 					ret = node->left->data;
+				}
 				break;
 			}
 

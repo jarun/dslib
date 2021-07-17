@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g -fsanitize=address,undefined $(INCLUDE)
 
-INCLUDE = -I/usr/include/dslib
-
+#INCLUDE = -I/usr/include/dslib
 #LIBS = -lds
 #SRCDIR =
 
+INCLUDE = -I../include
 LIBS =
 SRCDIR = ../src/*.c
 
@@ -19,4 +19,4 @@ all:
 
 .PHONY: clean
 clean:
-	rm -f test_avl_1 test_bst_1 test_dlist_1 test_queue_1 test_stack_1
+	rm -f test_avl_1 test_bst_1 test_dlist_1 test_queue_1 test_stack_1 avl_Thread_Safe_Test

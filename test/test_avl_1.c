@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 		90, 100, 110, 120, 130, 140, 150}; */
 	int len = sizeof(arr) / sizeof(arr[0]);
 
-	for (; count < len; count++) {
+	for (; count < len; ++count) {
 		if (insert_avl_node(head, arr[count], 20) == FALSE) {
 			log(ERROR, "Insertion failed.\n");
 			destroy_avl(head);
@@ -50,10 +50,10 @@ int main(int argc, char **argv)
 		search_BFS_avl(head, 10, stop);
 
 	count = print_avl(*head, *head);
-	log(INFO, "nodes printed: %d\n\n\n", count);
+	log(INFO, "nodes printed: %d\n\n", count);
 
 	if (delete_avl_node(head, 110) == TRUE)
-		log(INFO, "AVL node deleted\n");
+		log(INFO, "AVL node deleted\n\n");
 	count = print_avl(*head, *head);
 	log(INFO, "nodes printed: %d\n", count);
 
